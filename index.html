@@ -24,7 +24,7 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
     <script src="https://at.alicdn.com/t/font_1230786_ewprpwrczvj.js"></script>
     <script src="sou.js"></script>
-    <script src="https://at.alicdn.com/t/font_2494142_t24fwab5koi.js"></script> <!-- 我的字体 https://www.iconfont.cn/manage/index?spm=a313x.7781069.1998910419.db775f1f3&manage_type=myprojects&projectId=2494142 -->
+    <script src="https://at.alicdn.com/t/font_2494142_0pjvdmcfphw.js"></script> <!-- 我的字体 https://www.iconfont.cn/manage/index?spm=a313x.7781069.1998910419.db775f1f3&manage_type=myprojects&projectId=2494142 -->
     <link rel='stylesheet' href='style.css'>
 </head>
 
@@ -75,6 +75,12 @@
                 margin: 20px auto !important;
             }
         }
+        @media only screen and (max-width: 950px) {
+            #search {
+                width: 76% !important;
+                margin: 20px auto !important;
+            }
+        }
         .mylist, #search-text {
             background: rgba(255,255,255,0.5) !important;
         }
@@ -92,14 +98,17 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarsExample05">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
+                <!-- li class="nav-item active">
                     <a class="nav-link" href="https://muggledy.github.io" target="_blant">个人博客</a>
-                </li>
+                </li -->
                 <li class="nav-item">
                     <a class="nav-link" href="./ip/index.html" target="_blant">IP查询</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="https://space.bilibili.com/10330740?spm_id_from=333.788.b_765f7570696e666f.2" target="_blant">观察者网</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="https://5iux.cn/" target="_blant">Sou</a>
                 </li>
             </ul>
             <style>
@@ -228,7 +237,7 @@
         </ul>
         <ul class="mylist row">
             <li class="title"><svg class="icon" aria-hidden="true">
-                    <use xlink:href="#icon-book"></use>
+                    <use xlink:href="#icon-book1"></use>
                 </svg>文档库</li>
             <li class="col-3 col-sm-3 col-md-3 col-lg-1"><a rel="nofollow" href="https://docs.python.org/3/" target="_blank"><svg class="icon" aria-hidden="true">
                         <use xlink:href="#icon-python"></use>
@@ -244,7 +253,7 @@
                         <use xlink:href="#icon-linux"></use>
                     </svg><span>Linux</span></a></li>
             <li class="col-3 col-sm-3 col-md-3 col-lg-1"><a rel="nofollow" href="http://speech.ee.ntu.edu.tw/~tlkagk/courses.html" target="_blank"><svg class="icon" aria-hidden="true">
-                        <use xlink:href="#icon-book1"></use>
+                        <use xlink:href="#icon-Openbook_px"></use>
                     </svg><span>Hung-yi Lee</span></a></li>
             <li class="col-3 col-sm-3 col-md-3 col-lg-1"><a rel="nofollow" href="https://datawhalechina.github.io/pumpkin-book/#/" target="_blank"><svg class="icon" aria-hidden="true">
                         <use xlink:href="#icon-nangua"></use>
@@ -275,6 +284,9 @@
             <li class="col-3 col-sm-3 col-md-3 col-lg-1"><a rel="nofollow" href="https://www.photopea.com/" target="_blank"><svg class="icon" aria-hidden="true">
                         <use xlink:href="#icon-AdobePs"></use>
                     </svg><span>在线PS</span></a></li>
+            <li class="col-3 col-sm-3 col-md-3 col-lg-1"><a rel="nofollow" href="https://shields.io/" target="_blank"><svg class="icon" aria-hidden="true">
+                        <use xlink:href="#icon-icon_huabanfuben"></use>
+                    </svg><span>网站徽标</span></a></li>
         </ul>
         <ul class="mylist row">
             <li class="title"><svg class="icon" aria-hidden="true">
@@ -359,9 +371,6 @@
             <li class="col-3 col-sm-3 col-md-3 col-lg-1"><a rel="nofollow" href="https://www.52pojie.cn/" target="_blank"><svg class="icon" aria-hidden="true">
                         <use xlink:href="#icon-theater-masks"></use>
                     </svg><span>吾爱破解</span></a></li>
-            <li class="col-3 col-sm-3 col-md-3 col-lg-1"><a rel="nofollow" href="https://segmentfault.com/" target="_blank"><svg class="icon" aria-hidden="true">
-                        <use xlink:href="#icon-msg"></use>
-                    </svg><span>SF思否</span></a></li>
             <li class="col-3 col-sm-3 col-md-3 col-lg-1"><a rel="nofollow" href="https://cdnjs.com/" target="_blank"><svg class="icon" aria-hidden="true">
                         <use xlink:href="#icon-cdnjs"></use>
                     </svg><span>CdnJs</span></a></li>
@@ -409,7 +418,7 @@
         </ul>
     </div>
     <!--版权信息开始-->
-    <p class="mt-5 mb-3 text-muted text-center"><a href="https://blog.5iux.cn/"><img src="https://img.shields.io/badge/Author-@5iux-blue.svg?style=social&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyNpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDYuMC1jMDAyIDc5LjE2NDQ2MCwgMjAyMC8wNS8xMi0xNjowNDoxNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIDIxLjIgKFdpbmRvd3MpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOkY1Q0JCNDdCRDA5NDExRUE5RUE3ODM0QUY3QjQzMDRDIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOkY1Q0JCNDdDRDA5NDExRUE5RUE3ODM0QUY3QjQzMDRDIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6RjVDQkI0NzlEMDk0MTFFQTlFQTc4MzRBRjdCNDMwNEMiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6RjVDQkI0N0FEMDk0MTFFQTlFQTc4MzRBRjdCNDMwNEMiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz5WZyTVAAAEaElEQVR42uSXaWwVVRTH70xbrCjGRoEgiJQXgjFGUxujH6oRRU1UUASVKO6K4hqUxQ3UihEVlygqlEhTBEVcG1SgirgS40Y0GlHQRI0Wl+ACxdq+dvyf8pvnMJ2ZVz/1gzf55c1+zz3nf865zwuCwPXm8F0vj143oDQ8GP64c17HLvf2EPeII8Uqcavo6OF3zxHXihbeeyv+wNeTYwbERh/xpBjLpIeJEeJ80Vpk8gtEfeTcjD9bNPY0BD4fsMlfFznxhDhTPCf2ypj8NLEodq2veEZM6qkB87F4gzhLfMvK68RJ4iXRP+G9Y8SyFK+WiSXiimIGzBVTLESs5leuW65eJu4XR4k1YkjkvWrxPKtNG554JG6EHzmy1c4U34lT+d1bLMUTNq4Xt4sq8ZoYKoYR3wref7WIRmaLfkkeOI7fW8TnolysQNH7R567TUwXI9FIkxgsbiRrJojVGQZ04NFuBrzM782knonpePGYmIf7L+EZO78SgY4gdHO596c4HeEljTliezcDSn/a3Cj5zGRl76LaemL2oJiK68N4hscLWH10/IWQ62K1404W1F0D5RvqXeB1uXAyEzhUfQNFxdw9g+sP442n8ETSyItr0JKNRwlvchb02bxaXthkSWSun0jBsVjeJdaLM6hsc5h0FUWnM8WAErFYVFLUrs6sA157i7yw2LzgEN948Te3l4utYhoaeYfMaMsQ2wLC8Iq4MM3QggFBWV95YY0rbf7SBTtLib14svgF0Vk47hWfILJtGZPfR4iaihn6bxZ4vryww+3+0UJZU9DNm2KU+IPVfCPGYFTamCWu4/jtqOIzu2Eo7sAviT8zhM74ozhFfJ/xPYtzrdjI4u7gt7a4AdoZBWXlrrXqUud5BSOOFS8iSCvNX2RMfq54iN5xAjFvonLuGcmgFBHmW11+4KEuPyAXZu7h4gWesZh/kDG5le4G8XPESz+I0bw3nfz3MzSgZVZdJJ+UWKE8iPrejza8LmPyUWTJdgz5jM5oe4hmcSLvX05HLEs0oH1QtWuvrHFeW1e/t842kHrQmDF5NSV3hxgn3sOIdZRuG78h3JX0lacJSSwNyytcUNJ1Wkk5bqfwpI0D+eg+rHqtqGGCFmJuveJgzieQyuPYc8RCYKm3s0ftx5Xd2HyclzD5UO4NYuKjSbkVdLoxaGA9uyifWjAJkY7P2hEN4/cqsQVxTYnc78/Kc6TdaApUDQbZex9SQwaIuyNV0DaoB2BszIDOfHiUYxUNCGgLjWQqmw7TxyH0iNCVM/i4jYvFG3xnGv0g3MzYXmITu6td60DHviPDHpij0pmqP8W9TYgq3APYR2+Kea6W8hyKr46S7CjL8yhmY6PFrGBAZ0XODPCI71aK0BGIqCLinZWkVNJ4AMMXEpoqXG4d9neK2caMUtwlvMGk4FqutbJD/li8L54lQ9LGIrpoA1rwOU8sZgUD/G3NFvk2yulwJrPO9xW5/F/GEhrYbHZEs9KKmfe//3f8jwADAKjMK1Tqg0NmAAAAAElFTkSuQmCC"></a>&nbsp;&nbsp;🍒&nbsp;&nbsp;<a href="https://github.com/muggledy"><img src="https://img.shields.io/badge/Fork-@muggledy-blue.svg?style=social"></a>
+    <p class="mt-5 mb-3 text-muted text-center"><a href="https://blog.5iux.cn/"><img src="https://img.shields.io/badge/Author-@5iux-blue.svg?style=social&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyNpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDYuMC1jMDAyIDc5LjE2NDQ2MCwgMjAyMC8wNS8xMi0xNjowNDoxNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIDIxLjIgKFdpbmRvd3MpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOkY1Q0JCNDdCRDA5NDExRUE5RUE3ODM0QUY3QjQzMDRDIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOkY1Q0JCNDdDRDA5NDExRUE5RUE3ODM0QUY3QjQzMDRDIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6RjVDQkI0NzlEMDk0MTFFQTlFQTc4MzRBRjdCNDMwNEMiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6RjVDQkI0N0FEMDk0MTFFQTlFQTc4MzRBRjdCNDMwNEMiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz5WZyTVAAAEaElEQVR42uSXaWwVVRTH70xbrCjGRoEgiJQXgjFGUxujH6oRRU1UUASVKO6K4hqUxQ3UihEVlygqlEhTBEVcG1SgirgS40Y0GlHQRI0Wl+ACxdq+dvyf8pvnMJ2ZVz/1gzf55c1+zz3nf865zwuCwPXm8F0vj143oDQ8GP64c17HLvf2EPeII8Uqcavo6OF3zxHXihbeeyv+wNeTYwbERh/xpBjLpIeJEeJ80Vpk8gtEfeTcjD9bNPY0BD4fsMlfFznxhDhTPCf2ypj8NLEodq2veEZM6qkB87F4gzhLfMvK68RJ4iXRP+G9Y8SyFK+WiSXiimIGzBVTLESs5leuW65eJu4XR4k1YkjkvWrxPKtNG554JG6EHzmy1c4U34lT+d1bLMUTNq4Xt4sq8ZoYKoYR3wref7WIRmaLfkkeOI7fW8TnolysQNH7R567TUwXI9FIkxgsbiRrJojVGQZ04NFuBrzM782knonpePGYmIf7L+EZO78SgY4gdHO596c4HeEljTliezcDSn/a3Cj5zGRl76LaemL2oJiK68N4hscLWH10/IWQ62K1404W1F0D5RvqXeB1uXAyEzhUfQNFxdw9g+sP442n8ETSyItr0JKNRwlvchb02bxaXthkSWSun0jBsVjeJdaLM6hsc5h0FUWnM8WAErFYVFLUrs6sA157i7yw2LzgEN948Te3l4utYhoaeYfMaMsQ2wLC8Iq4MM3QggFBWV95YY0rbf7SBTtLib14svgF0Vk47hWfILJtGZPfR4iaihn6bxZ4vryww+3+0UJZU9DNm2KU+IPVfCPGYFTamCWu4/jtqOIzu2Eo7sAviT8zhM74ozhFfJ/xPYtzrdjI4u7gt7a4AdoZBWXlrrXqUud5BSOOFS8iSCvNX2RMfq54iN5xAjFvonLuGcmgFBHmW11+4KEuPyAXZu7h4gWesZh/kDG5le4G8XPESz+I0bw3nfz3MzSgZVZdJJ+UWKE8iPrejza8LmPyUWTJdgz5jM5oe4hmcSLvX05HLEs0oH1QtWuvrHFeW1e/t842kHrQmDF5NSV3hxgn3sOIdZRuG78h3JX0lacJSSwNyytcUNJ1Wkk5bqfwpI0D+eg+rHqtqGGCFmJuveJgzieQyuPYc8RCYKm3s0ftx5Xd2HyclzD5UO4NYuKjSbkVdLoxaGA9uyifWjAJkY7P2hEN4/cqsQVxTYnc78/Kc6TdaApUDQbZex9SQwaIuyNV0DaoB2BszIDOfHiUYxUNCGgLjWQqmw7TxyH0iNCVM/i4jYvFG3xnGv0g3MzYXmITu6td60DHviPDHpij0pmqP8W9TYgq3APYR2+Kea6W8hyKr46S7CjL8yhmY6PFrGBAZ0XODPCI71aK0BGIqCLinZWkVNJ4AMMXEpoqXG4d9neK2caMUtwlvMGk4FqutbJD/li8L54lQ9LGIrpoA1rwOU8sZgUD/G3NFvk2yulwJrPO9xW5/F/GEhrYbHZEs9KKmfe//3f8jwADAKjMK1Tqg0NmAAAAAElFTkSuQmCC"></a>&nbsp;&nbsp;🍒&nbsp;&nbsp;<a href="https://github.com/muggledy"><img src="https://img.shields.io/badge/Fork-@muggledy-blue.svg?style=social&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAa0lEQVQ4EWNgoBAw4tJ/42HPf5ichnwJTnVMMEXk0sPAAHDgIAcYsWEBC9iBDwMWdCfDnIbsLZjYhw8fOF58nPMdWQ+pXsBQjyGAbDoW9i90MbAXYE5El0TnCwgI/AGKoSRrUl2AbuYg4AMAlHIWAmTH/q4AAAAASUVORK5CYII="></a>
     </p>
     <!--
 作者:D.Young
