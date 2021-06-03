@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/celestezj/ImageHosting@v0.1/img/20210207091812.png">
+    <title>规则&样例</title>
+    <link rel="stylesheet" type="text/css" href="../properties/css/cmder_style.css">
+    <link rel="stylesheet" type="text/css" href="../properties/css/highlight_styles/vs.css">
+    <script src="../properties/js/highlight.pack.js"></script>
+    <script src="../properties/js/highlightjs-line-numbers.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            document.querySelectorAll('div.code').forEach((block) => {
+                hljs.highlightBlock(block);
+                hljs.lineNumbersBlock(block);
+            });
+        });
+    </script>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>常用指令记录</h1>
+    </header>
+    <article>
+        <h2>
+            “不积跬步，无以至千里”
+        </h2>
+        <address>
+            2021.6.3 @Muggledy
+        </address>
+        
+        <section>
+        <h3>Git代码统计<sup id="ref_git_1"><a href="#ref_tail_git_1">[1]</a></sup></h3>
+        <ul>
+            <li>查看git上的个人代码量<br>
+                <div class="code git">git log --author="muggledy" --pretty=tformat: --numstat | awk '{ add += $1; subs += $2; loc += $1 - $2 } END { printf "added lines: %s, removed lines: %s, total lines: %s\n", add, subs, loc }' -</div>
+            </li>
+            <li>统计每个人增删行数<br>
+                <div class="code git">git log --format='%aN' | sort -u | while read name; do echo -en "$name\t"; git log --author="$name" --pretty=tformat: --numstat | awk '{ add += $1; subs += $2; loc += $1 - $2 } END { printf "added lines: %s, removed lines: %s, total lines: %s\n", add, subs, loc }' -; done</div>
+            </li>
+            <details>
+            <summary>更多</summary>
+            <div>
+                <ul>
+                    <li>查看仓库提交者排名前5<br>
+                        <div class="code git">git log --pretty='%aN' | sort | uniq -c | sort -k1 -n -r | head -n 5</div>
+                    </li>
+                    <li>提交数统计<br>
+                        <div class="code git">git log --oneline | wc -l</div>
+                    </li>
+                </ul>
+            </div>
+            </details>
+        </ul>
+        </section>
+        
+        <section>
+        <h3>其他</h3>
+        <ul>
+            <li>网页可编辑状态<br>
+                <div class="code">document.body.contentEditable='true';</div>
+            </li>
+            <li>默认右键菜单<br>
+                <div class="code">window.document.oncontextmenu = function(){ return true;}</div>
+            </li>
+        </ul>
+        </section>
+        
+        <div>
+            <h5>参考文章</h5>
+            <ol class="reference">
+                <li id="ref_tail_git_1"><a href="#ref_git_1">^</a> Git代码统计 <a href="https://www.cnblogs.com/0616--ataozhijia/p/8081329.html" target="_blank">https://www.cnblogs.com/0616--ataozhijia/p/8081329.html</a></li>
+            </ol>
+        </div>
+        
+    </article>
+</div>
+<footer class="container">
+    <p>谁给我只猫？</p>
+    <p>
+        &copy; <em>Muggledy</em> | Powered by <font color="#02122b"><span title="Van浩" style="text-decoration:underline">如月青城</span></font> / <a href="https://highlightjs.org" target="_blank">highlight.js</a> / <a href="https://cmder.net" target="_blank">cmder</a>
+    </p>
+</footer>
+</body>
+</html>

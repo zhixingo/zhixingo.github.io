@@ -1,0 +1,474 @@
+/* -------------- 容器 -------------- */
+
+body {
+    margin: 0;
+    background-color: Whitesmoke;
+}
+
+body>div.container {
+    margin: 2em auto;
+    width: 100%;
+    background-color: #fff;
+    box-shadow: 0 0 8px 3px #eee;
+}
+
+/*设备宽度小于768px时触发*/
+@media (max-width: 768px) {
+    body>div.container {
+        margin-top: 0;
+    }
+}
+
+/*
+ * 当设备宽度小于768px时，容器的宽度即为设备宽度
+ * 当设备宽度大于768px且小于992px时，容器的宽度为720px
+ * 当设备宽度大于992px且小于1200px时，容器的宽度为960px
+ * 当设备宽度大于1200px时，容器的宽度为1140px
+ */
+@media (min-width: 768px) {
+    .container {
+        max-width: 720px;
+    }
+}
+
+@media (min-width: 992px) {
+    .container {
+        max-width: 960px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1140px;
+    }
+}
+
+/* -------------- 文章附加部分 -------------- */
+
+header {
+    margin: 0 0 2em 0;
+    padding:100px 0;
+    background: #222 url(./home_top_bg.jpg) center center no-repeat;
+    background-size: cover;
+    box-shadow: 0 1px 2px rgba(150,150,150,.7);
+}
+
+footer{
+    margin:0 auto;
+    padding:0 0 3em 0;
+    text-align: center;
+    letter-spacing: 1px;
+    font-family: 'Segoe UI';
+    font-size: smaller;
+    line-height: 1.4;
+    color: #6a737d;
+}
+
+/* -------------- 文章结构 -------------- */
+
+article {
+    padding: 0em 6% 3em 6%;
+    color: #24292e;
+    letter-spacing: 1px;
+    font-family: 'Segoe UI';
+    font-size: 1em;
+    font-weight: normal;
+    line-height: 1.6;
+    overflow-wrap: break-word;
+}
+
+article>section {
+    margin: 0 0 3.5em 0;
+    padding-left: 1em;
+}
+
+article>section>div {
+    margin: 0 0 2.5em 0;
+}
+
+
+/* -------------- 标题 -------------- */
+
+address {
+    margin: 1em 0 2em 0;
+    padding-right: 0.5em;
+    text-align: right;
+    border-right: 0.25em solid #80DEEA;
+}
+
+h1 {
+    margin: 0 3em;
+    color: #fff;
+    text-align: center;
+    font-weight: bold;
+    font-size: 2em;
+    letter-spacing: 0.05em;
+    text-shadow: 0 3px 6px rgba(0,0,0,0.3);
+}
+
+h2 {
+    padding: .5em 1em;
+    color: #444;
+    text-align: center;
+    font-weight: lighter;
+    font-style: italic;
+    font-size: 1.2em;
+}
+h2:before, h2:after {
+    display: block;
+    margin: 0.5em auto;
+    width: 50%;
+    height: 0.06em;
+    background-color: #eee;
+    content: "";
+}
+
+h3 {
+    position: relative;
+    margin: 0 0 1.5rem 0;
+    color: #222;
+    letter-spacing: 0.1em;
+    font-weight: lighter;
+    font-size: 1.3em;
+}
+h3::before{
+    content: '';
+    border-left: 0.25em solid #1E90FF;
+    position: absolute;
+    left: -0.75em;
+    height: 100%;
+}
+
+
+h4 {
+    margin: 0 0 1rem 0;
+    color: #444;
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+
+/* -------------- 段落 -------------- */
+
+p,
+blockquote,
+div.note,
+div.tip{
+    margin: 0 0 1rem 0;
+}
+
+p{
+    line-height: 1.8;
+}
+
+blockquote{
+    padding: 0 0 0 1em;
+    color: #6a737d;
+    border-left: 0.25em solid #dfe2e5;
+}
+
+div.note{
+    padding: 0 0 0 1em;
+    color: black;
+    border-left: 0.25em solid #dfe2e5;
+}
+
+div.note::before{
+    content: '注意：';
+    font-weight: bold;
+}
+
+div.tip{
+    padding: 1.2em;
+    font-size: smaller;
+    background-color: #f1f8ff;
+}
+div.tip::before{
+    content: '提示：';
+    font-weight: bold;
+}
+
+/* -------------- 表格 -------------- */
+div.table{
+    margin: 0 auto 1.5rem auto;
+    overflow: auto;
+}
+
+div.table>table{
+    margin: 0 auto;
+    min-width: 80%;
+}
+
+table {
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+table caption {
+    margin: 0 0 0.5rem 0;
+    padding-left: 0.8em;
+    text-align: left;
+    line-height: 1.4;
+}
+
+div.table>table tr {
+    border-top: 0.063em solid #dfe2e5;
+    border-bottom: 0.063em solid #dfe2e5;
+}
+
+div.table>table th {
+    padding: 0.4em 0.8em;
+    font-weight: 600;
+    text-align: left;
+}
+
+div.table>table td {
+    padding: 0.4em 0.8em;
+}
+
+/* -------------- 代码 -------------- */
+
+div.code{
+    margin: 0 0 1rem 0;
+    overflow: auto;
+    white-space: pre;
+    line-height: 1.4;
+    font-family: Consolas;
+    font-size: smaller;
+}
+
+div.code>table{
+    margin: 0;
+    min-width: unset;
+}
+
+div.code>table tr{
+    border: none;
+}
+
+td.hljs-ln-numbers{
+    padding:0 0 0 1em;
+    text-align: right;
+    color: #6a737d;
+}
+
+td.hljs-ln-code{
+    padding:0 0 0 2em;
+}
+
+/* -------------- 图片 -------------- */
+
+figure{
+    margin: 0 auto 1rem auto;
+    text-align: center;
+}
+
+figure > img{
+    max-height: 400px;
+    max-width: 100%
+}
+
+figure figcaption{
+    margin: 0 0 0.5rem 0;
+    font-style: italic;
+    color:#6a737d;
+}
+
+/* -------------- 列表 -------------- */
+
+ul {
+    margin: 0 0 1rem 0;
+    padding-left: 1em;
+    list-style-type: none;
+}
+
+ul > li::before{
+    padding-right: 0.5em;
+    content:"\2022";
+}
+
+ol {
+    margin: 0 0 1rem 0;
+    padding-left: 2em;
+}
+
+ol.reference{
+    font-size: smaller;
+}
+
+li{
+    margin: 0 0 0.5rem 0;
+}
+
+ol li{
+    padding-left: 0.25em;
+}
+
+ol.reference li{
+    margin: 0;
+    padding-left: 0;
+}
+
+dl{
+    margin: 0 0 1rem 0;
+}
+
+dt{
+    font-style: italic;
+}
+
+dd{
+    margin-bottom: 0.5rem;
+}
+
+ul ol,
+ul ul,
+ol ul,
+ol ol,
+ul dl,
+ol dl{
+    margin: 0.5rem 0;
+}
+
+dd ul{
+    margin:0;
+    padding-left: 0;
+}
+
+dd ol{
+    margin:0;
+    padding-left:1em;
+}
+
+ul dl,
+ol dl{
+    padding-left:1em;
+}
+
+ol div.note,
+ol div.tip,
+ol blockquote,
+ol div.code,
+ul div.note,
+ul div.tip,
+ul blockquote,
+ul div.code{
+    margin: 0; 
+}
+
+/* -------------- 行内元素 -------------- */
+
+a {
+    color: #1E90FF;
+    text-decoration: none;
+}
+
+a:hover{
+    color:#0056b3;
+    text-decoration: underline;
+}
+
+code{
+    display: inline-block;
+    color:red;
+    font-family: Consolas;
+    letter-spacing: 0;
+    word-break: keep-all;
+}
+
+kbd{
+    display: inline-block;
+    padding: 0.21em 0.35em;
+    color:#222;
+    background-color: #fafbfc;
+    font-family: Consolas;
+    font-size: 0.9em;
+    font-style: italic;
+    line-height: 1.2;
+    word-break: keep-all;
+    vertical-align: middle;
+    border: solid 0.07em #d1d5da;
+    border-bottom-color: #c6cbd1;
+    border-radius: 0.21em;
+    box-shadow: inset 0 -0.07em 0 #c6cbd1;
+}
+
+cite{
+    font-family: Consolas;
+}
+
+strong{
+    font-size: larger;
+    font-weight: normal;
+}
+
+mark{
+    background-color: #1e90ff40;
+}
+
+ins{
+    text-decoration: none;
+    color:#6a737d;
+}
+
+em{
+    font-style: normal;
+    color:#0056b3;
+}
+
+em.red{
+    color: red;
+}
+
+em.pink{
+    color: pink;
+}
+
+em.purple{
+    color: purple;
+}
+
+em.blue{
+    color: blue;
+}
+
+em.cyan{
+    color: cyan;
+}
+
+em.green{
+    color: green;
+}
+
+em.yellow{
+    color: yellow;
+}
+
+em.orange{
+    color: orange;
+}
+
+/* 滚动条样式 */
+::-webkit-scrollbar {
+	width: 5px;
+    height:5px;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: #e5e5e5; 
+}
+
+::-webkit-scrollbar-corner {
+	background-color: #f6f6f6;
+}
+
+/* 滚动条样式 适用火狐浏览器 */
+* {
+  scrollbar-color: #e5e5e5 #f7f7f9; /* 滑块颜色 滚动条背景颜色 */
+  scrollbar-width: thin; /* 滚动条宽度有三种：thin、auto、none */
+}
+
+/* 隐藏标签 */
+summary {
+    outline: none;
+}
