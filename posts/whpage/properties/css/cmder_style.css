@@ -48,7 +48,7 @@ body>div.container {
 header {
     margin: 0 0 2em 0;
     padding:100px 0;
-    background: #222 url(./home_top_bg.jpg) center center no-repeat;
+    background: #222 url(https://cdn.jsdelivr.net/gh/celestezj/ImageHosting/compress/7.png) center center no-repeat;
     background-size: cover;
     box-shadow: 0 1px 2px rgba(150,150,150,.7);
 }
