@@ -1,0 +1,227 @@
+body {
+  font-family:'Source Sans Pro', 'Helvetica Neue';
+  font-size:16px;
+  background:#000;
+  color:#fff;
+}
+body.light {
+  background:#fff;
+  color:#111;
+}
+#toolbar {
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  line-height:25px;
+  padding:10px;
+  box-sizing:border-box;
+  -webkit-transition:0.15s;
+  transition:0.15s;
+  opacity:0;
+  z-index:999999999;
+  -webkit-animation:3s toolbar ease-in-out;
+          animation:3s toolbar ease-in-out;
+}
+#toolbar:hover {
+  opacity:1;
+}
+@-webkit-keyframes "toolbar" {
+  0%,50%{opacity:1}
+}
+@keyframes "toolbar" {
+  0%,50%{opacity:1}
+}
+#theme {
+  padding-right:15px;
+  float:left;
+}
+#toolbar .link{
+  float:right;
+}
+#toolbar a {
+  color:inherit;
+  text-decoration:none;
+}
+#win,
+#finished{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:inherit;
+  color:inherit;
+  z-index:9999;
+  display:none;
+}
+#win .text,
+#finished .text {
+  position:absolute;
+  top:50%;
+  left:50%;
+  font-size:40px;
+  font-weight:100;
+  -webkit-transform:translate3d(-50%,-50%,0);
+          transform:translate3d(-50%,-50%,0);
+}
+body.light #win .text,
+body.light #finished .text {
+  color:#111!important;
+}
+div[class^="level"] {
+  position:fixed;
+  top:50%;
+  left:50%;
+  width:280px;
+  -webkit-transform:translate3d(-50%,-50%,0);
+          transform:translate3d(-50%,-50%,0);
+  display:none;
+}
+div[class^="level"] .text {
+  font-size:19px;
+  padding-top:20px;
+  clear:both;
+  overflow:hidden;
+}
+div[class^="level"] .text span {
+  padding:10px 0 0;
+  font-size:15px;
+  display:block;
+}
+div[class^="level"] .text.center {
+  text-align:center;
+}
+div[class^="level"] .block,
+#createLevel .newLevel .block {
+  position:relative;
+  width:70px;
+  height:70px;
+  float:left;
+  cursor:pointer;
+  overflow:hidden;
+  -webkit-transition:0.15s ease-in-out;
+  transition:0.15s ease-in-out;
+}
+div[class^="level"] .block.curve:before,
+#createLevel .newLevel .block.curve:before {
+  position:absolute;
+  top:0;
+  left:0;
+  width:70px;
+  height:70px;
+  background:url(../img/curve.png) 50% 50% / contain no-repeat;
+  display:block;
+  content:'';
+}
+div[class^="level"] .block.curve.double:before,
+#createLevel .newLevel .block.curve.double:before {
+  background:url(../img/curve-double.png) 50% 50% / contain no-repeat;
+}
+div[class^="level"] .block.straight:before,
+#createLevel .newLevel .block.straight:before {
+  position:absolute;
+  top:0;
+  left:0;
+  width:70px;
+  height:70px;
+  background:url(../img/straight.png) 50% 50% / contain no-repeat;
+  display:block;
+  content:'';
+}
+div[class^="level"] .block.straight.double:before,
+#createLevel .newLevel .block.straight.double:before {
+  background:url(../img/straight-double.png) 50% 50% / contain no-repeat;
+}
+div[class^="level"] .block.end:before,
+#createLevel .newLevel .block.end:before {
+  position:absolute;
+  top:0;
+  left:0;
+  width:70px;
+  height:70px;
+  background:url(../img/end.png) 50% 50% / contain no-repeat;
+  display:block;
+  content:'';
+}
+
+body.light div[class^="level"] .block,
+body.light #createLevel .newLevel .block {
+  -webkit-filter: invert(1);
+   filter: invert(1);
+}
+div[class^="level"] .block.r1,
+#createLevel .newLevel .block.r1{
+  -webkit-transform:rotate(0deg);
+          transform:rotate(0deg);
+}
+div[class^="level"] .block.r2,
+#createLevel .newLevel .block.r2{
+  -webkit-transform:rotate(90deg);
+          transform:rotate(90deg);
+}
+div[class^="level"] .block.r3,
+#createLevel .newLevel .block.r3{
+  -webkit-transform:rotate(180deg);
+          transform:rotate(180deg);
+}
+div[class^="level"] .block.r4,
+#createLevel .newLevel .block.r4{
+  -webkit-transform:rotate(270deg);
+          transform:rotate(270deg);
+}
+
+#createLevel {
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:inherit;
+  color:inherit;
+  z-index:99999;
+  display:none;
+}
+#createLevel .newLevel {
+  position:absolute;
+  top:50%;
+  left:50%;
+  width:280px;
+  -webkit-transform:translate3d(-50%,-50%,0);
+          transform:translate3d(-50%,-50%,0);
+}
+#createLevel .newLevel .block {
+  border: 1px solid #fff;
+  box-sizing: border-box;
+}
+#createLevel .stats {
+  position:absolute;
+  bottom:80px;
+  width:100%;
+  height:25px;
+  line-height:25px;
+  text-align:center;
+}
+#createLevel .tools {
+  position:absolute;
+  bottom:0;
+  left:50%;
+  width:280px;
+  height:80px;
+  -webkit-transform:translate3d(-50%,0,0);
+          transform:translate3d(-50%,0,0);
+}
+body.light #createLevel .tools {
+  -webkit-filter: invert(1);
+   filter: invert(1);
+}
+#createLevel .tools img {
+  margin:10px;
+  width:50px;
+  height:50px;
+  float:left;
+  border:2px solid #fff;
+  box-sizing:border-box;
+  cursor:pointer;
+  display:block;
+}
