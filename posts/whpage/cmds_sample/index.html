@@ -74,6 +74,16 @@ print(img2base64(r'demo.jpg'))</div>
         </section>
         
         <section>
+        <h3>Github链接转jsDelivr</h3>
+        <div class="code python">import re
+
+github2jsdelivr = lambda url : 'https://cdn.jsdelivr.net/gh/{user}/{repo}@{tag}/{path}'. \
+    format(**(re.search(r'^https://github.com/(?P&lt;user&gt;.+?)/(?P&lt;repo&gt;.+?)/.+?/(?P&lt;tag&gt;.+?)/(?P&lt;path&gt;.+)$', url).groupdict()))
+
+print(github2jsdelivr('https://github.com/muggledy/typora-dyzj-theme/blob/v1.0/dyzj.css'))</div>
+        </section>
+        
+        <section>
         <h3>其他</h3>
         <ul>
             <li>网页可编辑状态<br>
