@@ -2,10 +2,37 @@
 <head>
 <link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/celestezj/ImageHosting/img/20210207091812.png">
 <title>说明</title>
+<style>
+    ol li{
+        list-style-type: none;
+    }
+    ol li:before{
+        counter-increment: li;
+        content: counter(li);
+        position: absolute;
+        background: gray;
+        color: white;
+        margin-top: 3px;
+        margin-left: -25px;
+        width: 1.65em;
+        height: 1.65em;
+        border-radius: 0.825em;
+        text-align: center;
+        font-size: .65em;
+        line-height: 1.7em;
+        transition: all .3s ease-out;
+    }
+    ol li:first-child{
+        counter-reset: li;
+    }
+    ol li:hover:before{
+        transform: rotate(360deg);
+    }
+</style>
 </head>
 <body>
 本目录下全部页面大多来自站长素材，本人只是觉得有趣故收集在此，侵删！
-<ul>
+<ol>
     <li><a href="./catchcat/">抓住这只猫</a></li>
     <li><a href="./drum/">电子鼓</a></li>
     <li><a href="./mikutap/">mikutap</a></li>
@@ -20,7 +47,8 @@
     <li><a href="./crocodile/">喷火鳄鱼</a></li>
     <li><a href="./cartoonman/">卡通情侣</a></li>
     <li><a href="./emoji/">表情符号</a></li>
-</ul>
+    <li><a href="./pdfv/">PDF阅读器</a></li>
+</ol>
 再次声明：我不是作者，侵删！
 </body>
 </html>
