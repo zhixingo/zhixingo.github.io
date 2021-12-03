@@ -13,6 +13,7 @@
             width: 100%;
             height: 100%;
             margin: 0 auto;
+            overflow: hidden;
         }
         .left_content,
         .right_content {
@@ -36,14 +37,15 @@
         #btn {
             position: absolute;
             top: 22%;
-            left: -2px; /*298px*/
+            left: 0px; /*300px*/
             height: 75px;
             border: 0;
             background: #787878;
             color: #fff;
             cursor: pointer;
             border-left: 2px solid #787878;
-            border-radius: 3px;
+            border-top-right-radius: 3px;
+            border-bottom-right-radius: 3px;
             opacity: .5;
             //transition: .2s;
         }
@@ -61,11 +63,16 @@
             font-size: 13px;
         }
         .left_content ul li {
-            height: 25px;
             line-height: 25px;
             border-bottom: 1px solid #fff;
             list-style-type: none;
             text-align: center;
+        }
+        .left_content>ul>li:not(:first-child){
+            color: #513d34;
+        }
+        .left_content ul li ul li{
+            background-color: #bcbcbc;
         }
         .left_content ul li span.link {
             width: 100%;
@@ -80,12 +87,21 @@
             cursor: pointer;
             color: black;
         }
-        .left_content ul li:first-child {
+        .left_content>ul>li:first-child {
             font-size: 16px;
             font-weight: 600;
             height: 45px;
             line-height: 22px;
             padding: 7px 0 7px;
+        }
+        .left_content ul li.closed ul{
+            display: none;
+        }
+        .left_content ul li ul li:last-child{
+            border-bottom: none;
+        }
+        .left_content ul li ul li:first-child{
+            border-top: 1px solid #fff;
         }
     </style>
 </head>
@@ -96,10 +112,24 @@
             <ul>
                 <li>
                     📚 文档目录
-                    <br><span style="font-size:5px;font-weight:100">—— muggledy</span>
+                    <br><span style="font-size:10px;font-weight:100">—— muggledy</span>
+                </li><!--如果使用HTTP链接（问题：https://github.com/mozilla/pdf.js/issues/7153），如：https://files.catbox.moe/lkye69.pdf，修改HOSTED_VIEWER_ORIGINS 变量（在viewer.js文件），另参考：https://github.com/mozilla/pdf.js/issues/1000#issuecomment-133756244-->
+                <li onclick="switch_status(this, event)" class="closed">🔽 编程语言<br>
+                    <ul>
+                        <li><span class="link" alt="./pdfjs-dist/web/viewer.html?file=https://files.catbox.moe/lkye69.pdf" onclick="open_pdf(this)">C Primer（第五版）中文版</span></li>
+                    </ul>
                 </li>
-                <li><span class="link" alt="./pdfjs-dist/web/viewer.html?file=../../pdf/高效算法：竞赛、应试与提高必修128例.pdf" onclick="open_pdf(this)">高效算法：竞赛、应试与提高必修128例</span></li><!--https://files.catbox.moe/lkye69.pdf-->
-                <li><span class="link" alt="./pdfjs-dist/web/viewer.html?file=../../pdf/笨蛋，重要的是逻辑！.pdf" onclick="open_pdf(this)">笨蛋，重要的是逻辑！</span></li>
+                <li onclick="switch_status(this, event)" class="closed">🔽 算法设计<br>
+                    <ul>
+                        <li><span class="link" alt="./pdfjs-dist/web/viewer.html?file=../../pdf/高效算法：竞赛、应试与提高必修128例.pdf" onclick="open_pdf(this)">高效算法：竞赛、应试与提高必修128例</span></li>
+                    </ul>
+                </li>
+                <li onclick="switch_status(this, event)" class="closed">🔽 其他文档<br>
+                    <ul>
+                        <li><span class="link" alt="./pdfjs-dist/web/viewer.html?file=../../pdf/笨蛋，重要的是逻辑！.pdf" onclick="open_pdf(this)">笨蛋，重要的是逻辑！</span></li>
+                        <li><span class="link" alt="./pdfjs-dist/web/viewer.html?file=https://files.catbox.moe/m8seu6.pdf" onclick="open_pdf(this)">直视骄阳—征服死亡恐惧</span></li>
+                    </ul>
+                </li>
             </ul>
         </div>
         <div class="right_content" id="pdf"><!--https://mozilla.github.io/pdf.js/getting_started/-->
@@ -116,16 +146,29 @@
         if (box.offsetLeft == 0) {
             box.style['margin-left'] = "-300px"
             pdf.style['width'] = "100%"
-            btn.style['left'] = "-2px"
+            btn.style['left'] = "0px"
         } else {
             box.style['margin-left'] = "0px"
             pdf.style['width'] = "calc(100% - 300px)"
-            btn.style['left'] = "298px"
+            btn.style['left'] = "300px"
         }
     }
     function open_pdf(e){
         document.getElementsByTagName("title")[0].innerText = "《" + e.innerText + "》"
         ifm.setAttribute("src", e.getAttribute("alt"))
+    }
+    function has_class(element, cls) {
+        return (' ' + element.className + ' ').indexOf(' ' + cls + ' ') > -1
+    }
+    function switch_status(e, event){
+        console.log(e,event)
+        if(event.target === event.currentTarget){
+            if(has_class(e, "closed")){
+                e.classList.remove("closed")
+            }else{
+                e.classList.add("closed")
+            }
+        }
     }
 </script>
 </html>
