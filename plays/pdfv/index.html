@@ -170,5 +170,19 @@
             }
         }
     }
+    
+    function initial_pdfv() {
+        var url = location.search
+        if (url.indexOf("?") != -1) {
+            var r = new Object()
+            var para = url.split("?")[1]
+            para = para.split("&")
+            for(var i = 0; i < para.length; i++) {
+                r[para[i].split("=")[0]]=unescape(para[i].split("=")[1])
+            }
+            ifm.setAttribute("src", "./pdfjs-dist/web/viewer.html?file="+r['url'])
+        }
+    }
+    initial_pdfv()
 </script>
 </html>
