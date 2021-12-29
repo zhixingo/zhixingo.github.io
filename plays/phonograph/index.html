@@ -1,0 +1,262 @@
+﻿<!DOCTYPE html>
+<html lang="en" >
+<head>
+<meta charset="UTF-8">
+<title>复古留声机</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="css/style.css">
+<link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/celestezj/ImageHosting/img/20210207091812.png">
+
+</head>
+<body>
+
+<audio id="audio">
+  <source src="http://music.163.com/song/media/outer/url?id=504924216.mp3" type="audio/mpeg">
+</audio>
+<div class="shadows">
+  <div class="shadow-a face" id="shadows"></div>
+  <div class="shadow-b face" id="shadowsb"></div>
+  <div class="shadow-c face" id="shadowsc"></div>
+</div>
+<div class="main" id="radio">
+  <div class="foots">
+    <div class="foot__shadows">
+      <div class="foot__shadow"></div>
+      <div class="foot__shadow"></div>
+      <div class="foot__shadow"></div>
+      <div class="foot__shadow"></div>
+    </div>
+    <div class="foot">
+      <div class="foot__front face"> </div>
+      <div class="foot__back face"> </div>
+      <div class="foot__right face"> </div>
+      <div class="foot__left face"> </div>
+      <div class="foot__top face"> </div>
+      <div class="foot__bottom face"> </div>
+    </div>
+    <div class="foot">
+      <div class="foot__front face"> </div>
+      <div class="foot__back face"> </div>
+      <div class="foot__right face"> </div>
+      <div class="foot__left face"> </div>
+      <div class="foot__top face"> </div>
+      <div class="foot__bottom face"> </div>
+    </div>
+    <div class="foot">
+      <div class="foot__front face"> </div>
+      <div class="foot__back face"> </div>
+      <div class="foot__right face"> </div>
+      <div class="foot__left face"> </div>
+      <div class="foot__top face"> </div>
+      <div class="foot__bottom face"> </div>
+    </div>
+    <div class="foot">
+      <div class="foot__front face"> </div>
+      <div class="foot__back face"> </div>
+      <div class="foot__right face"> </div>
+      <div class="foot__left face"> </div>
+      <div class="foot__top face"> </div>
+      <div class="foot__bottom face"> </div>
+    </div>
+  </div>
+  <div class="player">
+    <div class="player__front face"> 
+      <div class="speakers">
+        <div class="speaker">
+          <div class="speaker__front face"> </div>
+          <div class="speaker__back face"> </div>
+          <div class="speaker__right face"> </div>
+          <div class="speaker__left face"> </div>
+          <div class="speaker__top face"> 
+            <div class="speaker__top-ca face speaker-ca">&#9835;</div>
+            <div class="speaker__top-cb face speaker-cb">&#9834;</div>
+          </div>
+          <div class="speaker__bottom face"> </div>
+        </div>
+        <div class="speaker">
+          <div class="speaker__front face"> </div>
+          <div class="speaker__back face"> </div>
+          <div class="speaker__right face"> </div>
+          <div class="speaker__left face"> </div>
+          <div class="speaker__top face"> 
+            <div class="speaker__top-ca face speaker-ca">&#9835;</div>
+            <div class="speaker__top-cb face speaker-cb">&#9834;</div>
+          </div>
+          <div class="speaker__bottom face"> </div>
+        </div>
+        <div class="player__text">victrola</div>
+      </div>
+    </div>
+    <div class="player__back face"> </div>
+    <div class="player__right face"> </div>
+    <div class="player__left face"> </div>
+    <div class="player__top face"> </div>
+    <div class="player__bottom face"> </div>
+  </div>
+  <div class="playert" id="playert">
+    <div class="playert-tt">
+      <div class="playert-tt__front face"> </div>
+      <div class="playert-tt__back face"> </div>
+      <div class="playert-tt__right face"> </div>
+      <div class="playert-tt__left face"> </div>
+      <div class="playert-tt__top face"> </div>
+      <div class="playert-tt__bottom face"> </div>
+    </div>
+    <div class="playert-ta playert-ta1">
+      <div class="playert-ta__front face"> </div>
+      <div class="playert-ta__back face"> </div>
+      <div class="playert-ta__right face"> </div>
+      <div class="playert-ta__left face"> </div>
+      <div class="playert-ta__top face"> </div>
+      <div class="playert-ta__bottom face"> </div>
+    </div>
+    <div class="playert-ta playert-ta2">
+      <div class="playert-ta__front face"> </div>
+      <div class="playert-ta__back face"> </div>
+      <div class="playert-ta__right face"> </div>
+      <div class="playert-ta__left face"> </div>
+      <div class="playert-ta__top face"> </div>
+      <div class="playert-ta__bottom face"> </div>
+    </div>
+    <div class="playert-tb playert-tb1">
+      <div class="playert-tb__front face"> </div>
+      <div class="playert-tb__back face"> </div>
+      <div class="playert-tb__right face"> </div>
+      <div class="playert-tb__left face"> </div>
+      <div class="playert-tb__top face"> </div>
+      <div class="playert-tb__bottom face"> </div>
+    </div>
+    <div class="playert-tb playert-tb2">
+      <div class="playert-tb__front face"> </div>
+      <div class="playert-tb__back face"> </div>
+      <div class="playert-tb__right face"> </div>
+      <div class="playert-tb__left face"> </div>
+      <div class="playert-tb__top face"> </div>
+      <div class="playert-tb__bottom face"> </div>
+    </div>
+  </div>
+  <div class="parts">
+    <div class="disc" id="disc"></div>
+    <div class="shadow-disc"></div>
+    <div class="speakers">
+      <div class="control">
+        <div class="control-ta">
+          <div class="control-ta__front face"> </div>
+          <div class="control-ta__back face"> </div>
+          <div class="control-ta__right face"> </div>
+          <div class="control-ta__left face"> </div>
+          <div class="control-ta__top face"> </div>
+          <div class="control-ta__bottom face"> </div>
+        </div>
+        <div class="control-ta">
+          <div class="control-ta__front face"> </div>
+          <div class="control-ta__back face"> </div>
+          <div class="control-ta__right face"> </div>
+          <div class="control-ta__left face"> </div>
+          <div class="control-ta__top face"> </div>
+          <div class="control-ta__bottom face"> </div>
+        </div>
+        <div class="control-tb">
+          <div class="control-tb__front face"> </div>
+          <div class="control-tb__back face"> </div>
+          <div class="control-tb__right face"> </div>
+          <div class="control-tb__left face"> </div>
+          <div class="control-tb__top face"> </div>
+          <div class="control-tb__bottom face"> </div>
+        </div>
+        <div class="control-tb">
+          <div class="control-tb__front face"> </div>
+          <div class="control-tb__back face"> </div>
+          <div class="control-tb__right face"> </div>
+          <div class="control-tb__left face"> </div>
+          <div class="control-tb__top face"> </div>
+          <div class="control-tb__bottom face"> </div>
+        </div>
+        <div class="control-range" id="control">
+          <div class="control-range__front face"> </div>
+          <div class="control-range__back face"> </div>
+          <div class="control-range__right face"> </div>
+          <div class="control-range__left face"> </div>
+          <div class="control-range__top face"> </div>
+          <div class="control-range__bottom face"> </div>
+        </div>
+      </div>
+      <div class="needle">
+        <div class="needle-a">
+          <div class="needle-a__front face"> </div>
+          <div class="needle-a__back face"> </div>
+          <div class="needle-a__right face"> </div>
+          <div class="needle-a__left face"> </div>
+          <div class="needle-a__top face"> </div>
+          <div class="needle-a__bottom face"> </div>
+        </div>
+        <div class="needle-con" id="needle">
+          <div class="needle-b">
+            <div class="needle-b__front face"> </div>
+            <div class="needle-b__back face"> </div>
+            <div class="needle-b__right face"> </div>
+            <div class="needle-b__left face"> </div>
+            <div class="needle-b__top face"> </div>
+            <div class="needle-b__bottom face"> </div>
+          </div>
+          <div class="needle-c">
+            <div class="needle-c__front face"> </div>
+            <div class="needle-c__back face"> </div>
+            <div class="needle-c__right face"> </div>
+            <div class="needle-c__left face"> </div>
+            <div class="needle-c__top face"> </div>
+            <div class="needle-c__bottom face"> </div>
+          </div>
+          <div class="needle-d">
+            <div class="needle-d__front face"> </div>
+            <div class="needle-d__back face"> </div>
+            <div class="needle-d__right face"> </div>
+            <div class="needle-d__left face"> </div>
+            <div class="needle-d__top face"> </div>
+            <div class="needle-d__bottom face"> </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="borders">
+    <div class="border-ta">
+      <div class="border-ta__front face"> </div>
+      <div class="border-ta__back face"> </div>
+      <div class="border-ta__right face"> </div>
+      <div class="border-ta__left face"> </div>
+      <div class="border-ta__top face"> </div>
+      <div class="border-ta__bottom face"> </div>
+    </div>
+    <div class="border-ta">
+      <div class="border-ta__front face"> </div>
+      <div class="border-ta__back face"> </div>
+      <div class="border-ta__right face"> </div>
+      <div class="border-ta__left face"> </div>
+      <div class="border-ta__top face"> </div>
+      <div class="border-ta__bottom face"> </div>
+    </div>
+    <div class="border-tb">
+      <div class="border-tb__front face"> </div>
+      <div class="border-tb__back face"> </div>
+      <div class="border-tb__right face"> </div>
+      <div class="border-tb__left face"> </div>
+      <div class="border-tb__top face"> </div>
+      <div class="border-tb__bottom face"> </div>
+    </div>
+    <div class="border-tb">
+      <div class="border-tb__front face"> </div>
+      <div class="border-tb__back face"> </div>
+      <div class="border-tb__right face"> </div>
+      <div class="border-tb__left face"> </div>
+      <div class="border-tb__top face"> </div>
+      <div class="border-tb__bottom face"> </div>
+    </div>
+  </div>
+</div>
+
+<script  src="js/script.js"></script>
+
+</body>
+</html>
