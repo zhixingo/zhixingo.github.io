@@ -2,15 +2,16 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>css3老式磁带录音机播放特效 - 站长素材</title>
+<title>磁带播放器</title>
 
 <link type="text/css" href="css/style.css" rel="stylesheet" />
+<link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/celestezj/ImageHosting/img/20210207091812.png">
 
 </head>
 <body>
 
 <audio id="audio">
-      <source src="mp3/hbn.mp3" type="audio/mpeg">
+      <source src="./mp3/hbn.mp3" type="audio/mpeg">
     </audio>
 <!--div class="svgs">
     <svg class="svg-icon s" viewbox="0 0 20 20" id="son">
@@ -139,7 +140,7 @@ let a = document.querySelector("#audio");
 //let son = document.querySelector("#son");
 //let soff = document.querySelector("#soff");
 
-
+var source = a.getElementsByTagName("source")[0]
 /*******************/
 let radioPlaying = () => {
     radio.classList.toggle('is-radio-active')
@@ -164,6 +165,21 @@ let radioPlaying = () => {
 buttonCta.addEventListener("click", radioPlaying)
 //soff.addEventListener("click", radioPlaying)
 //son.addEventListener("click", radioPlaying)
+
+function initial_audio() {
+    var url = location.search
+    if (url.indexOf("?") != -1) {
+        var r = new Object()
+        var para = url.split("?")[1]
+        para = para.split("&")
+        for(var i = 0; i < para.length; i++) {
+            r[para[i].split("=")[0]]=unescape(para[i].split("=")[1])
+        }
+        source.setAttribute("src", r['url'])
+        a.load()
+    }
+}
+initial_audio()
 </script>
 
 </body>
