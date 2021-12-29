@@ -23,7 +23,7 @@ body {
   width: 100%;
   height: 100vh;
   overflow: hidden;
-  background-color: #FCCD64;
+  background-color: transparent;
   cursor: pointer;
 }
 
@@ -79,7 +79,7 @@ body {
   left: 0;
   transform-origin: bottom left;
   transform: skewX(-10deg) translateZ(-1px);
-  background-color: #D1A551;
+  background-color: #b7b7b7;
 }
 
 .shadow-2 {
@@ -88,7 +88,7 @@ body {
   height: 101%;
   bottom: -3%;
   left: -1%;
-  background-image: linear-gradient(to bottom, #D1A551, #bd8d32);
+  background-image: linear-gradient(to bottom, #b7b7b7, #8a8a8a);
   transform: translateZ(-1px);
 }
 
