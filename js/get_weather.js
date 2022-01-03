@@ -22,7 +22,7 @@ var hid1 = document.getElementById("hid1");
 var hid1_p = hid1.getElementsByTagName("p")[0];
 check_url(weather_url).then(res=>{
   if(res){
-      hid1.innerHTML = '<iframe scrolling="no" src="'+ weather_url +'" frameborder="0" width="350" height="24" allowtransparency="true"></iframe>';
+      hid1.innerHTML = '<iframe scrolling="no" src="'+ weather_url +'" frameborder="0" width="100%" height="24" allowtransparency="true"></iframe>';
   }else {
       hid1_p.innerHTML = "天气获取失败，请检查网络！";
   }

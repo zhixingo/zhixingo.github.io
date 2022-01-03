@@ -46,7 +46,7 @@ body {
 .headPhoto {
 	width: 8rem;
 	height: 8rem;
-	background: url(../img/avatar.jpg) no-repeat;
+	background: url(../img/avatar2.png) no-repeat;
 	background-size: cover;
 	border-radius: 50%;
 	position: relative;
@@ -122,7 +122,7 @@ body {
 
 @keyframes meBox-text {
 	0% {
-		transform: translateY(35px);
+		transform: translateY(25px);
 		color: white;
 	}
 
@@ -168,7 +168,7 @@ body {
 }
 
 .cmd {
-	width: 600px;
+	width: 605px;
 	height: 400px;
 	border-radius: 10px 10px 5px 5px;
 	overflow: hidden;
@@ -182,7 +182,7 @@ body {
 }
 
 .cmd:hover {
-	width: 610px;
+	width: 615px;
 	height: 410px;
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
 	margin: -5px 0 0 -5px;
@@ -491,4 +491,7 @@ body {
 
 ::-webkit-scrollbar {
 	  width: 0px;
+}
+#hid5 {
+    word-wrap: break-word;
 }
