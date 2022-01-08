@@ -1,147 +1,124 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/celestezj/ImageHosting/img/20210207091812.png">
+<title>待定...</title>
+<style type="text/css">
+	body{
+		text-align: center;
+		background: #F7FAFC;
+		overflow: hidden;
+		background: #fff;
+		}
+</style>
+</head>
+<body>
+<canvas id="Mycanvas"></canvas>
+<script>
+	//定义画布宽高和生成点的个数
+	var WIDTH = window.innerWidth, HEIGHT = window.innerHeight, POINT = 35;
+	
+	var canvas = document.getElementById('Mycanvas');
+	canvas.width = WIDTH,
+	canvas.height = HEIGHT;
+	var context = canvas.getContext('2d');
+	context.strokeStyle = 'rgba(0,0,0,0.02)',
+	context.strokeWidth = 1,
+	context.fillStyle = 'rgba(0,0,0,0.05)';
+	var circleArr = [];
 
-	<head>
-		<meta charset="UTF-8">
-        <!--meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"-->
-		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
-		<title>Muggledy's HomePage</title>
-		<!--meta name="description" content="这是苏木的个人起始页">
-		<meta name="keywords" content="苏木,苏木SuMu,苏木的主页"-->
-		<link rel="stylesheet" type="text/css" href="./css/FiraCode.css">
-		<link rel="stylesheet" type="text/css" href="./css/nutssss.css">
-		<link rel="icon" href="./favicon.ico">
-        <script src="./js/jquery-3.1.1.min.js"></script>
-	</head>
+	//线条：开始xy坐标，结束xy坐标，线条透明度
+	function Line (x, y, _x, _y, o) {
+		this.beginX = x,
+		this.beginY = y,
+		this.closeX = _x,
+		this.closeY = _y,
+		this.o = o;
+	}
+	//点：圆心xy坐标，半径，每帧移动xy的距离
+	function Circle (x, y, r, moveX, moveY) {
+		this.x = x,
+		this.y = y,
+		this.r = r,
+		this.moveX = moveX,
+		this.moveY = moveY;
+	}
+	//生成max和min之间的随机数
+	function num (max, _min) {
+		var min = arguments[1] || 0;
+		return Math.floor(Math.random()*(max-min+1)+min);
+	}
+	// 绘制原点
+	function drawCricle (cxt, x, y, r, moveX, moveY) {
+		var circle = new Circle(x, y, r, moveX, moveY)
+		cxt.beginPath()
+		cxt.arc(circle.x, circle.y, circle.r, 0, 2*Math.PI)
+		cxt.closePath()
+		cxt.fill();
+		return circle;
+	}
+	//绘制线条
+	function drawLine (cxt, x, y, _x, _y, o) {
+		var line = new Line(x, y, _x, _y, o)
+		cxt.beginPath()
+		cxt.strokeStyle = 'rgba(0,0,0,'+ o +')'
+		cxt.moveTo(line.beginX, line.beginY)
+		cxt.lineTo(line.closeX, line.closeY)
+		cxt.closePath()
+		cxt.stroke();
 
-	<body>
-		<div id="box">
-			<!-- 个人资料卡片 -->
-			<div class="meBox">
-				<!-- 头像 -->
-				<div class="headPhoto"></div>
-				<!-- 介绍 -->
-				<div id="meBox-title"></div>
-				<div class="fg"></div>
-				<div class="meBox-text">
-					<!--p>一条咸鱼<img src="./img/fish.png" alt="咸鱼" style="width: 20px; vertical-align: middle;"></p-->
-					<p><a href="https://metrics.lecoq.io/" target="_blank"><img src="https://metrics.lecoq.io/muggledy?template=classic&base.activity=0&base.community=0&base.repositories=0&base.metadata=0&isocalendar=1&isocalendar.duration=half-year&config.timezone=Asia%2FShanghai" style="width:100%"></a></p>
-					
-				</div>
-				<!-- 两个按钮 -->
-				<div class="meBox-Button">
-					<a href="https://muggledy.top">博客</a>
-					<!--a href="https://sumu.cc/links">友链</a-->
-				</div>
-			</div>
+	}
+	//初始化生成原点
+	function init () {
+		circleArr = [];
+		for (var i = 0; i < POINT; i++) {
+			circleArr.push(drawCricle(context, num(WIDTH), num(HEIGHT), num(15, 2), num(10, -10)/40, num(10, -10)/40));
+		}
+		draw();
+	}
 
-			<!-- 伪终端介绍 -->
-			<div id="cmdBox">
-				<!-- 第一个终端 -->
-				<div class="cmd">
-					<!-- 三个按钮 -->
-					<div class="click">
-						<div class="red"></div>
-						<div class="yellow"></div>
-						<div class="green"></div>
-					</div>
-					<!-- 顶部标题 -->
-					<div class="title">
-						<span>Muggledy - bash</span>
-					</div>
-					<!-- 终端内文字 -->
-					<div class="cmdText">
+	//每帧绘制
+	function draw () {
+		context.clearRect(0,0,canvas.width, canvas.height);
+		for (var i = 0; i < POINT; i++) {
+			drawCricle(context, circleArr[i].x, circleArr[i].y, circleArr[i].r);
+		}
+		for (var i = 0; i < POINT; i++) {
+			for (var j = 0; j < POINT; j++) {
+				if (i + j < POINT) {
+					var A = Math.abs(circleArr[i+j].x - circleArr[i].x),
+						B = Math.abs(circleArr[i+j].y - circleArr[i].y);
+					var lineLength = Math.sqrt(A*A + B*B);
+					var C = 1/lineLength*7-0.009;
+					var lineOpacity = C > 0.03 ? 0.03 : C;
+					if (lineOpacity > 0) {
+						drawLine(context, circleArr[i].x, circleArr[i].y, circleArr[i+j].x, circleArr[i+j].y, lineOpacity);
+					}
+				}
+			}
+		}
+	}
 
-						<!-- 第一条命令行及执行结果 -->
-						<span style="color: rgb(0, 190, 0);">root@muggledy</span>
-						<span style="color: blue;">~</span>
-						<span id="cmd1" style="color: rgb(39, 39, 39);"></span>
-						<br />
-						<div id="hid1" hidden="hidden">
-							<p>天气信息获取中...</p>
-						</div>
+	//调用执行
+	window.onload = function () {
+		init();
+		setInterval(function () {
+			for (var i = 0; i < POINT; i++) {
+				var cir = circleArr[i];
+				cir.x += cir.moveX;
+				cir.y += cir.moveY;
+				if (cir.x > WIDTH) cir.x = 0;
+				else if (cir.x < 0) cir.x = WIDTH;
+				if (cir.y > HEIGHT) cir.y = 0;
+				else if (cir.y < 0) cir.y = HEIGHT;
+				
+			}
+			draw();
+		}, 16);
+	}
 
-						<!-- 第二条命令行及执行结果 -->
-						<div id="hid2" hidden="hidden">
-							<span style="color: rgb(0, 190, 0);">root@muggledy</span>
-							<span style="color: blue;">~</span>
-							<span id="cmd2" style="color: rgb(39, 39, 39);"></span>
-						</div>
-						<div id="hid3" hidden="hidden">
-							<p>姓名：Muggledy | 性别：男 | 年龄：25</p>
-							<p>兴趣方向：后端 & 爬虫</p>
-							<p>本科专业网络工程，研究生专业计算机科学与技术</p>
-							<p>对计算机硬件一窍不通，然而父母却以为我能拆修电脑，逃~</p>
-							<p>什么都不懂，却又什么都感兴趣</p>
-							<p>未来期望生活中的一切全部智能化联网控制</p>
-						</div>
+</script>
 
-						<!-- 第三条命令行及执行结果 -->
-						<div id="hid4" hidden="hidden">
-							<span style="color: rgb(0, 190, 0);">root@muggledy</span>
-							<span style="color: blue;">~</span>
-							<span id="cmd3" style="color: rgb(39, 39, 39);"></span>
-						</div>
-
-						<!-- 第四条命令行及执行结果 -->
-						<div id="hid5" hidden="hidden">
-							<span style="color: rgb(0, 190, 0);">root@muggledy</span>
-							<span style="color: blue;">~</span>
-							<span id="cmd4" style="color: rgb(39, 39, 39);"></span>
-						</div>
-
-					</div>
-				</div>
-
-				<!-- 第二个终端 -->
-				<div id="hid6" class="cmd cmd2" hidden="hidden">
-					<!-- 三个按钮 -->
-					<div class="click">
-						<div class="red"></div>
-						<div class="yellow"></div>
-						<div class="green"></div>
-					</div>
-					<!-- 顶部标题 -->
-					<div class="title">
-						<span>Muggledy - bash</span>
-					</div>
-					<!-- 终端内文字 -->
-					<div class="cmdText">
-						<span style="color: rgb(0, 190, 0);">root@muggledy</span>
-						<span style="color: blue;">~</span>
-						<span id="cmd5" style="color: rgb(39, 39, 39);"></span>
-						<div id="hid7" hidden="hidden">
-                            <p>IP信息获取中...</p>
-							<!--ul class="ul">
-								<li><a href="https://sumu.cc">Blog</a></li>
-								<li><a href="#">Gallery</a></li>
-								<li><a href="https://status.sumu.cc">Status</a></li>
-							</ul-->
-							<span style="color: rgb(0, 190, 0);">root@muggledy</span>
-							<span style="color: blue;">~</span>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<!-- 页脚 -->
-		<div id="footer">
-			<p>© 2021 <a href="https://github.com/muggledy">Muggledy</a> | THEME MADE BY <a href="https://gitee.com/SuMu31707/SMHP">SMHP</a></p>
-			<!--div id="beian">
-				<a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=52xxxxxxxxxx72">
-					<img src="https://cs.sumu.cc/img/blog/d0289dc0a46fc5b15b3363ffa78cf6c7.png" style="float:left;" />
-					<p>贵公网安备 52xxxxxxxxxx72号</p>
-				</a>
-				<a href="https://beian.miit.gov.cn/ " target="_blank"><p>黔ICP备 20xxxx13号</p></a>
-			</div-->
-		</div>
-
-        <script src="./js/get_weather.js"></script>
-		<script src="./js/card.js"></script>
-		<script src="./js/canvas-nest.min.js"></script>
-		<script src="./js/bash.js"></script>
-        <script src="./js/get_ip.js"></script>
-	</body>
-
+</body>
 </html>
