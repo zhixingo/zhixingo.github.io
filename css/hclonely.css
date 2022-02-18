@@ -3,6 +3,9 @@
     max-width: 717px;
     margin: 0 auto;
 }
+.sousuo * {
+    list-style-type: none;
+}
 .search{
   position: relative;
   width: 100%;
@@ -157,9 +160,6 @@ input::-webkit-input-placeholder{
   border-bottom: 8px solid #fff;
   border-left: 8px solid transparent;
 
-}
-.search-engine-list{
-    list-style-type: none;
 }
 .search-engine-list::after{
     content: '';
