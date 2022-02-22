@@ -184,7 +184,7 @@ div.tip{
     background-color: #f1f8ff;
 }
 div.tip::before{
-    content: '提示：';
+    //content: '提示：';
     font-weight: bold;
 }
 
