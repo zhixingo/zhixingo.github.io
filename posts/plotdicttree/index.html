@@ -2,7 +2,7 @@
 <html>
 <head><meta charset="utf-8" />
 <link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/celestezj/ImageHosting@v0.1/img/20210207091812.png">
-<title>os模块</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>Decision Tree</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 <style type="text/css">
@@ -11776,29 +11776,7 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="&#36335;&#24452;&#25805;&#20316;[1]">&#36335;&#24452;&#25805;&#20316;<sup>[1]</sup><a class="anchor-link" href="#&#36335;&#24452;&#25805;&#20316;[1]">&#182;</a></h1>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">os</span><span class="o">,</span><span class="nn">sys</span><span class="o">,</span><span class="nn">time</span><span class="o">,</span><span class="nn">shutil</span><span class="o">,</span><span class="nn">stat</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#33719;&#21462;&#24403;&#21069;&#36335;&#24452;">&#33719;&#21462;&#24403;&#21069;&#36335;&#24452;<a class="anchor-link" href="#&#33719;&#21462;&#24403;&#21069;&#36335;&#24452;">&#182;</a></h2><p>路径，在未指出的情况下，一律指的是“绝对路径”，而相对路径，其参照系正是当前路径，脱离了这个参照系，相对路径就什么都不是了。本质上，路径可以描述任何文件或文件夹的位置，从这一角度，路径包括文件路径以及文件夹路径，譬如任给一个路径<code>E:\Test\dy\</code>，我可以说它是文件夹<code>dy\</code>的路径，再譬如<code>E:\Test\main.py</code>，那它就是文件<code>main.py</code>的路径，假设我要分离文件路径<code>E:\Test\main.py</code>为两个部分：<code>E:\Test\</code>以及<code>main.py</code>，前者称为“目录”，后者称为“伪文件”或者干脆称“文件名”，显然它不能称为“文件”是因为一个文件无法脱离位置信息，告诉你一台电脑上有一个名为<code>file.txt</code>的文件毫无任何意义，因为都不知道它在哪！同理<code>E:\Test\dy\</code>分离为<code>E:\Test\</code>以及<code>dy\</code>，前者仍称为“目录”，后者称为“伪文件夹”或者干脆称“文件夹名”，有时候，又称“目录”为“基地址”，现在你该清楚目录的含义了。在下面的描述中，你几乎看不到“伪文件”、“伪文件夹”，听着太别扭，我宁愿称其为“不带基地址的文件（夹）”</p>
-
+<h1 id="&#32472;&#21046;&#26641;&#24418;&#22270;">&#32472;&#21046;&#26641;&#24418;&#22270;<a class="anchor-link" href="#&#32472;&#21046;&#26641;&#24418;&#22270;">&#182;</a></h1>
 </div>
 </div>
 </div>
@@ -11807,69 +11785,9 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span> <span class="c1">#在任何时候，我们都位于一个具体的文件夹路径下，有时候称为“当前工作路径”，它是相对路径的参照系</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[2]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>&#39;G:\\muggledy\\anaconda\\jupyter\\Standard library&#39;</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>另外一个常见的变量<code>sys.path[0]</code>，它的作用是获取调用python解释器的脚本所在目录，譬如你在桌面上（<em>C:\Users\Administrator\Desktop</em>）有一个脚本：</p>
-<div class="highlight"><pre><span></span><span class="c1">#mytest.py</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-<span class="k">print</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-</pre></div>
-<p>执行该脚本<code>python mytest.py</code>你将得到脚本所在目录，即<code>sys.path[0]</code>的值为<code>'C:\\Users\\Administrator\\Desktop'</code>，假设你在其它位置（譬如在<em>E:\myworld</em>下）又新建一个脚本并将<em>mytest.py</em>作为模块导入（要导入成功，可以将<em>C:\Users\Administrator\Desktop</em>添加到<em>anaconda\Lib\site-packages\xxx.pth</em>文件中或者<code>sys.path.append(...)</code>），然后执行新脚本，你会发现<code>sys.path[0]</code>的输出变为<code>'E:\\myworld'</code>，因此当你执行某个脚本的时候，当前路径自动被添加到搜索路径列表中，于是你才可以导入当前路径下的其它<em>py</em>文件，当前路径位于搜索路径的首位因而具有最高优先级，而<code>sys.path</code>就是搜索路径列表<br>
-注，如果解释器被交互式地调用，即你在交互环境下执行上述<em>mytest.py</em>脚本，<code>sys.path[0]</code>的输出将为空</p>
-<p>要想真正获取脚本所在路径，应当这样做，这总是正确的：</p>
-<div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#33719;&#21462;&#32477;&#23545;&#36335;&#24452;">&#33719;&#21462;&#32477;&#23545;&#36335;&#24452;<a class="anchor-link" href="#&#33719;&#21462;&#32477;&#23545;&#36335;&#24452;">&#182;</a></h2><p>给定一个路径字符串<code>path</code>，它可能是绝对路径也可能是相对路径（有四种：文件路径、文件夹路径、文件相对路径、文件夹相对路径），要获得其绝对版本，则使用<code>abspath(path)</code>函数，在大多数平台下，等同于调用<code>normpath(join(os.getcwd(),path))</code>，如果<code>path</code>是相对路径，与其参照系<code>join</code>之后会被规范化得到相对路径的绝对版本，如果<code>path</code>是绝对路径，则<code>join</code>的结果就是<code>path</code>，最终相当于<code>normpath(path)</code></p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;./&#39;</span><span class="p">))</span> <span class="c1">#获得当前文件夹（其相对路径为&quot;./&quot;）的绝对化版本</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;../&#39;</span><span class="p">))</span> <span class="c1">#获取上层文件夹（其相对路径为&quot;../&quot;）的绝对化版本</span>
-<span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span><span class="s1">&#39;../&#39;</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="o">%</span><span class="k">matplotlib</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 </pre></div>
 
 </div>
@@ -11886,513 +11804,7 @@ div#notebook {
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>G:\muggledy\anaconda\jupyter\Standard library
-G:\muggledy\anaconda\jupyter
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[3]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>&#39;G:\\muggledy\\anaconda\\jupyter&#39;</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#35268;&#33539;&#21270;&#36335;&#24452;">&#35268;&#33539;&#21270;&#36335;&#24452;<a class="anchor-link" href="#&#35268;&#33539;&#21270;&#36335;&#24452;">&#182;</a></h2><p>首先规范化路径不是绝对化，它不会将一个相对路径转换为绝对路径。规范化做的是，将路径中的冗余分隔符去除以及解释路径字符串中可能出现的<code>./</code>和<code>../</code>，譬如<code>A//B</code>，<code>A/B/</code>，<code>A/./B</code>和<code>A/foo/../B</code>都转换为<code>A/B</code>，可见其是一个“智能化”操作（所谓智能，只是对比譬如<code>split()</code>函数来说）。在Windows上，它还将正斜杠<code>/</code>转换为反斜杠<code>\</code></p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="s1">&#39;../&#39;</span><span class="p">))</span> <span class="c1">#相对路径不会变成绝对路径，但是最后的冗余分隔符被去掉了</span>
-<span class="n">t</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span><span class="s1">&#39;../readme.txt&#39;</span><span class="p">)</span> <span class="c1">#当前文件夹路径与上层相对路径下的文件名拼接，得到一个不规范（非法）的路径字符串</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
-<span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="c1">#规范化</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>..
-G:\muggledy\anaconda\jupyter\Standard library\../readme.txt
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[4]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>&#39;G:\\muggledy\\anaconda\\jupyter\\readme.txt&#39;</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>一般也可以使用<code>normcase()</code>，在Windows上，会将路径名中的所有字符转换为小写，并将正斜杠转换为反斜杠，在其他操作系统上，返回路径不变</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#33719;&#21462;&#25991;&#20214;/&#22841;&#21517;&#31216;">&#33719;&#21462;&#25991;&#20214;/&#22841;&#21517;&#31216;<a class="anchor-link" href="#&#33719;&#21462;&#25991;&#20214;/&#22841;&#21517;&#31216;">&#182;</a></h2><p>使用<code>basename(path)</code>获取“伪文件”或“伪文件夹”，特别的，对于文件夹路径，末尾不能有<code>/</code>，可以调用<code>normpath</code>来去除</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="s1">&#39;D://myworld&#39;</span><span class="p">))</span> <span class="c1">#&#39;D://myworld//&#39;是不行的</span>
-<span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span><span class="s1">&#39;os模块.ipynb&#39;</span><span class="p">))</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>myworld
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[5]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>&#39;os模块.ipynb&#39;</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#33719;&#21462;&#25991;&#20214;/&#22841;&#30446;&#24405;">&#33719;&#21462;&#25991;&#20214;/&#22841;&#30446;&#24405;<a class="anchor-link" href="#&#33719;&#21462;&#25991;&#20214;/&#22841;&#30446;&#24405;">&#182;</a></h2><p>要获取文件路径或文件夹路径的目录（基地址），使用<code>dirname(path)</code>函数</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span><span class="s1">&#39;os模块.ipynb&#39;</span><span class="p">)))</span>
-<span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>G:\muggledy\anaconda\jupyter\Standard library
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[6]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>&#39;G:\\muggledy\\anaconda\\jupyter&#39;</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#20999;&#21106;&#36335;&#24452;">&#20999;&#21106;&#36335;&#24452;<a class="anchor-link" href="#&#20999;&#21106;&#36335;&#24452;">&#182;</a></h2><p><code>split(path)</code>函数将路径切分为基地址和名称两部分，返回二元组<code>(head,tail)</code>，特别的，要想正确切分文件夹路径，则文件夹路径末尾不能有<code>/</code></p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;G:</span><span class="se">\\</span><span class="s1">muggledy</span><span class="se">\\</span><span class="s1">anaconda</span><span class="se">\\</span><span class="s1">jupyter</span><span class="se">\\</span><span class="s1">Standard library</span><span class="se">\\</span><span class="s1">&#39;</span><span class="p">))</span> <span class="c1">#文件夹路径末尾含有斜杠时，则tail为空</span>
-<span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;G:</span><span class="se">\\</span><span class="s1">muggledy</span><span class="se">\\</span><span class="s1">anaconda</span><span class="se">\\</span><span class="s1">jupyter</span><span class="se">\\</span><span class="s1">readme.txt&#39;</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>(&#39;G:\\muggledy\\anaconda\\jupyter&#39;, &#39;Standard library&#39;)
-(&#39;G:\\muggledy\\anaconda\\jupyter\\Standard library&#39;, &#39;&#39;)
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[13]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>(&#39;G:\\muggledy\\anaconda\\jupyter&#39;, &#39;readme.txt&#39;)</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>注，需要注意的是，无论是<code>split()</code>还是<code>basename()</code>以及<code>dirname()</code>都很“弱智”，它们并不会去检查路径的合法性，仅仅是将路径当作一个字符串然后无脑切割，事实上，它分割基地址与文件/夹名称的方式相当简单，就像这样：</p>
-<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">re</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">p</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;(.*</span><span class="se">\\</span><span class="s1">)([^</span><span class="se">\\</span><span class="s1">]*)&#39;</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">p</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;D:</span><span class="se">\\</span><span class="s1">myworld</span><span class="se">\\</span><span class="s1">test</span><span class="se">\\</span><span class="s1">&#39;</span><span class="p">)</span>
-<span class="p">[(</span><span class="s1">&#39;D:</span><span class="se">\\</span><span class="s1">myworld</span><span class="se">\\</span><span class="s1">test</span><span class="se">\\</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)]</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">p</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;D:</span><span class="se">\\</span><span class="s1">myworld</span><span class="se">\\</span><span class="s1">test&#39;</span><span class="p">)</span>
-<span class="p">[(</span><span class="s1">&#39;D:</span><span class="se">\\</span><span class="s1">myworld</span><span class="se">\\</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">)]</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#20998;&#31163;&#25991;&#20214;&#21518;&#32512;">&#20998;&#31163;&#25991;&#20214;&#21518;&#32512;<a class="anchor-link" href="#&#20998;&#31163;&#25991;&#20214;&#21518;&#32512;">&#182;</a></h2><p><code>os.path.splitext(path)</code>将文件路径中的文件后缀分离出来，函数返回一个二元组，该操作不检查<code>path</code>的真实性</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="s1">&#39;G:</span><span class="se">\\</span><span class="s1">muggledy</span><span class="se">\\</span><span class="s1">anaconda</span><span class="se">\\</span><span class="s1">jupyter</span><span class="se">\\</span><span class="s1">readme.txt&#39;</span><span class="p">))</span>
-<span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="s1">&#39;./muggledy/x.py&#39;</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>(&#39;G:\\muggledy\\anaconda\\jupyter\\readme&#39;, &#39;.txt&#39;)
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[12]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>(&#39;./muggledy/x&#39;, &#39;.py&#39;)</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#25340;&#25509;&#36335;&#24452;&#23383;&#31526;&#20018;">&#25340;&#25509;&#36335;&#24452;&#23383;&#31526;&#20018;<a class="anchor-link" href="#&#25340;&#25509;&#36335;&#24452;&#23383;&#31526;&#20018;">&#182;</a></h2><p><code>join(path,*paths)</code>，将<code>path</code>与多个<code>paths</code>拼接起来，如果某个path分段是绝对路径，在其前面的所有分段将被抛弃</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;D:</span><span class="se">\\</span><span class="s1">myworld&#39;</span><span class="p">,</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span><span class="s1">&#39;../../&#39;</span><span class="p">,</span><span class="s1">&#39;jupyter&#39;</span><span class="p">,</span><span class="s1">&#39;./Standard library/&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
-<span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>G:\muggledy\anaconda\jupyter\Standard library\../../jupyter\./Standard library/
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[14]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>&#39;G:\\muggledy\\anaconda\\jupyter\\Standard library&#39;</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#21028;&#26029;&#26159;&#21542;&#26159;&#25991;&#20214;/&#22841;">&#21028;&#26029;&#26159;&#21542;&#26159;&#25991;&#20214;/&#22841;<a class="anchor-link" href="#&#21028;&#26029;&#26159;&#21542;&#26159;&#25991;&#20214;/&#22841;">&#182;</a></h2><p><code>isfile(path)</code>判断路径是否是文件（路径）；<code>isdir(path)</code>判断路径是否是文件夹路径。这是智能操作，路径首先必须存在，否则必然返回False</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="s1">&#39;G:</span><span class="se">\\</span><span class="s1">muggledy</span><span class="se">\\</span><span class="s1">anaconda</span><span class="se">\\</span><span class="s1">jupyter</span><span class="se">\\</span><span class="s1">readme.txt&#39;</span><span class="p">))</span>
-<span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="s1">&#39;G:</span><span class="se">\\</span><span class="s1">muggledy</span><span class="se">\\</span><span class="s1">anaconda</span><span class="se">\\</span><span class="s1">jupyter&#39;</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>True
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[15]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>True</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#21028;&#26029;&#26159;&#21542;&#26159;&#32477;&#23545;&#36335;&#24452;">&#21028;&#26029;&#26159;&#21542;&#26159;&#32477;&#23545;&#36335;&#24452;<a class="anchor-link" href="#&#21028;&#26029;&#26159;&#21542;&#26159;&#32477;&#23545;&#36335;&#24452;">&#182;</a></h2><p><code>isabs(path)</code>，该函数并不检查路径的存在性。在Unix上，这意味着它以斜杠开头，在Windows上则以驱动器号后接（反向）斜线开头</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isabs</span><span class="p">(</span><span class="s1">&#39;F:</span><span class="se">\\</span><span class="s1">dy&#39;</span><span class="p">)</span> <span class="c1">#这个路径并不存在</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[16]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>True</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#19978;&#27425;&#35775;&#38382;&#26102;&#38388;">&#19978;&#27425;&#35775;&#38382;&#26102;&#38388;<a class="anchor-link" href="#&#19978;&#27425;&#35775;&#38382;&#26102;&#38388;">&#182;</a></h2><p><code>getatime(path)</code>获取上次访问（access）文件/夹路径的时间，返回自纪元1970年开始的秒数（时间戳），一个浮点数，使用<code>time.ctime()</code>将其转换为年月日时间</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[22]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getatime</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span><span class="s1">&#39;os模块.ipynb&#39;</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">time</span><span class="o">.</span><span class="n">ctime</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>1645533607.2807572 Tue Feb 22 20:40:07 2022
+<pre>Using matplotlib backend: Qt5Agg
 </pre>
 </div>
 </div>
@@ -12401,63 +11813,72 @@ G:\muggledy\anaconda\jupyter\Standard library\../readme.txt
 </div>
 
 </div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#19978;&#27425;&#20462;&#25913;&#26102;&#38388;">&#19978;&#27425;&#20462;&#25913;&#26102;&#38388;<a class="anchor-link" href="#&#19978;&#27425;&#20462;&#25913;&#26102;&#38388;">&#182;</a></h2><p><code>getmtime(path)</code>获取上次修改（modify）文件/夹路径的时间，返回值同上</p>
-
-</div>
-</div>
-</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getmtime</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">time</span><span class="o">.</span><span class="n">ctime</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 要求，使用matplotlib画出该树状图</span>
+<span class="n">treeinfo</span><span class="o">=</span><span class="p">{</span>
+    <span class="s1">&#39;tearRate&#39;</span><span class="p">:{</span>
+        <span class="s1">&#39;reduced&#39;</span><span class="p">:</span><span class="s1">&#39;no lenses&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;normal&#39;</span><span class="p">:{</span>
+            <span class="s1">&#39;astigmatic&#39;</span><span class="p">:{</span>
+                <span class="s1">&#39;yes&#39;</span><span class="p">:{</span>
+                    <span class="s1">&#39;prescript&#39;</span><span class="p">:{</span>
+                        <span class="s1">&#39;hyper&#39;</span><span class="p">:{</span>
+                            <span class="s1">&#39;age&#39;</span><span class="p">:{</span>
+                                <span class="s1">&#39;pre&#39;</span><span class="p">:</span><span class="s1">&#39;no lenses&#39;</span><span class="p">,</span>
+                                <span class="s1">&#39;presbyopic&#39;</span><span class="p">:</span><span class="s1">&#39;no lenses&#39;</span><span class="p">,</span>
+                                <span class="s1">&#39;young&#39;</span><span class="p">:</span><span class="s1">&#39;hard&#39;</span>
+                            <span class="p">}</span>
+                        <span class="p">},</span>
+                        <span class="s1">&#39;myope&#39;</span><span class="p">:</span><span class="s1">&#39;hard&#39;</span>
+                    <span class="p">}</span>
+                <span class="p">},</span>
+                <span class="s1">&#39;no&#39;</span><span class="p">:{</span>
+                    <span class="s1">&#39;age&#39;</span><span class="p">:{</span>
+                        <span class="s1">&#39;pre&#39;</span><span class="p">:</span><span class="s1">&#39;soft&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;presbyopic&#39;</span><span class="p">:{</span>
+                            <span class="s1">&#39;prescript&#39;</span><span class="p">:{</span>
+                                <span class="s1">&#39;hyper&#39;</span><span class="p">:</span><span class="s1">&#39;soft&#39;</span><span class="p">,</span>
+                                <span class="s1">&#39;myope&#39;</span><span class="p">:</span><span class="s1">&#39;no lenses&#39;</span>
+                            <span class="p">}</span>
+                        <span class="p">},</span>
+                        <span class="s1">&#39;young&#39;</span><span class="p">:</span><span class="s1">&#39;soft&#39;</span>
+                    <span class="p">}</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>1645533607.8085115 Tue Feb 22 20:40:07 2022
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#21019;&#24314;&#26102;&#38388;">&#21019;&#24314;&#26102;&#38388;<a class="anchor-link" href="#&#21019;&#24314;&#26102;&#38388;">&#182;</a></h2><p><code>getctime(path)</code>获取文件/夹路径的创建（create）时间</p>
-
-</div>
-</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[24]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">t</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getctime</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">time</span><span class="o">.</span><span class="n">ctime</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 打印版本</span>
+<span class="k">def</span> <span class="nf">detree</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span><span class="n">depth</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;调用时请勿修改depth参数&#39;&#39;&#39;</span>
+    <span class="n">treename</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">branches</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">tree</span><span class="p">[</span><span class="n">treename</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;      &#39;</span><span class="o">*</span><span class="n">depth</span><span class="o">+</span><span class="s1">&#39;♟&#39;</span><span class="p">,</span><span class="n">treename</span><span class="o">+</span><span class="s1">&#39;:&#39;</span><span class="p">)</span> <span class="c1"># 子树根</span>
+    <span class="k">for</span> <span class="n">branch</span> <span class="ow">in</span> <span class="n">branches</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;      &#39;</span><span class="o">*</span><span class="n">depth</span><span class="o">+</span><span class="s1">&#39;·&#39;</span><span class="p">,</span><span class="n">branch</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tree</span><span class="p">[</span><span class="n">treename</span><span class="p">][</span><span class="n">branch</span><span class="p">],</span><span class="nb">dict</span><span class="p">):</span> <span class="c1"># 子树，递归</span>
+            <span class="n">detree</span><span class="p">(</span><span class="n">tree</span><span class="p">[</span><span class="n">treename</span><span class="p">][</span><span class="n">branch</span><span class="p">],</span><span class="n">depth</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">pass</span>
+        <span class="k">else</span><span class="p">:</span> <span class="c1"># 叶子节点</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;      &#39;</span><span class="o">*</span><span class="p">(</span><span class="n">depth</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;♀&#39;</span><span class="p">,</span><span class="n">tree</span><span class="p">[</span><span class="n">treename</span><span class="p">][</span><span class="n">branch</span><span class="p">])</span>
+    
+<span class="n">detree</span><span class="p">(</span><span class="n">treeinfo</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -12474,7 +11895,35 @@ G:\muggledy\anaconda\jupyter\Standard library\../readme.txt
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>1545715818.7975712 Tue Dec 25 13:30:18 2018
+<pre>♟ tearRate:
+· reduced
+      ♀ no lenses
+· normal
+      ♟ astigmatic:
+      · yes
+            ♟ prescript:
+            · hyper
+                  ♟ age:
+                  · pre
+                        ♀ no lenses
+                  · presbyopic
+                        ♀ no lenses
+                  · young
+                        ♀ hard
+            · myope
+                  ♀ hard
+      · no
+            ♟ age:
+            · pre
+                  ♀ soft
+            · presbyopic
+                  ♟ prescript:
+                  · hyper
+                        ♀ soft
+                  · myope
+                        ♀ no lenses
+            · young
+                  ♀ soft
 </pre>
 </div>
 </div>
@@ -12482,287 +11931,32 @@ G:\muggledy\anaconda\jupyter\Standard library\../readme.txt
 </div>
 </div>
 
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#33719;&#21462;&#25991;&#20214;&#22823;&#23567;">&#33719;&#21462;&#25991;&#20214;&#22823;&#23567;<a class="anchor-link" href="#&#33719;&#21462;&#25991;&#20214;&#22823;&#23567;">&#182;</a></h2><p><code>os.path.getsize(path)</code>获取文件字节大小，<code>path</code>为文件路径</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[25]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getsize</span><span class="p">(</span><span class="s1">&#39;./os模块.ipynb&#39;</span><span class="p">)</span> <span class="c1">#当前文件字节大小</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[25]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>45340</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#26368;&#38271;&#20844;&#20849;&#23376;&#36335;&#24452;">&#26368;&#38271;&#20844;&#20849;&#23376;&#36335;&#24452;<a class="anchor-link" href="#&#26368;&#38271;&#20844;&#20849;&#23376;&#36335;&#24452;">&#182;</a></h2><p><code>commonpath(paths)</code>返回路径列表中全部路径的最长公共子路径，路径仅仅被当作字符串处理，非智能，另外如果<code>paths</code>为空或既包含绝对路径又包含相对路径，将引发<em>ValueError</em>。另一个函数<code>commonprefix(list)</code>返回列表中所有路径的最长路径前缀（逐个字符），如果列表为空，则返回空字符串。两者的区别是，<code>commonpath()</code>最终返回一个合法的路径字符串（当然前提是输入参数<code>paths</code>中的路径本身就是合法的）</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[26]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">l</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;D:</span><span class="se">\\</span><span class="s1">daiyang</span><span class="se">\\</span><span class="s1">muggle</span><span class="se">\\</span><span class="s1">&#39;</span><span class="p">,</span><span class="s1">&#39;D:</span><span class="se">\\</span><span class="s1">daiyang</span><span class="se">\\</span><span class="s1">miaosiyu</span><span class="se">\\</span><span class="s1">&#39;</span><span class="p">,</span><span class="s1">&#39;D:</span><span class="se">\\</span><span class="s1">daiyang</span><span class="se">\\</span><span class="s1">mnist</span><span class="se">\\</span><span class="s1">&#39;</span><span class="p">]</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">commonpath</span><span class="p">(</span><span class="n">l</span><span class="p">))</span>
-<span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">commonprefix</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>D:\daiyang
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[26]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>&#39;D:\\daiyang\\m&#39;</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#26816;&#26597;&#36335;&#24452;&#26159;&#21542;&#23384;&#22312;">&#26816;&#26597;&#36335;&#24452;&#26159;&#21542;&#23384;&#22312;<a class="anchor-link" href="#&#26816;&#26597;&#36335;&#24452;&#26159;&#21542;&#23384;&#22312;">&#182;</a></h2><p>如果路径存在或者指向一个打开的文件描述符，<code>exists(path)</code>返回True；如果<code>path</code>指向一个损坏了的符号链接（其实就是路径不存在的意思），则返回False。在某些平台上，如果未被授予权限对请求的文件执行<code>os.stat()</code>，即使路径真实存在，<code>exists()</code>函数也会返回False</p>
-
-</div>
-</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[27]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()))</span>
-<span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s1">&#39;F:</span><span class="se">\\</span><span class="s1">xxx.py&#39;</span><span class="p">)</span> <span class="c1">#不存在的文件</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>True
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[27]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>False</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="&#25991;&#20214;&#22841;&#25805;&#20316;[2]">&#25991;&#20214;&#22841;&#25805;&#20316;<sup>[2]</sup><a class="anchor-link" href="#&#25991;&#20214;&#22841;&#25805;&#20316;[2]">&#182;</a></h1>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>上一节主要是对路径字符串的操作，但是还没有涉及核心操作，譬如获取当前文件夹路径下的全部文件列表、切换当前路径、创建文件/文件夹路径（实际上就是创建文件以及创建文件夹）、移动文件、复制文件、删除文件等等</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#33719;&#21462;&#25991;&#20214;&#22841;&#36335;&#24452;&#19979;&#30340;&#25991;&#20214;&#21015;&#34920;">&#33719;&#21462;&#25991;&#20214;&#22841;&#36335;&#24452;&#19979;&#30340;&#25991;&#20214;&#21015;&#34920;<a class="anchor-link" href="#&#33719;&#21462;&#25991;&#20214;&#22841;&#36335;&#24452;&#19979;&#30340;&#25991;&#20214;&#21015;&#34920;">&#182;</a></h2><p><code>os.listdir(path='.')</code>，默认路径是当前路径，列表按任意顺序排列，并且不包括特殊条目<code>.</code>和<code>..</code>，尽管它们确实存在</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[28]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">()</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[28]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>[&#39;.ipynb_checkpoints&#39;,
- &#39;collections模块.ipynb&#39;,
- &#39;DB&#39;,
- &#39;functools模块.ipynb&#39;,
- &#39;heapq模块.ipynb&#39;,
- &#39;inspect模块.ipynb&#39;,
- &#39;itertools模块.ipynb&#39;,
- &#39;operator模块.ipynb&#39;,
- &#39;os模块.ipynb&#39;,
- &#39;time模块.ipynb&#39;,
- &#39;[Python标准库示例].(The.Python.Standard.Library.by.Example).Doug.Hellmann.文字版.pdf&#39;]</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#25991;&#20214;&#36941;&#21382;">&#25991;&#20214;&#36941;&#21382;<a class="anchor-link" href="#&#25991;&#20214;&#36941;&#21382;">&#182;</a></h2><p><code>os.walk(top[, topdown=True[, onerror=None[, followlinks=False]]])</code>方法通过在目录树中游走输出在目录中的文件名，向上或者向下，它是一个简单易用的文件、目录遍历器，可以帮助我们高效的处理文件、目录方面的事情。参数<code>top</code>是你所要遍历的文件夹路径。<code>topdown</code>，可选参数，为True则优先遍历top目录，否则优先遍历top的子目录，注意这是递归的过程，即这样的“优先”并不仅限于top目录。<code>onerror</code>，可选参数，需要一个callable对象，当walk发生异常时，会调用。<code>followlinks</code>，可选参数，如果为True，则会遍历目录下的快捷方式（linux下是软连接symbolic link）实际所指的目录，如果为False，则不会这么做<br>
-函数返回值是一个三元组<code>(dirpath, dirnames, filenames)</code>，dirpath，字符串，代表当前所在目录；dirnames，列表，包含了当前dirpath下所有文件夹的名字；filenames，列表，包含了当前dirpath下所有非文件夹文件的名字<br>
-举个例子，假设有如下目录结构：</p>
-
-<pre><code>E:\Test(Lab)\mypath&gt;tree /F
-卷 文档 的文件夹 PATH 列表
-卷序列号为 91F9-7786
-E:.
-│  file1.txt
-│
-└─child1
-    │  file2.txt
-    │
-    └─child2
-            file3.txt</code></pre>
-<p>则有：</p>
-<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">os</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">k</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()):</span>
-<span class="o">...</span>     <span class="k">print</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">k</span><span class="p">)</span>
-<span class="o">...</span>
-<span class="n">E</span><span class="p">:</span>\<span class="n">Test</span><span class="p">(</span><span class="n">Lab</span><span class="p">)</span>\<span class="n">mypath</span> <span class="p">[</span><span class="s1">&#39;child1&#39;</span><span class="p">]</span> <span class="p">[</span><span class="s1">&#39;file1.txt&#39;</span><span class="p">]</span>
-<span class="n">E</span><span class="p">:</span>\<span class="n">Test</span><span class="p">(</span><span class="n">Lab</span><span class="p">)</span>\<span class="n">mypath</span>\<span class="n">child1</span> <span class="p">[</span><span class="s1">&#39;child2&#39;</span><span class="p">]</span> <span class="p">[</span><span class="s1">&#39;file2.txt&#39;</span><span class="p">]</span>
-<span class="n">E</span><span class="p">:</span>\<span class="n">Test</span><span class="p">(</span><span class="n">Lab</span><span class="p">)</span>\<span class="n">mypath</span>\<span class="n">child1</span>\<span class="n">child2</span> <span class="p">[]</span> <span class="p">[</span><span class="s1">&#39;file3.txt&#39;</span><span class="p">]</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="&#33719;&#21462;&#25351;&#23450;&#36335;&#24452;&#19979;&#20840;&#37096;&#25991;&#20214;">&#33719;&#21462;&#25351;&#23450;&#36335;&#24452;&#19979;&#20840;&#37096;&#25991;&#20214;<a class="anchor-link" href="#&#33719;&#21462;&#25351;&#23450;&#36335;&#24452;&#19979;&#20840;&#37096;&#25991;&#20214;">&#182;</a></h3><p>方式一，<code>listdir()</code>只能列举出文件夹路径下的所有文件名，但是不包括子文件夹下的文件，所以需要运用递归来遍历得到全部文件</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[29]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">dir_files</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;打印文件夹路径下的所有文件&#39;&#39;&#39;</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39; 📂 &#39;</span><span class="o">+</span><span class="n">path</span><span class="o">+</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">&#39;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">recursion_printing</span><span class="p">(</span><span class="n">path</span><span class="p">,</span><span class="n">depth</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span> <span class="c1"># depth请不要做任何修改，其表示的意思是：当前递归的深度</span>
-        <span class="k">for</span> <span class="n">eachFile</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
-            <span class="n">each_filePath</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span><span class="n">eachFile</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">each_filePath</span><span class="p">):</span> <span class="c1"># 文件夹</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;    &#39;</span><span class="o">*</span><span class="n">depth</span><span class="o">+</span><span class="s1">&#39; 📂 &#39;</span><span class="o">+</span><span class="n">each_filePath</span><span class="o">+</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">&#39;</span><span class="p">)</span> <span class="c1"># 符号来源于Unicode字符百科</span>
-                <span class="n">recursion_printing</span><span class="p">(</span><span class="n">each_filePath</span><span class="p">,</span><span class="n">depth</span><span class="o">=</span><span class="n">depth</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span> <span class="c1"># 文件</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;    &#39;</span><span class="o">*</span><span class="n">depth</span><span class="o">+</span><span class="s1">&#39; 🖹 &#39;</span><span class="o">+</span><span class="n">eachFile</span><span class="p">)</span>
-    <span class="n">recursion_printing</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># 更新版本</span>
+<span class="k">def</span> <span class="nf">detree</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span><span class="n">prefix</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;调用时请勿修改prefix参数&#39;&#39;&#39;</span>
+    <span class="n">treename</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">branches</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">tree</span><span class="p">[</span><span class="n">treename</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="k">if</span> <span class="n">prefix</span><span class="o">!=</span><span class="s1">&#39;&#39;</span><span class="p">:</span>
+        <span class="n">t</span><span class="o">=</span><span class="s1">&#39;|&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">prefix</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;|&#39;</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">+</span><span class="s1">&#39;|&#39;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">t</span><span class="o">+</span><span class="s1">&#39;  ↳ ♟&#39;</span><span class="p">,</span><span class="n">treename</span><span class="o">+</span><span class="s1">&#39;:&#39;</span><span class="p">)</span> <span class="c1"># 第一级子树根</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">prefix</span><span class="o">+</span><span class="s1">&#39;♟&#39;</span><span class="p">,</span><span class="n">treename</span><span class="o">+</span><span class="s1">&#39;:&#39;</span><span class="p">)</span> <span class="c1"># 子树根</span>
+    <span class="k">for</span> <span class="n">branch</span> <span class="ow">in</span> <span class="n">branches</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">prefix</span><span class="o">+</span><span class="s1">&#39;|-&#39;</span><span class="p">,</span><span class="n">branch</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tree</span><span class="p">[</span><span class="n">treename</span><span class="p">][</span><span class="n">branch</span><span class="p">],</span><span class="nb">dict</span><span class="p">):</span> <span class="c1"># 子树，递归</span>
+            <span class="n">detree</span><span class="p">(</span><span class="n">tree</span><span class="p">[</span><span class="n">treename</span><span class="p">][</span><span class="n">branch</span><span class="p">],</span><span class="n">prefix</span><span class="o">+</span><span class="s1">&#39;|    &#39;</span><span class="p">)</span>
+            <span class="k">pass</span>
+        <span class="k">else</span><span class="p">:</span> <span class="c1"># 叶子节点</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">prefix</span><span class="o">+</span><span class="s1">&#39;|  ↳ ♀&#39;</span><span class="p">,</span><span class="n">tree</span><span class="p">[</span><span class="n">treename</span><span class="p">][</span><span class="n">branch</span><span class="p">])</span>
     
-<span class="n">dir_files</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span>
+<span class="n">detree</span><span class="p">(</span><span class="n">treeinfo</span><span class="p">)</span>
+<span class="c1"># 另见 ./DB/demo/dostree.py</span>
 </pre></div>
 
 </div>
@@ -12779,34 +11973,35 @@ E:.
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre> 📂 G:\muggledy\anaconda\jupyter\Standard library\
-     📂 G:\muggledy\anaconda\jupyter\Standard library\.ipynb_checkpoints\
-         🖹 collections模块-checkpoint.ipynb
-         🖹 functools模块-checkpoint.ipynb
-         🖹 heapq模块-checkpoint.ipynb
-         🖹 inspect模块-checkpoint.ipynb
-         🖹 itertools模块-checkpoint.ipynb
-         🖹 operator模块-checkpoint.ipynb
-         🖹 os模块-checkpoint.ipynb
-         🖹 time模块-checkpoint.ipynb
-     🖹 collections模块.ipynb
-     📂 G:\muggledy\anaconda\jupyter\Standard library\DB\
-         📂 G:\muggledy\anaconda\jupyter\Standard library\DB\data\
-             🖹 mountains.jpg
-         📂 G:\muggledy\anaconda\jupyter\Standard library\DB\image\
-             🖹 1.PNG
-             🖹 2.PNG
-             🖹 3.PNG
-             🖹 4.PNG
-             🖹 5.png
-     🖹 functools模块.ipynb
-     🖹 heapq模块.ipynb
-     🖹 inspect模块.ipynb
-     🖹 itertools模块.ipynb
-     🖹 operator模块.ipynb
-     🖹 os模块.ipynb
-     🖹 time模块.ipynb
-     🖹 [Python标准库示例].(The.Python.Standard.Library.by.Example).Doug.Hellmann.文字版.pdf
+<pre>♟ tearRate:
+|- reduced
+|  ↳ ♀ no lenses
+|- normal
+|  ↳ ♟ astigmatic:
+|    |- yes
+|    |  ↳ ♟ prescript:
+|    |    |- hyper
+|    |    |  ↳ ♟ age:
+|    |    |    |- pre
+|    |    |    |  ↳ ♀ no lenses
+|    |    |    |- presbyopic
+|    |    |    |  ↳ ♀ no lenses
+|    |    |    |- young
+|    |    |    |  ↳ ♀ hard
+|    |    |- myope
+|    |    |  ↳ ♀ hard
+|    |- no
+|    |  ↳ ♟ age:
+|    |    |- pre
+|    |    |  ↳ ♀ soft
+|    |    |- presbyopic
+|    |    |  ↳ ♟ prescript:
+|    |    |    |- hyper
+|    |    |    |  ↳ ♀ soft
+|    |    |    |- myope
+|    |    |    |  ↳ ♀ no lenses
+|    |    |- young
+|    |    |  ↳ ♀ soft
 </pre>
 </div>
 </div>
@@ -12819,49 +12014,180 @@ E:.
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>方式二，使用<code>walk()</code>遍历文件夹下的所有文件，这种方式美观一点，文件一堆，文件夹一堆，不像上面，文件、文件夹互相夹杂出现</p>
+<p>给定整棵树的根节点坐标（0,0）以及画布的宽高，经过一次遍历（靠，我经过了两次遍历），我需要计算出每一个节点确切的位置坐标，最终的效果是这棵树应能在给定的画布中充分伸展，已知根节点总是在画布的正中央的垂直轴线的顶处，且所有节点都满足该原则：其位于所在子树全部叶子节点的中部轴线上</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[30]:</div>
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">dir_files</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
-    <span class="n">delay</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">lock1</span><span class="o">=</span><span class="kc">False</span><span class="p">;</span> <span class="n">count1</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">count2</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">lock2</span><span class="o">=</span><span class="kc">False</span>
-    <span class="k">for</span> <span class="n">index</span><span class="p">,</span><span class="n">retval</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">path</span><span class="p">)):</span>
-        <span class="c1"># retval[0],retval[1],retval[2] --&gt; rootPath,dirs,files</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;    &#39;</span><span class="o">*</span><span class="p">(</span><span class="n">index</span><span class="o">-</span><span class="n">delay</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39; 📂 &#39;</span><span class="o">+</span><span class="n">retval</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">&#39;</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">retval</span><span class="p">[</span><span class="mi">2</span><span class="p">]:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;    &#39;</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">index</span><span class="o">-</span><span class="n">delay</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39; 🖹 &#39;</span><span class="o">+</span><span class="n">f</span><span class="p">)</span>
-        <span class="c1"># 注释1</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">lock1</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">lock2</span><span class="p">:</span> <span class="c1"># 初始状态，可以进入</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">retval</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">:</span> <span class="c1"># 若子目录长度大于1，才真正进入，并“关门”，将区域1锁存；设置区域1和2的长度，一经修改，直到走出区域2之前不得修改</span>
-                <span class="n">lock1</span><span class="o">=</span><span class="kc">True</span>
-                <span class="n">count1</span><span class="o">=</span><span class="mi">1</span>
-                <span class="n">count2</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">retval</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">-</span><span class="mi">1</span>
-        <span class="k">elif</span> <span class="n">lock1</span><span class="p">:</span> <span class="c1"># 区域1锁住时。说明正处于区域1，即应对count1计数</span>
-            <span class="n">count1</span><span class="o">-=</span><span class="mi">1</span>
-        <span class="k">if</span> <span class="n">count1</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span> <span class="c1"># 当区域1计数完毕，退出区域1，进入区域2，打开lock1（开锁，置为False），关闭lock2</span>
-            <span class="n">lock1</span><span class="o">=</span><span class="kc">False</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">lock1</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">count2</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span> <span class="c1"># 如果不在区域1，并且count2还不等于0，说明正处于区域2，对其计数并置lock2为True，修改delay</span>
-                <span class="n">lock2</span><span class="o">=</span><span class="kc">True</span>
-                <span class="n">count2</span><span class="o">-=</span><span class="mi">1</span>
-                <span class="n">delay</span><span class="o">+=</span><span class="mi">1</span>
-            <span class="k">else</span><span class="p">:</span> <span class="c1"># 退出区域2</span>
-                <span class="n">lock2</span><span class="o">=</span><span class="kc">False</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">analysetree</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span><span class="n">treeanalysis</span><span class="p">,</span><span class="n">depth</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">ifprint</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">father</span><span class="o">=</span><span class="s1">&#39;ROOT&#39;</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;函数返回全部叶子节点数量，调用时候，需在外部定义一个空字典传给参数treeanalysis，分析的结果将存于此处，</span>
+<span class="sd">    其为一个同结构的树，只不过多了一些字段信息：每个节点都附加了__leaves字段，是为以该节点为根的子树的叶子数</span>
+<span class="sd">    量，如果该节点本身为叶子节点，那么其__leaves的值就是1。depth参数请不要修改它，默认为0，它将追踪当前的深</span>
+<span class="sd">    度。参数ifprint用来控制是否在遍历过程中即时打印当前节点的信息，默认不打印。father参数用于记录当前节点的</span>
+<span class="sd">    父亲节点，它出现于打印的信息中，若修改father参数，只会改变整棵树的根节点的父亲，其实际并不存在，可以随意</span>
+<span class="sd">    命名。我稍微修改了点，使得函数同时返回树的最大深度，因而现在函数的返回值是一个二元组：(叶子数,最大深度)&#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="n">ifprint</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;depth:&#39;</span><span class="p">,</span><span class="n">depth</span><span class="p">,</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">#</span><span class="se">\n</span><span class="s1">father:&#39;</span><span class="p">,</span><span class="n">father</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span><span class="nb">dict</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">ifprint</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;leaf node:&#39;</span><span class="p">,</span><span class="n">tree</span><span class="p">,</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">#&#39;</span><span class="p">)</span>
+        <span class="n">treeanalysis</span><span class="p">[</span><span class="s1">&#39;__leaves&#39;</span><span class="p">]</span><span class="o">=</span><span class="mi">1</span>
+        <span class="n">treeanalysis</span><span class="p">[</span><span class="s1">&#39;__leave&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">tree</span> <span class="c1"># 记录叶子节点的名字</span>
+        <span class="k">return</span> <span class="mi">1</span><span class="p">,</span><span class="n">depth</span>
+    <span class="n">treename</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># 作为所在子树的根节点名</span>
+    <span class="n">branches</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">tree</span><span class="p">[</span><span class="n">treename</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="c1"># 全部分支名，分支将到达子节点</span>
+    
+    <span class="n">treeanalysis</span><span class="p">[</span><span class="n">treename</span><span class="p">]</span><span class="o">=</span><span class="p">{}</span>
+    
+    <span class="n">leaves</span><span class="o">=</span><span class="mi">0</span>
+    <span class="n">maxdepth</span><span class="o">=</span><span class="p">[]</span>
+    
+    <span class="k">if</span> <span class="n">ifprint</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;root node of current subtree:&#39;</span><span class="p">,</span><span class="n">treename</span><span class="p">,</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">branches of the root node:&#39;</span><span class="p">,</span><span class="n">branches</span><span class="p">,</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">branch info:&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">branch</span> <span class="ow">in</span> <span class="n">branches</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;    &#39;</span><span class="p">,</span><span class="n">branch</span><span class="p">,</span><span class="s1">&#39;:&#39;</span><span class="p">,</span><span class="n">tree</span><span class="p">[</span><span class="n">treename</span><span class="p">][</span><span class="n">branch</span><span class="p">])</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;#&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">branch</span> <span class="ow">in</span> <span class="n">branches</span><span class="p">:</span>
+        <span class="n">treeanalysis</span><span class="p">[</span><span class="n">treename</span><span class="p">][</span><span class="n">branch</span><span class="p">]</span><span class="o">=</span><span class="p">{}</span>
+        <span class="n">t</span><span class="o">=</span><span class="n">analysetree</span><span class="p">(</span><span class="n">tree</span><span class="p">[</span><span class="n">treename</span><span class="p">][</span><span class="n">branch</span><span class="p">],</span><span class="n">treeanalysis</span><span class="p">[</span><span class="n">treename</span><span class="p">][</span><span class="n">branch</span><span class="p">],</span><span class="n">depth</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">ifprint</span><span class="p">,</span><span class="n">treename</span><span class="p">)</span>
+        <span class="n">leaves</span><span class="o">+=</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">maxdepth</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        
+    <span class="n">treeanalysis</span><span class="p">[</span><span class="n">treename</span><span class="p">][</span><span class="s1">&#39;__leaves&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">leaves</span>
+    
+    <span class="k">return</span> <span class="n">leaves</span><span class="p">,</span><span class="nb">max</span><span class="p">(</span><span class="n">maxdepth</span><span class="p">)</span>
+
+<span class="c1">#treeinfo={&#39;no surfacing&#39;:{0:&#39;no&#39;,1:{&#39;flipper&#39;:{0:&#39;no&#39;,1:&#39;yes&#39;}}}} # test</span>
+<span class="n">treeanalysis</span><span class="o">=</span><span class="p">{}</span>
+<span class="n">ret</span><span class="o">=</span><span class="n">analysetree</span><span class="p">(</span><span class="n">treeinfo</span><span class="p">,</span><span class="n">treeanalysis</span><span class="p">,</span><span class="n">ifprint</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;leaves of the whole tree:&#39;</span><span class="p">,</span><span class="n">ret</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;depth of the whole tree:&#39;</span><span class="p">,</span><span class="n">ret</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">treeanalysis</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>leaves of the whole tree: 9
+depth of the whole tree: 4
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[18]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{&#39;tearRate&#39;: {&#39;__leaves&#39;: 9,
+  &#39;normal&#39;: {&#39;astigmatic&#39;: {&#39;__leaves&#39;: 8,
+    &#39;no&#39;: {&#39;age&#39;: {&#39;__leaves&#39;: 4,
+      &#39;pre&#39;: {&#39;__leave&#39;: &#39;soft&#39;, &#39;__leaves&#39;: 1},
+      &#39;presbyopic&#39;: {&#39;prescript&#39;: {&#39;__leaves&#39;: 2,
+        &#39;hyper&#39;: {&#39;__leave&#39;: &#39;soft&#39;, &#39;__leaves&#39;: 1},
+        &#39;myope&#39;: {&#39;__leave&#39;: &#39;no lenses&#39;, &#39;__leaves&#39;: 1}}},
+      &#39;young&#39;: {&#39;__leave&#39;: &#39;soft&#39;, &#39;__leaves&#39;: 1}}},
+    &#39;yes&#39;: {&#39;prescript&#39;: {&#39;__leaves&#39;: 4,
+      &#39;hyper&#39;: {&#39;age&#39;: {&#39;__leaves&#39;: 3,
+        &#39;pre&#39;: {&#39;__leave&#39;: &#39;no lenses&#39;, &#39;__leaves&#39;: 1},
+        &#39;presbyopic&#39;: {&#39;__leave&#39;: &#39;no lenses&#39;, &#39;__leaves&#39;: 1},
+        &#39;young&#39;: {&#39;__leave&#39;: &#39;hard&#39;, &#39;__leaves&#39;: 1}}},
+      &#39;myope&#39;: {&#39;__leave&#39;: &#39;hard&#39;, &#39;__leaves&#39;: 1}}}}},
+  &#39;reduced&#39;: {&#39;__leave&#39;: &#39;no lenses&#39;, &#39;__leaves&#39;: 1}}}</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">calcposition</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span><span class="n">depth</span><span class="p">,</span><span class="n">wh</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)):</span>
+    <span class="sd">&#39;&#39;&#39;参数tree是一棵“临时树”，其为analysetree函数的中间处理结果（参数treeanalysis）。总是以(0,0)为整棵树根节点的</span>
+<span class="sd">    位置坐标，wh参数记录了画布的宽度和高度，我们的树将尽量伸展于整个画布空间，treeposanalysis记录函数的处理</span>
+<span class="sd">    结果，使用同analysetree的treeanalysis参数，其在函数外部定义，以一个空的字典传入，它将记录树中每个节点的位置坐标</span>
+<span class="sd">    ，存储在字段__pos中&#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span><span class="n">treeposanalysis</span><span class="p">,</span><span class="n">currdepth</span><span class="p">,</span><span class="n">xbounds</span><span class="p">):</span> <span class="c1"># 这是有史以来我最TM痛苦的编程经历，太恐怖了，鬼知道我是怎么过来的，满脑子浆糊了已经。。</span>
+        <span class="k">if</span> <span class="s1">&#39;__leave&#39;</span> <span class="ow">in</span> <span class="n">tree</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span> <span class="c1"># 叶子节点</span>
+            <span class="n">treeposanalysis</span><span class="p">[</span><span class="s1">&#39;__leave&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">tree</span><span class="p">[</span><span class="s1">&#39;__leave&#39;</span><span class="p">]</span>
+            <span class="k">return</span>
+        <span class="n">treename</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">branches</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">tree</span><span class="p">[</span><span class="n">treename</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="n">leavenums</span><span class="o">=</span><span class="n">tree</span><span class="p">[</span><span class="n">treename</span><span class="p">][</span><span class="s1">&#39;__leaves&#39;</span><span class="p">]</span>
+        <span class="n">y</span><span class="o">=</span><span class="n">vincrease</span><span class="o">*</span><span class="n">currdepth</span>
+        <span class="n">subleavenums</span><span class="o">=</span><span class="p">[]</span>
+        <span class="n">subleavenames</span><span class="o">=</span><span class="p">[]</span>
+        <span class="n">subleavexbounds</span><span class="o">=</span><span class="p">[]</span>
+        <span class="n">subleavebranchs</span><span class="o">=</span><span class="p">[]</span>
+        <span class="n">treeposanalysis</span><span class="p">[</span><span class="n">treename</span><span class="p">]</span><span class="o">=</span><span class="p">{}</span>
+        <span class="k">for</span> <span class="n">branch</span> <span class="ow">in</span> <span class="n">branches</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">branch</span><span class="o">!=</span><span class="s1">&#39;__leaves&#39;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">tree</span><span class="p">[</span><span class="n">treename</span><span class="p">][</span><span class="n">branch</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;__leave&#39;</span><span class="p">)</span><span class="o">!=</span><span class="kc">None</span><span class="p">:</span> <span class="c1"># 叶子子节点</span>
+                    <span class="n">subleavenums</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tree</span><span class="p">[</span><span class="n">treename</span><span class="p">][</span><span class="n">branch</span><span class="p">][</span><span class="s1">&#39;__leaves&#39;</span><span class="p">])</span>
+                    <span class="n">subleavenames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tree</span><span class="p">[</span><span class="n">treename</span><span class="p">][</span><span class="n">branch</span><span class="p">][</span><span class="s1">&#39;__leave&#39;</span><span class="p">])</span>
+                <span class="k">else</span><span class="p">:</span> <span class="c1"># 非叶子子节点</span>
+                    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">tree</span><span class="p">[</span><span class="n">treename</span><span class="p">][</span><span class="n">branch</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                        <span class="n">subleavenums</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tree</span><span class="p">[</span><span class="n">treename</span><span class="p">][</span><span class="n">branch</span><span class="p">][</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;__leaves&#39;</span><span class="p">])</span>
+                        <span class="n">subleavenames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">tree</span><span class="p">[</span><span class="n">treename</span><span class="p">][</span><span class="n">branch</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="n">subleavebranchs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">branch</span><span class="p">)</span>
+                <span class="n">treeposanalysis</span><span class="p">[</span><span class="n">treename</span><span class="p">][</span><span class="n">branch</span><span class="p">]</span><span class="o">=</span><span class="p">{}</span>
                 
-<span class="n">dir_files</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span>
-<span class="c1">#注释1（由于年代久远，我自己都看不懂，也不想看了。。）</span>
-<span class="c1">#为了输出缩进美观，下面将判断是否对delay进行加一操作。首先我们要知道os.walk()返回的是一个迭代器，迭代器的每一个元素都是path目录下的一个子（孙）目录，</span>
-<span class="c1">#对于同一目录下的多个子目录（大于1），只有第一个正常缩进（较上次即父目录的缩进数量增一），对于第二个第三个等其余子目录，缩进应与第一个子目录等同，</span>
-<span class="c1">#即无需再增一，但是增一操作已经做过（enumerate返回的index索引从0自增）因此这时应该减一，减一的数量累积由delay保存，如果子目录数量为n(n&gt;=2)，则将其分</span>
-<span class="c1">#成两段，第一段包括一个子目录，第二段包括剩下的所有子目录；当处于第二段的时候对delay增一，因此需分别对两段区域进行count计数，count1=1；count2=n-1；</span>
-<span class="c1">#当处于第一段，只对count1进行减一操作（当等于0时计数完毕），当处于第二段的时候只对count2计数，很显然需要设置两把锁，lock1锁区域1，lock2锁区域2，由于</span>
-<span class="c1">#区域2位于区域1之后，所以只有在区域1计数完毕之后才能打开锁2进入区域2</span>
+        <span class="c1">#print(currdepth,leavenums,subleavenums,subleavenames)</span>
+        <span class="n">treeposanalysis</span><span class="p">[</span><span class="n">treename</span><span class="p">][</span><span class="s1">&#39;__pos&#39;</span><span class="p">]</span><span class="o">=</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">xbounds</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+        <span class="n">scale</span><span class="o">=</span><span class="p">(</span><span class="n">xbounds</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">xbounds</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">/</span><span class="n">leavenums</span>
+        <span class="n">start</span><span class="o">=</span><span class="n">xbounds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">e</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">subleavenames</span><span class="p">):</span>
+            <span class="n">t</span><span class="o">=</span><span class="n">start</span><span class="o">+</span><span class="n">subleavenums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">scale</span>
+            <span class="n">subleavexbounds</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">start</span><span class="p">,</span><span class="n">t</span><span class="p">))</span>
+            <span class="n">start</span><span class="o">=</span><span class="n">t</span>
+        <span class="n">temp</span><span class="o">=</span><span class="p">{}</span> <span class="c1"># 当前节点的子节点的xbounds集合</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">k</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">subleavenames</span><span class="p">,</span><span class="n">subleavexbounds</span><span class="p">,</span><span class="n">subleavebranchs</span><span class="p">):</span>
+            <span class="n">temp</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span><span class="o">=</span><span class="n">j</span>
+        <span class="c1">#print(y+vincrease,temp) # y+vincrease的值是当前节点的y轴坐标</span>
+        
+        <span class="k">for</span> <span class="n">branch</span> <span class="ow">in</span> <span class="n">branches</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">branch</span><span class="o">!=</span><span class="s1">&#39;__leaves&#39;</span><span class="p">:</span>
+                <span class="n">treeposanalysis</span><span class="p">[</span><span class="n">treename</span><span class="p">][</span><span class="n">branch</span><span class="p">]</span><span class="o">=</span><span class="p">{}</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tree</span><span class="p">[</span><span class="n">treename</span><span class="p">][</span><span class="n">branch</span><span class="p">])</span><span class="o">==</span><span class="mi">2</span><span class="p">:</span>
+                    <span class="n">name</span><span class="o">=</span><span class="n">tree</span><span class="p">[</span><span class="n">treename</span><span class="p">][</span><span class="n">branch</span><span class="p">][</span><span class="s1">&#39;__leave&#39;</span><span class="p">]</span>
+                    <span class="n">treeposanalysis</span><span class="p">[</span><span class="n">treename</span><span class="p">][</span><span class="n">branch</span><span class="p">][</span><span class="s1">&#39;__pos&#39;</span><span class="p">]</span><span class="o">=</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">temp</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">branch</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)])</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="n">y</span><span class="o">+</span><span class="n">vincrease</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">name</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">tree</span><span class="p">[</span><span class="n">treename</span><span class="p">][</span><span class="n">branch</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+                    
+                <span class="n">f</span><span class="p">(</span><span class="n">tree</span><span class="p">[</span><span class="n">treename</span><span class="p">][</span><span class="n">branch</span><span class="p">],</span><span class="n">treeposanalysis</span><span class="p">[</span><span class="n">treename</span><span class="p">][</span><span class="n">branch</span><span class="p">],</span><span class="n">currdepth</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">temp</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">branch</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)])</span>
+                
+    <span class="n">vincrease</span><span class="o">=-</span><span class="n">wh</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="n">depth</span> <span class="c1"># 垂直增距</span>
+    <span class="n">treeposanalysis</span><span class="o">=</span><span class="p">{}</span>
+    <span class="n">f</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span><span class="n">treeposanalysis</span><span class="p">,</span><span class="mi">0</span><span class="p">,(</span><span class="mi">0</span><span class="o">-</span><span class="n">wh</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="o">+</span><span class="n">wh</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">treeposanalysis</span>
+
+<span class="c1"># 写完了，基本上也忘记具体的过程了，递归真NM恶心。。</span>
+<span class="n">postree</span><span class="o">=</span><span class="n">calcposition</span><span class="p">(</span><span class="n">treeanalysis</span><span class="p">,</span><span class="n">ret</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">wh</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">postree</span>
 </pre></div>
 
 </div>
@@ -12874,159 +12200,30 @@ E:.
 
 <div class="output_area">
 
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre> 📂 G:\muggledy\anaconda\jupyter\Standard library\
-     🖹 collections模块.ipynb
-     🖹 functools模块.ipynb
-     🖹 heapq模块.ipynb
-     🖹 inspect模块.ipynb
-     🖹 itertools模块.ipynb
-     🖹 operator模块.ipynb
-     🖹 os模块.ipynb
-     🖹 time模块.ipynb
-     🖹 [Python标准库示例].(The.Python.Standard.Library.by.Example).Doug.Hellmann.文字版.pdf
-     📂 G:\muggledy\anaconda\jupyter\Standard library\.ipynb_checkpoints\
-         🖹 collections模块-checkpoint.ipynb
-         🖹 functools模块-checkpoint.ipynb
-         🖹 heapq模块-checkpoint.ipynb
-         🖹 inspect模块-checkpoint.ipynb
-         🖹 itertools模块-checkpoint.ipynb
-         🖹 operator模块-checkpoint.ipynb
-         🖹 os模块-checkpoint.ipynb
-         🖹 time模块-checkpoint.ipynb
-     📂 G:\muggledy\anaconda\jupyter\Standard library\DB\
-         📂 G:\muggledy\anaconda\jupyter\Standard library\DB\data\
-             🖹 mountains.jpg
-             📂 G:\muggledy\anaconda\jupyter\Standard library\DB\image\
-                 🖹 1.PNG
-                 🖹 2.PNG
-                 🖹 3.PNG
-                 🖹 4.PNG
-                 🖹 5.png
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#21019;&#24314;&#31354;&#25991;&#20214;">&#21019;&#24314;&#31354;&#25991;&#20214;<a class="anchor-link" href="#&#21019;&#24314;&#31354;&#25991;&#20214;">&#182;</a></h2><p><code>os.mknod(filename[, mode=0600[, device=0]])</code>方法用于创建一个指定文件名的文件系统节点，但请注意，在Windows上没有<code>mknod()</code>方法，要创建文件，请使用<code>open()</code>方法</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#21019;&#24314;&#25991;&#20214;&#22841;">&#21019;&#24314;&#25991;&#20214;&#22841;<a class="anchor-link" href="#&#21019;&#24314;&#25991;&#20214;&#22841;">&#182;</a></h2><p><code>os.mkdir(path, mode=0o777, *, dir_fd=None)</code>，如果文件夹（<code>path</code>参数，可以是绝对路径也可以是相对路径）已存在，将引发<em>FileExistsError</em>异常，另外待创建的文件夹所在目录必须事先存在，否则应该考虑使用<code>makedirs()</code>。<code>mode</code>设置文件夹权限，在某些系统中该参数被忽略，如果被忽略你应该使用<code>chmod()</code>来显式设置它。<code>dir_fd</code>参数如果不是None，则应该是<em>a file descriptor open to a directory</em>，此时<code>path</code>只能是相对路径，该参数是否支持，请使用<code>os.supports_dir_fd</code>查看</p>
-<div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="s1">&#39;newfolder&#39;</span><span class="p">)</span> <span class="c1">#在当前路径下创建名为newfolder的文件夹</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#21019;&#24314;&#20219;&#24847;&#28145;&#24230;&#30340;&#25991;&#20214;&#22841;">&#21019;&#24314;&#20219;&#24847;&#28145;&#24230;&#30340;&#25991;&#20214;&#22841;<a class="anchor-link" href="#&#21019;&#24314;&#20219;&#24847;&#28145;&#24230;&#30340;&#25991;&#20214;&#22841;">&#182;</a></h2><p><code>os.makedirs(name, mode=0o777, exist_ok=False)</code>，待创建文件夹的目录允许不存在，不论其深度，都创建它，于是同时创建了“中间级文件夹”（目标文件夹所赖以生存的父级目录文件夹）以及“叶子文件夹”（目标文件夹），<code>mode</code>参数用于设置叶子文件夹的权限。如果目标已存在，将引发<em>FileExistsError</em>异常，如果<code>exist_ok</code>参数为True，则不会抛异常</p>
-<div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span><span class="s1">&#39;daiyang&#39;</span><span class="p">,</span><span class="s1">&#39;miaosiyu&#39;</span><span class="p">,</span><span class="s1">&#39;newfolder&#39;</span><span class="p">))</span> <span class="c1">#创建了一个深度为3的文件夹</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#22797;&#21046;&#25991;&#20214;">&#22797;&#21046;&#25991;&#20214;<a class="anchor-link" href="#&#22797;&#21046;&#25991;&#20214;">&#182;</a></h2><p><code>shutil.copyfile(src_path, dst_path)</code>将源文件拷贝至目标文件（目标文件允许不存在，但是其所在目录必须存在，如果存在则覆盖），函数返回目标文件路径字符串</p>
-<div class="highlight"><pre><span></span><span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="s1">&#39;./file1.txt&#39;</span><span class="p">,</span><span class="s1">&#39;./folder/file2.txt&#39;</span><span class="p">)</span> <span class="c1">#file2.txt本身可以不存在，但是./folder/必须存在</span>
-</pre></div>
-<p>另一个<code>shutil.copy(src_path, dst_path)</code>功能一样（内部就是调用了<code>copyfile()</code>函数），唯一的区别是，目标文件路径允许是文件夹，此时目标文件名同源文件名，当然你也可以指定新名字，那就完全和<code>copyfile</code>一模一样了。如果不指定新名字，<code>copy()</code>完成的操作就是“复制+粘贴”，否则是“复制+粘贴+重命名”，因此我们只要记住<code>copy()</code>就行了，少记一个是一个</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#22797;&#21046;&#25991;&#20214;&#22841;">&#22797;&#21046;&#25991;&#20214;&#22841;<a class="anchor-link" href="#&#22797;&#21046;&#25991;&#20214;&#22841;">&#182;</a></h2><p>使用<code>shutil.copytree(src_dir, dst_dir)</code>，两个参数分别是源文件夹（路径）、目标文件夹（路径），将源文件夹中的一切内容复制到新的文件夹下，注意目标事先必须不存在，否则引发异常，而且也不必担心目标文件夹所处目录是否真的存在</p>
-<div class="highlight"><pre><span></span><span class="n">shutil</span><span class="o">.</span><span class="n">copytree</span><span class="p">(</span><span class="s1">&#39;./folder1&#39;</span><span class="p">,</span><span class="s1">&#39;./haha/folder1_backup&#39;</span><span class="p">)</span> <span class="c1">#备份源文件夹folder1下的内容至新的文件夹folder1_backup下，而且./haha/事先也不存在，它会被自动创建，无需担心</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#37325;&#21629;&#21517;&#25991;&#20214;/&#25991;&#20214;&#22841;">&#37325;&#21629;&#21517;&#25991;&#20214;/&#25991;&#20214;&#22841;<a class="anchor-link" href="#&#37325;&#21629;&#21517;&#25991;&#20214;/&#25991;&#20214;&#22841;">&#182;</a></h2><p><code>os.rename(src, dst)</code>用于重命名文件或文件夹</p>
-<div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s1">&#39;./haha&#39;</span><span class="p">,</span><span class="s1">&#39;./hello&#39;</span><span class="p">)</span> <span class="c1">#这个示例接着上面而来，将文件夹名称从&#39;haha&#39;改为&#39;hello&#39;</span>
-<span class="n">os</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s1">&#39;./file.txt&#39;</span><span class="p">,</span><span class="s1">&#39;./newfile.txt&#39;</span><span class="p">)</span> <span class="c1">#将文件file.txt名称改为newfile.txt</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#31227;&#21160;&#25991;&#20214;/&#25991;&#20214;&#22841;">&#31227;&#21160;&#25991;&#20214;/&#25991;&#20214;&#22841;<a class="anchor-link" href="#&#31227;&#21160;&#25991;&#20214;/&#25991;&#20214;&#22841;">&#182;</a></h2><p><code>shutil.move(src, dst)</code>将一个文件或文件夹移动到另一个位置。移动文件夹：如果目标文件夹（一个路径，路径就是“位置”）已经存在，则将源文件夹整个移动到目标位置下，譬如<code>shutil.move('./dir1','./dir2')</code>，其中<code>./dir2</code>是已经存在的，操作结果就是，在<code>./dir2</code>下面出现了名为<code>dir1</code>的文件夹；如果目标文件夹并不存在，不管是一层不存在还是很多层不存在，无所谓，但我们只考虑一层不存在的情况，这表示用户希望移动之后，旧的文件夹名称能变成这个新的文件夹名称（也就是这个不存在的文件夹名称），譬如：<code>shutil.move('./dir1','./dir2/newdir')</code>，其中<code>./dir2/newdir</code>文件夹并不存在，操作结果就是源文件夹<code>dir1</code>下面的一切内容都移动到了新的文件夹<code>./dir2/newdir/</code>下面，其实就相当于这几个步骤：复制文件夹<code>dir1</code>，粘贴到<code>./dir2/</code>下面，重命名<code>./dir2/dir1</code>为<code>./dir2/newdir</code>。移动文件：类似于<code>shutil.copy()</code>函数，目标可以是文件也可以是文件夹，前者表示移动之后重命名（目标文件所在目录必须事先存在，目标文件本身可以存在也可以不存在，如果存在，则其将被覆盖），后者单纯就是移动，移动之后的文件名不变（目标文件夹必须事先存在）</p>
-<div class="highlight"><pre><span></span><span class="n">shutil</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="s1">&#39;./file1.txt&#39;</span><span class="p">,</span><span class="s1">&#39;./folder&#39;</span><span class="p">)</span> <span class="c1">#将文件file1.txt移动到文件夹folder之下，完成后在folder下你就会看到file1.txt文件，注意./folder必须事先存在</span>
-<span class="n">shutil</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="s1">&#39;./file2.txt&#39;</span><span class="p">,</span><span class="s1">&#39;./folder/xxx.md&#39;</span><span class="p">)</span> <span class="c1">#将文件file2.txt移动到文件夹folder之下，然后再重命名为xxx.md，完成后你会在./folder之下看到文件xxx.md，里面的内容就是旧file2.txt中的内容</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#20999;&#25442;&#36335;&#24452;">&#20999;&#25442;&#36335;&#24452;<a class="anchor-link" href="#&#20999;&#25442;&#36335;&#24452;">&#182;</a></h2><p><code>os.chdir(path)</code>切换当前工作路径，相当于命令行下的<code>cd</code>操作</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[32]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="s1">&#39;E://&#39;</span><span class="p">)</span>
-<span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[32]:</div>
+<div class="prompt output_prompt">Out[19]:</div>
 
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&#39;E:\\&#39;</pre>
+<pre>{&#39;tearRate&#39;: {&#39;__pos&#39;: (0.0, -0.0),
+  &#39;normal&#39;: {&#39;astigmatic&#39;: {&#39;__pos&#39;: (0.11111111111111105, -0.5),
+    &#39;no&#39;: {&#39;age&#39;: {&#39;__pos&#39;: (0.5555555555555555, -1.0),
+      &#39;pre&#39;: {&#39;__leave&#39;: &#39;soft&#39;, &#39;__pos&#39;: (0.22222222222222215, -1.5)},
+      &#39;presbyopic&#39;: {&#39;prescript&#39;: {&#39;__pos&#39;: (0.5555555555555555, -1.5),
+        &#39;hyper&#39;: {&#39;__leave&#39;: &#39;soft&#39;, &#39;__pos&#39;: (0.44444444444444436, -2.0)},
+        &#39;myope&#39;: {&#39;__leave&#39;: &#39;no lenses&#39;,
+         &#39;__pos&#39;: (0.6666666666666665, -2.0)}}},
+      &#39;young&#39;: {&#39;__leave&#39;: &#39;soft&#39;, &#39;__pos&#39;: (0.8888888888888888, -1.5)}}},
+    &#39;yes&#39;: {&#39;prescript&#39;: {&#39;__pos&#39;: (-0.33333333333333337, -1.0),
+      &#39;hyper&#39;: {&#39;age&#39;: {&#39;__pos&#39;: (-0.4444444444444445, -1.5),
+        &#39;pre&#39;: {&#39;__leave&#39;: &#39;no lenses&#39;, &#39;__pos&#39;: (-0.6666666666666667, -2.0)},
+        &#39;presbyopic&#39;: {&#39;__leave&#39;: &#39;no lenses&#39;,
+         &#39;__pos&#39;: (-0.4444444444444445, -2.0)},
+        &#39;young&#39;: {&#39;__leave&#39;: &#39;hard&#39;, &#39;__pos&#39;: (-0.22222222222222227, -2.0)}}},
+      &#39;myope&#39;: {&#39;__leave&#39;: &#39;hard&#39;,
+       &#39;__pos&#39;: (-5.551115123125783e-17, -1.5)}}}}},
+  &#39;reduced&#39;: {&#39;__leave&#39;: &#39;no lenses&#39;, &#39;__pos&#39;: (-0.8888888888888888, -0.5)}}}</pre>
 </div>
 
 </div>
@@ -13034,385 +12231,81 @@ E:.
 </div>
 </div>
 
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#21024;&#38500;&#25991;&#20214;">&#21024;&#38500;&#25991;&#20214;<a class="anchor-link" href="#&#21024;&#38500;&#25991;&#20214;">&#182;</a></h2><p><code>os.remove(path)</code>删除指定路径的文件</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#21024;&#38500;&#25991;&#20214;&#22841;">&#21024;&#38500;&#25991;&#20214;&#22841;<a class="anchor-link" href="#&#21024;&#38500;&#25991;&#20214;&#22841;">&#182;</a></h2><p><code>os.rmdir(path)</code>删除指定路径的文件夹，但是只能删除空文件夹，要删除一个非空文件夹，需要递归地删除文件，一个简单的替代办法是使用<code>shutil.rmtree(path)</code>，不管空不空，都能删除<br>
-注，<code>os.removedirs(path)</code>删除空的叶子文件夹，还能删除空的中间级文件夹，譬如你可以在任意位置新建三层空目录：<code>./x/y/z/</code>，然后你试着删除<code>removedirs('./x/y/z')</code>，于是删除的不仅仅是<code>z/</code>，还包括其上层文件夹<code>./x/y/</code>以及<code>./x/</code>，但是必须注意的是，所谓中间级文件夹，只有你在路径中明确指出才行，假设你先<code>cd</code>到<code>./x/y/</code>下面，然后执行<code>removedirs('./z')</code>，那么最后只有<code>z/</code>会被删除，而<code>./x/y/</code>以及<code>./x/</code>仍存在</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="&#20462;&#25913;&#25991;&#20214;/&#22841;&#26435;&#38480;">&#20462;&#25913;&#25991;&#20214;/&#22841;&#26435;&#38480;<a class="anchor-link" href="#&#20462;&#25913;&#25991;&#20214;/&#22841;&#26435;&#38480;">&#182;</a></h2><p><code>os.chmod(path, mode)</code>用于更改文件或文件夹的权限为指定的数字（譬如<code>0o744</code>表示所有者拥有全部权限，组用户及其它用户只能读，可参考Linux的<code>chmod</code>命令），<code>mode</code>参数取值还可以是如下<sup>[4]</sup>：</p>
-
-<pre><code>stat.S_IXOTH: 其他用户有执行权 0o001
-stat.S_IWOTH: 其他用户有写权限 0o002
-stat.S_IROTH: 其他用户有读权限 0o004
-stat.S_IRWXO: 其他用户有全部权限 0o007
-stat.S_IXGRP: 组用户有执行权限 0o010
-stat.S_IWGRP: 组用户有写权限 0o020
-stat.S_IRGRP: 组用户有读权限 0o040
-stat.S_IRWXG: 组用户有全部权限 0o070
-stat.S_IXUSR: 拥有者具有执行权限 0o100
-stat.S_IWUSR: 拥有者具有写权限 0o200
-stat.S_IRUSR: 拥有者具有读权限 0o400
-stat.S_IRWXU: 拥有者有全部权限 0o700
-stat.S_ISVTX: 目录里文件目录只有拥有者才可删除更改 0o1000
-stat.S_ISGID: 执行此文件其进程有效组为文件所在组 0o2000
-stat.S_ISUID: 执行此文件其进程有效用户为文件所有者 0o4000
-stat.S_IREAD: windows下设为只读 0o400
-stat.S_IWRITE: windows下取消只读 0o200</code></pre>
-<p>需要注意的是，尽管Windows支持<code>os.chmod</code>，但是你只能设置“只读”权限，通过<code>stat.S_IREAD</code>和<code>stat.S_IWRITE</code>，其它位上的数字将被忽略，也就是对组用户、其它用户权限的设置是不起效的，如果你的系统是Linux的话，可以这样设置权限：</p>
-<div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">chmod</span><span class="p">(</span><span class="s1">&#39;./myfile&#39;</span><span class="p">,</span><span class="mi">0</span><span class="n">o744</span><span class="p">)</span>
-<span class="c1">#或者：</span>
-<span class="n">os</span><span class="o">.</span><span class="n">chmod</span><span class="p">(</span><span class="s1">&#39;./myfile&#39;</span><span class="p">,</span><span class="n">stat</span><span class="o">.</span><span class="n">S_IRWXU</span><span class="o">|</span><span class="n">stat</span><span class="o">.</span><span class="n">S_IRGRP</span><span class="o">|</span><span class="n">stat</span><span class="o">.</span><span class="n">S_IROTH</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="stat&#27169;&#22359;">stat&#27169;&#22359;<a class="anchor-link" href="#stat&#27169;&#22359;">&#182;</a></h1><p>用于解释<code>os.stat()</code>、<code>os.fstat()</code>、<code>os.lstat()</code>的结果</p>
-
-</div>
-</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">fileStats</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">stat</span><span class="p">(</span><span class="s1">&#39;./DB/data/mountains.jpg&#39;</span><span class="p">)</span>
-<span class="n">fileStats</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">plotarrownode</span><span class="p">(</span><span class="n">text</span><span class="p">,</span><span class="n">front</span><span class="p">,</span><span class="n">rear</span><span class="p">,</span><span class="n">nodetype</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">boxstyle</span><span class="o">=</span><span class="s1">&#39;square&#39;</span><span class="p">,</span><span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">),</span><span class="n">arrowtype</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">arrowstyle</span><span class="o">=</span><span class="s1">&#39;&lt;|-&#39;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">text</span><span class="p">,</span><span class="n">front</span><span class="p">,</span><span class="n">rear</span><span class="p">,</span><span class="n">arrowprops</span><span class="o">=</span><span class="n">arrowtype</span><span class="p">,</span><span class="n">bbox</span><span class="o">=</span><span class="n">nodetype</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">plotthetree</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span><span class="n">wh</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">delay</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;参数tree是一棵临时树，接受自函数calcposition的处理结果，wh为轴域显示的宽高，必填参数，通过控制此参数以及calcposition函数</span>
+<span class="sd">    的wh参数，可以改善树状图的显示效果，当树比较瘦，而皱（某些字符重叠）在一起时，可以“拉伸”它。title为树状图设置名称。axis控</span>
+<span class="sd">    制是否显示轴域的边框。delay接受一个大于等于0的数，当其大于0时，绘制动作会有间隔，如果等于0或者False，则无间隔延迟&#39;&#39;&#39;</span>
+    <span class="n">notleafnode</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">boxstyle</span><span class="o">=</span><span class="s1">&#39;square&#39;</span><span class="p">,</span><span class="n">fc</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span> <span class="c1"># 非叶子节点的bbox</span>
+    <span class="n">leafnode</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">boxstyle</span><span class="o">=</span><span class="s1">&#39;round4&#39;</span><span class="p">,</span><span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;pink&#39;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span> <span class="c1"># 叶子节点的bbox</span>
+    <span class="k">if</span> <span class="n">wh</span><span class="o">!=</span><span class="kc">None</span><span class="p">:</span>
+        <span class="c1">#plt.axis(&#39;equal&#39;) # 这会导致一些问题，图像会变得散碎异常</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">([</span><span class="o">-</span><span class="n">wh</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="mi">4</span><span class="o">/</span><span class="mi">3</span><span class="p">),</span><span class="n">wh</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="mi">5</span><span class="o">/</span><span class="mi">4</span><span class="p">),</span><span class="o">-</span><span class="n">wh</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="mi">4</span><span class="o">/</span><span class="mi">3</span><span class="p">),</span><span class="mi">0</span><span class="o">+</span><span class="n">wh</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mf">0.25</span><span class="p">])</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">axis</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;bottom&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;top&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;left&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;right&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">([])</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([])</span>
+    <span class="k">if</span> <span class="n">title</span><span class="o">!=</span><span class="kc">None</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">title</span><span class="p">,</span><span class="n">bbox</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">boxstyle</span><span class="o">=</span><span class="s1">&#39;Roundtooth&#39;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span><span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">),</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+    <span class="n">flag</span><span class="o">=</span><span class="kc">True</span>
+    <span class="k">def</span> <span class="nf">plottree</span><span class="p">(</span><span class="n">tree</span><span class="p">):</span>
+        <span class="n">treename</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">branches</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">tree</span><span class="p">[</span><span class="n">treename</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="n">treepos</span><span class="o">=</span><span class="n">tree</span><span class="p">[</span><span class="n">treename</span><span class="p">][</span><span class="s1">&#39;__pos&#39;</span><span class="p">]</span> <span class="c1"># 当前节点（作为当前子树的根）的位置坐标</span>
+        <span class="c1">#print(treepos)</span>
+        <span class="n">childpos</span><span class="o">=</span><span class="kc">None</span>
+        <span class="k">nonlocal</span> <span class="n">flag</span>
+        <span class="k">if</span> <span class="n">flag</span><span class="p">:</span>
+            <span class="n">flag</span><span class="o">=</span><span class="kc">False</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">treename</span><span class="p">,</span><span class="n">ha</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span><span class="n">va</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span><span class="n">bbox</span><span class="o">=</span><span class="n">notleafnode</span><span class="p">)</span> <span class="c1"># 绘制整棵树的根节点，只一次</span>
+        <span class="k">for</span> <span class="n">branch</span> <span class="ow">in</span> <span class="n">branches</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">branch</span><span class="o">!=</span><span class="s1">&#39;__pos&#39;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">tree</span><span class="p">[</span><span class="n">treename</span><span class="p">][</span><span class="n">branch</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;__leave&#39;</span><span class="p">)</span><span class="o">!=</span><span class="kc">None</span><span class="p">:</span> <span class="c1"># 叶子子节点</span>
+                    <span class="n">childpos</span><span class="o">=</span><span class="n">leafpos</span><span class="o">=</span><span class="n">tree</span><span class="p">[</span><span class="n">treename</span><span class="p">][</span><span class="n">branch</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;__pos&#39;</span><span class="p">)</span> <span class="c1"># 当前节点的子（叶子）节点的位置坐标</span>
+                    <span class="n">leafname</span><span class="o">=</span><span class="n">tree</span><span class="p">[</span><span class="n">treename</span><span class="p">][</span><span class="n">branch</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;__leave&#39;</span><span class="p">)</span>
+                    <span class="c1">#print(leafpos)</span>
+                    <span class="c1">#plt.plot(*zip(treepos,leafpos))</span>
+                    <span class="n">plotarrownode</span><span class="p">(</span><span class="n">leafname</span><span class="p">,</span><span class="n">treepos</span><span class="p">,</span><span class="n">leafpos</span><span class="p">,</span><span class="n">leafnode</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">delay</span><span class="p">:</span>
+                        <span class="n">plt</span><span class="o">.</span><span class="n">pause</span><span class="p">(</span><span class="n">delay</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span> <span class="c1"># 非叶子子节点</span>
+                    <span class="n">childpos</span><span class="o">=</span><span class="n">subtreepos</span><span class="o">=</span><span class="n">tree</span><span class="p">[</span><span class="n">treename</span><span class="p">][</span><span class="n">branch</span><span class="p">][</span><span class="nb">list</span><span class="p">(</span><span class="n">tree</span><span class="p">[</span><span class="n">treename</span><span class="p">][</span><span class="n">branch</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]][</span><span class="s1">&#39;__pos&#39;</span><span class="p">]</span> <span class="c1"># 当前节点的子（非叶子）节点的位置坐标</span>
+                    <span class="n">subtreename</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">tree</span><span class="p">[</span><span class="n">treename</span><span class="p">][</span><span class="n">branch</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="c1">#print(subtreepos)</span>
+                    <span class="c1">#plt.plot(*zip(treepos,subtreepos))</span>
+                    <span class="n">plotarrownode</span><span class="p">(</span><span class="n">subtreename</span><span class="p">,</span><span class="n">treepos</span><span class="p">,</span><span class="n">subtreepos</span><span class="p">,</span><span class="n">notleafnode</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">delay</span><span class="p">:</span>
+                        <span class="n">plt</span><span class="o">.</span><span class="n">pause</span><span class="p">(</span><span class="n">delay</span><span class="p">)</span>
+                    <span class="n">plottree</span><span class="p">(</span><span class="n">tree</span><span class="p">[</span><span class="n">treename</span><span class="p">][</span><span class="n">branch</span><span class="p">])</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">branch</span><span class="p">),((</span><span class="n">treepos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">childpos</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">/</span><span class="mi">2</span><span class="p">,(</span><span class="n">treepos</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">childpos</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span><span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">bbox</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">boxstyle</span><span class="o">=</span><span class="s1">&#39;round&#39;</span><span class="p">,</span><span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">))</span>
+    
+    <span class="n">plottree</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+
+<span class="n">plotthetree</span><span class="p">(</span><span class="n">postree</span><span class="p">,(</span><span class="mf">1.5</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;decision tree&#39;</span><span class="p">,</span><span class="n">delay</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span> <span class="c1"># 试着改变wh的值：(2,2), (4,2), (1.5,2) 观察效果</span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[2]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>os.stat_result(st_mode=33206, st_ino=1407374883756025, st_dev=3587367904, st_nlink=1, st_uid=0, st_gid=0, st_size=67271, st_atime=1628311501, st_mtime=1567343663, st_ctime=1567343662)</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>os.stat(path)</code>在给定的<code>path</code>上执行一个<code>stat()</code>系统调用，返回一个类元组对象（stat_result对象，包含10个元素），其中属性包括：<code>st_mode</code>（权限模式）、<code>st_ino</code>（inode number）、<code>st_dev</code>（device inode resides on）、<code>st_nlink</code>（Number of links to the inode）、<code>st_uid</code>（所有者的user id）、<code>st_gid</code>（所有者的group id）,<code>st_size</code>（文件大小，以位为单位）、<code>st_atime</code>（最近访问的时间）、<code>st_mtime</code>（最近修改的时间）、<code>st_ctime</code>（创建的时间）</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#获取上次访问时间</span>
-<span class="n">fileStats</span><span class="o">.</span><span class="n">st_atime</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[3]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>1628311501.3551888</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>除了上述通过<code>.</code>访问具体某个属性，还可以通过<code>stat</code>模块，<code>stat</code>模块描述了<code>os.stat()</code>所返回的文件属性列表中各值的意义，以下变量对<code>os.stat()</code>、<code>os.fstat()</code>、<code>os.lstat()</code>返回的10元组进行索引（对应的值分别为<code>0~9</code>）：</p>
-
-<pre><code>stat.ST_MODE
-stat.ST_INO
-stat.ST_DEV
-stat.ST_NLINK
-stat.ST_UID
-stat.ST_GID
-stat.ST_SIZE
-stat.ST_ATIME
-stat.ST_MTIME
-stat.ST_CTIME</code></pre>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#获取上次访问时间</span>
-<span class="n">fileStats</span><span class="p">[</span><span class="n">stat</span><span class="o">.</span><span class="n">ST_ATIME</span><span class="p">]</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[4]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>1628311501</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><code>stat</code>模块定义了以下函数用于测试是否属于相应的文件类型：</p>
-
-<pre><code>stat.S_ISDIR(mode)
-    是否是文件夹
-stat.S_ISCHR(mode)
-    if the mode is from a character special device file
-stat.S_ISBLK(mode)
-    是否是块设备文件
-stat.S_ISREG(mode)
-    是否是一般文件
-stat.S_ISFIFO(mode)
-    if the mode is from a FIFO (named pipe)
-stat.S_ISLNK(mode)
-    是否是链接文件
-stat.S_ISSOCK(mode)
-    是否是套接字文件
-stat.S_ISDOOR(mode)
-    if the mode is from a door
-stat.S_ISPORT(mode)
-    if the mode is from an event port
-stat.S_ISWHT(mode)
-    if the mode is from a whiteout</code></pre>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#判断是否是文件夹</span>
-<span class="k">if</span> <span class="n">stat</span><span class="o">.</span><span class="n">S_ISDIR</span><span class="p">(</span><span class="n">fileStats</span><span class="o">.</span><span class="n">st_mode</span><span class="p">):</span>
-  <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;文件夹&#39;</span><span class="p">)</span>
-<span class="k">else</span><span class="p">:</span>
-  <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;非文件夹&#39;</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>非文件夹
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>以下变量用于解释<code>st_mode</code>字段的含义：</p>
-
-<pre><code>stat.S_IFSOCK: Socket 0o140000
-stat.S_IFLNK: 符号链接 0o120000
-stat.S_IFREG: 一般文件 0o100000
-stat.S_IFBLK: 块设备 0o60000
-stat.S_IFDIR: 文件夹 0o40000
-stat.S_IFCHR: 字符设备 0o20000
-stat.S_IFIFO: FIFO 0o10000
-stat.S_IFDOOR: Door 0o0
-stat.S_IFPORT: Event port 0o0
-stat.S_IFWHT: Whiteout 0o0</code></pre>
-<p>最后三个变量如果为0，表示当前平台不支持这些文件类型。除了上述变量，还包括其它一些变量可以直接用于<code>os.chmod()</code>函数的<code>mode</code>参数，我已经在<em>#修改文件/夹权限</em>标题下列举了了它们，但不是全部</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;&#39;&#39;stat.S_IFSOCK</span>
-<span class="s1">stat.S_IFLNK</span>
-<span class="s1">stat.S_IFREG</span>
-<span class="s1">stat.S_IFBLK</span>
-<span class="s1">stat.S_IFDIR</span>
-<span class="s1">stat.S_IFCHR</span>
-<span class="s1">stat.S_IFIFO</span>
-<span class="s1">stat.S_IFDOOR</span>
-<span class="s1">stat.S_IFPORT</span>
-<span class="s1">stat.S_IFWHT&#39;&#39;&#39;</span>
-<span class="n">s</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">):</span>
-    <span class="n">s</span><span class="o">+=</span><span class="p">(</span><span class="s1">&#39;print(oct(</span><span class="si">%s</span><span class="s1">))</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>print(oct(stat.S_IFSOCK))
-print(oct(stat.S_IFLNK))
-print(oct(stat.S_IFREG))
-print(oct(stat.S_IFBLK))
-print(oct(stat.S_IFDIR))
-print(oct(stat.S_IFCHR))
-print(oct(stat.S_IFIFO))
-print(oct(stat.S_IFDOOR))
-print(oct(stat.S_IFPORT))
-print(oct(stat.S_IFWHT))
-
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>将文件的<code>mode</code>转为人类可阅读的方式：</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">stat</span><span class="o">.</span><span class="n">filemode</span><span class="p">(</span><span class="n">fileStats</span><span class="o">.</span><span class="n">st_mode</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[7]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>&#39;-rw-rw-rw-&#39;</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>2019/8/30~</p>
+<p><img src="./DB/image/1.png" alt=""></p>
 
 </div>
 </div>
@@ -13421,11 +12314,7 @@ print(oct(stat.S_IFWHT))
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>参考：<br>
-[1] <a href="https://docs.python.org/3/library/os.path.html?highlight=os%20path#module-os.path">https://docs.python.org/3/library/os.path.html?highlight=os%20path#module-os.path</a> path文档<br>
-[2] <a href="https://docs.python.org/3/library/os.html?highlight=os">https://docs.python.org/3/library/os.html?highlight=os</a> os模块文档<br>
-[3] <a href="https://www.cnblogs.com/dianel/p/10073718.html">https://www.cnblogs.com/dianel/p/10073718.html</a> 简介<br>
-[4] <a href="https://docs.python.org/3/library/stat.html#module-stat">https://docs.python.org/3/library/stat.html#module-stat</a> stat模块</p>
+<p>muggledy 2019.8.15</p>
 
 </div>
 </div>
