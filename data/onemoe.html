@@ -23,7 +23,7 @@
     <meta name="description" content="<!--Description-->">
     <link rel="icon" href="<!--base_path-->favicon.ico" type="image/x-icon">
     <link rel="shortcut icon" href="<!--base_path-->favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/kizx/onemoe-theme/onemoe.min.css" type="text/css" />
+    <link rel="stylesheet" href="https://cdn.statically.io/gh/celestezj/onemoe-theme/master/onemoe.min.css" type="text/css" />
 	<!--BackgroundStart-->
     <style>body{background-repeat:no-repeat;background-size:cover;background-attachment:fixed;background-position-x:center;background-image:url("<!--BackgroundUrl-->")}</style>
     <!--BackgroundEnd-->
@@ -567,7 +567,7 @@
     pdfjsLib.GlobalWorkerOptions.workerSrc = '//cdnjs.cloudflare.com/ajax/libs/pdf.js/2.3.200/pdf.worker.min.js';
     var loadingTask = pdfjsLib.getDocument({
         url: '<!--FileDownUrl-->',
-        cMapUrl: "//cdn.jsdelivr.net/npm/pdfjs-dist@2.2.228/cmaps/",
+        cMapUrl: "//unpkg.com/browse/pdfjs-dist@2.2.228/cmaps/",
         cMapPacked: true,
         rangeChunkSize: 65535
     });
@@ -1589,7 +1589,7 @@
     document.getElementById('password1').focus();
 <!--EncryptedEnd-->
 </script>
-<script src="https://cdn.jsdelivr.net/npm/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ionicons/5.5.2/ionicons.js"></script>
 <!--LoginStart--><script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha1/0.6.0/sha1.min.js"></script><!--LoginEnd-->
 <!--customScript-->
 </html>
