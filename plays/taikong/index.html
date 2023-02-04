@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+<meta charset="UTF-8">
+<title>摸鱼小游戏 | Three.js炫彩太空跑酷VR小游戏</title>
+<meta name="keywords" content="游戏，炫彩太空跑酷VR小游戏" />
+<meta name="description" content="游戏 | 炫彩太空跑酷VR小游戏；立志打造一个拥有100个小游戏的摸鱼网站。made by   Haiyong，技术支持——海拥" /> 
+<meta name="author" content="海拥(https://haiyong.site/moyu)" />
+<meta name="copyright" content="海拥(https://haiyong.site/moyu)" />
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="https://haiyong.site/img/favicon.png" sizes="192x192" />
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?a9430a37066911650e26adadcc42798a";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</head>
+
+<body>
+
+<script src="js/jquery-1.12.4.min.js"></script>
+<script src="js/d3.v4.min.js"></script>
+<script src="js/three.min.js"></script>
+<script src="js/GLTFLoader.js"></script>
+
+
+<script src="js/TweenMax.min.js"></script>
+<script src="js/CSSPlugin.min.js"></script>
+<script src="js/EasePack.min.js"></script>
+
+
+
+<script src="js/AssimpJSONLoader.js"></script>
+<script src="js/DeviceOrientationControls.js"></script>
+<script src="js/OrbitControls.js"></script>
+<script src="js/StereoEffect.js"></script>
+<script src="js/tween.min.js"></script>
+<script src="js/dat.gui.min.js"></script>
+<!-- glowing effect scripts -->
+<script src="js/EffectComposer.js"></script>
+<script src="js/RenderPass.js"></script>
+<script src="js/MaskPass.js"></script>
+<script src="js/ShaderPass.js"></script>
+<script src="js/CopyShader.js"></script>
+<script src="js/FXAAShader.js"></script>
+<script src="js/ConvolutionShader.js"></script>
+<script src="js/LuminosityHighPassShader.js"></script>
+<!-- unreal bloom -->
+<script src="js/UnrealBloomPass.js"></script>
+
+
+    <!-- VR Button -->
+    <button id='VR' class='button toggleVR' onclick='toggleVR()' title='切换仅适用于移动设备的 VR 模式'>
+      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 62.7 52.375" enable-background="new 0 0 62.7 41.9" xml:space="preserve"><path d="M53.4,5.5h-44c-2.1,0-3.7,1.7-3.7,3.7v22.6c0,2.1,1.7,3.7,3.7,3.7h13.4c1.1,0,2.1-0.6,2.5-1.6l3-7.5c1.2-2.6,4.9-2.5,6,0.1  l2.6,7.3c0.4,1,1.4,1.7,2.5,1.7h13.9c2.1,0,3.7-1.7,3.7-3.7V9.3C57.2,7.2,55.5,5.5,53.4,5.5z M20.4,27c-3.2,0-5.7-2.6-5.7-5.7  s2.6-5.7,5.7-5.7s5.7,2.6,5.7,5.7S23.6,27,20.4,27z M42.4,27c-3.2,0-5.7-2.6-5.7-5.7s2.6-5.7,5.7-5.7s5.7,2.6,5.7,5.7  S45.6,27,42.4,27z"/><text x="0" y="56.9" fill="#000000" font-size="5px" font-weight="bold" font-family="'Helvetica Neue', Helvetica, Arial-Unicode, Arial, Sans-serif">Created by Nick Bluth</text><text x="0" y="61.9" fill="#000000" font-size="5px" font-weight="bold" font-family="'Helvetica Neue', Helvetica, Arial-Unicode, Arial, Sans-serif">from the Noun Project</text></svg>
+    </button>
+
+    <div id="info">SUPER!</div>
+    <audio id="bflat" src="sonic_ring_sound.mp3"></audio>
+  
+  
+
+    <script  src="js/index.js"></script>
+
+
+
+	<script>
+		//禁用操作
+		
+		window.onload = function(){
+		    document.onkeydown = function (){
+		        var e = window.event || arguments[0];
+		        //F12
+		        if(e.keyCode == 123){
+		            return false;
+		        //Ctrl+Shift+I
+		        }else if((e.ctrlKey) && (e.shiftKey) && (e.keyCode == 73)){
+		            return false;
+		        //Ctrl+Shift+C
+		        }else if((e.ctrlKey) && (e.shiftKey) && (e.keyCode == 67)){
+		            return false;
+		        //Shift+F10
+		        }else if((e.shiftKey) && (e.keyCode == 121)){
+		            return false;
+		        //Ctrl+U
+		        }else if((e.ctrlKey) && (e.keyCode == 85)){
+		            return false;
+		        //Ctrl+S
+		        }else if((e.ctrlKey) && (e.keyCode == 83)){
+		        return false;
+		    }
+		};
+		    document.oncontextmenu = function (){
+		        return false;
+		    }
+		}
+		
+		//禁止复制
+		document.onselectstart=new Function('event.returnValue=false;');
+		
+		//禁止选择文字
+		document.body.onselectstart = function() {
+		    self.event.returnValue=false
+		  };
+	</script>
+</body>
+
+</html>
