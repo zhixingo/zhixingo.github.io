@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<title>在线二进制文件查看器</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="description" content="在线打开二进制文件, 打开文件在线预览分析二进制编码(不会上传文件到服务器，纯浏览器端运行)" />
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="css/common.css" media="screen">
+<link rel="icon" href="favicon.ico" type="image/x-icon" />
+<link rel="apple-touch-icon" href="../images/favicon-128.png" type="image/png" />
+<script src="js/binary-viewer.js"></script>
+</head>
+<body id="binaryViewer">
+<div id="main">
+    <div id="col_left">
+        <h1>在线二进制文件十六进制查看器</h1>
+        <p>这个易于使用的二进制文件查看器可以帮助您在线查看和分析二进制文件。文件通过 JavaScript 在您的浏览器中处理，不会上传到服务器，确保您的隐私和安全。</p>
+        <div style="position:relative">
+          <button class="btn_green">打开文件</button>
+          <input id="uploadfile" type="file" onchange="loadfile(this)"/>
+          <span style="padding:2px;margin:10px 0 10px 10px;">字符编码</span>
+          <select id="decode" onchange="viewFile()">
+            <option value="ASCII">ASCII</option>
+            <option value="UTF-8">UTF-8</option>
+          </select>
+          <div id="arrowdown" onclick="handleArrowClick(1)"><span>▾</span></div>
+          <div id="arrowup" onclick="handleArrowClick(-1)"><span>▴</span></div>
+        </div>
+        <div id="display">
+            <div id="dumpArea"></div>
+            <div id="scrollbar"></div>
+        </div>
+        <div id="format"></div>
+        <div id="length"></div>
+        <div class="copy" style="text-align:left">Copyright &copy; 2016-<script>document.write(new Date().getFullYear())</script> <a href="https://markbuild.com/" target="_blank">markbuild</a> | <a href="mailto:ismk@protonmail.ch?subject=关于二进制文件查看器的建议&body=您好 Markbuild,%0d%0a%0d%0a{意见内容}%0d%0a%0d%0a谢谢">提一个功能建议</a>
+    </div>
+    <div id="col_right">
+<script>
+init()
+</script>
+    </div>
+</div>
+</body>
+</html>

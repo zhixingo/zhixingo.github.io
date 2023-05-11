@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>SQL TOOL</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-touch-fullscreen" content="yes">
+<meta name="format-detection" content="telephone=no, address=no">
+<link rel="icon" href="favicon-128.webp">
+<link rel="apple-touch-icon" href="favicon-128.webp">
+<link rel="stylesheet" href="css/codemirror/codemirror.css">
+<link rel="stylesheet" href="css/codemirror/show-hint.css">
+<script src="js/codemirror/codemirror.js"></script>
+<script src="js/codemirror/sql.js"></script>
+<script src="js/codemirror/show-hint.js"></script>
+<script src="js/codemirror/sql-hint.js"></script>
+<script src="js/codemirror/active-line.js"></script>
+<link rel="stylesheet" type="text/css" href="css/codemirror/common.css" media="screen">
+<style>
+.pipelinewrap {
+  max-width: 96vw;
+  overflow-x: auto;
+}
+.pipeline {
+    background: #bccfdf;
+    display: flex;
+    height: 30px;
+    margin: 30px 0;
+    align-items: center;
+    color: #fff;
+    font-size: 16px;
+    padding: 0 10px;
+    width: max-content;
+}
+.pipeline button {
+    width: 60px;
+    height: 50px;
+    border: 4px solid #bccfdf;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 0 4px inset #78828a;
+    padding: 0 2px;
+}
+button.from{ background: #a1a1ec }
+button.join{ background: #c764dc }
+button.where { background: #26c6da }
+button.select { background: #8bc34a }
+button.groupby { background: #e19cd3 }
+button.having { background: #f55a5a }
+button.orderby { background: #bdbd3c }
+button.limit { background: #009688 }
+td{position: relative;vertical-align:top}
+td:before {
+  font-size: 12px;
+  font-family: system-ui;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: 0px 2px;
+  height: 12px;
+  line-height: 1;
+  z-index: 0;
+}
+td.my:before{content: 'My';background: #fdba01;color: #000}
+td.pg:before{content: 'PG';background: #0087ba;color: #fff}
+td.ch:before{content: 'Ch';background: #fdcb00;color: #fb0000}
+td.im:before{content: 'im';background: #2b658d;color: #fff}
+td.ib:before{content: 'db2';background: green;color: #fff}
+td.ss:before{content: 'SS';background: #d4dce2;color: #de3730}
+td.or:before{content: 'Or';background: #de3730;color: #fff}
+td.xls:before{content: 'xls';background: #4ca461;color: #fff}
+</style>
+<body>
+<h1><span style="color:#ba68c8">SQL</span> TOOL</h1>
+<textarea id="editor" name="editor"></textarea>
+<p class="tip">
+Ctrl-D (PC), Cmd-D (Mac): Deletes the whole line under the cursor
+<button onclick="insert('empty')" class="btn_kbd">Empty</button>
+</p>
+<h2>DML</h2>
+<div class="pipelinewrap">
+  <div class="pipeline">
+  <button class="select" onclick="insert('select')">SELECT <svg style="width: 13px;vertical-align: middle;fill: currentColor;" viewBox="0 0 1024 1024"><path d="M369.066667 650.24a42.666667 42.666667 0 0 1 7.893333 55.893333l-3.242667 4.266667-128 149.418667a42.666667 42.666667 0 0 1-53.76 9.173333l-4.266666-2.816-85.333334-64.042667a42.666667 42.666667 0 0 1 46.762667-71.210666l4.48 2.986666 53.333333 39.978667 101.973334-118.997333a42.666667 42.666667 0 0 1 60.16-4.608zM896 725.333333a42.666667 42.666667 0 0 1 4.992 85.034667L896 810.666667H469.333333a42.666667 42.666667 0 0 1-4.992-85.034667L469.333333 725.333333h426.666667z m-0.512-256a42.666667 42.666667 0 0 1 4.949333 85.034667l-4.949333 0.298667h-426.666667a42.666667 42.666667 0 0 1-4.992-85.034667l4.992-0.298667h426.666667zM369.066667 138.24a42.666667 42.666667 0 0 1 7.850666 55.893333l-3.242666 4.266667-128 149.418667a42.666667 42.666667 0 0 1-53.76 9.173333l-4.266667-2.816-85.333333-64.042667A42.666667 42.666667 0 0 1 149.162667 218.88l4.48 2.986667 53.333333 39.978666 101.973333-118.997333a42.666667 42.666667 0 0 1 60.16-4.608zM896 213.333333a42.666667 42.666667 0 0 1 4.949333 85.034667L896 298.666667H469.333333a42.666667 42.666667 0 0 1-4.992-85.034667L469.333333 213.333333h426.666667z" p-id="8719"></path></svg></button> →
+  <button class="from" onclick="insert('from')">FROM</button> →
+  <button class="where" onclick="insert('where')">WHERE <svg style="width: 12px;vertical-align: middle;fill: currentColor" viewBox="0 0 1024 1024"><path d="M735.085714 796.233143c0-15.579429 12.726857-28.818286 28.891429-28.818286h230.4a29.257143 29.257143 0 0 1 28.818286 28.818286 28.891429 28.891429 0 0 1-28.745143 28.818286h-230.473143a29.257143 29.257143 0 0 1-28.818286-28.818286z m0-127.926857c0-15.506286 12.726857-28.745143 28.891429-28.745143h230.4a29.257143 29.257143 0 0 1 28.818286 28.745143 28.891429 28.891429 0 0 1-28.745143 28.818285h-230.473143a29.257143 29.257143 0 0 1-28.818286-28.818285z m28.891429-156.672h230.4a29.257143 29.257143 0 0 1 28.818286 28.818285 28.891429 28.891429 0 0 1-28.745143 28.818286h-230.473143a29.257143 29.257143 0 0 1-28.818286-28.818286 29.257143 29.257143 0 0 1 28.818286-28.818285zM901.632 0c50.176 0 122.148571 49.005714 121.051429 127.926857 1.097143 35.693714-13.897143 66.267429-42.642286 96.768-216.064 189.586286-300.178286 227.620571-306.468572 285.257143-5.266286 45.494857-1.828571 472.356571-2.925714 478.134857a39.497143 39.497143 0 0 1-5.778286 22.454857c-18.432 18.432-37.449143 12.141714-47.250285 4.022857-72.045714-58.733714-232.740571-189.513143-251.172572-228.132571-21.357714-41.472-13.238857-126.756571-13.238857-276.48 0-34.084571-253.513143-235.154286-308.297143-285.257143C31.744 210.285714 0 181.540571 0 128 0 49.590857 63.926857 0 134.802286 0h766.829714zM76.068571 164.790857c1.682286 2.340571 4.022857 5.12 6.875429 8.045714l8.630857 8.630858-3.437714-3.437715a9235.017143 9235.017143 0 0 0 147.529143 125.074286l14.921143 12.653714c134.290286 115.2 167.131429 147.456 167.131428 194.706286 0 27.648 0 51.273143-0.585143 88.137143-1.755429 114.102857 0 145.773714 8.045715 161.353143 3.437714 6.875429 47.835429 49.517714 108.324571 101.961143l17.261714 14.409142c32.914286 27.648 57.051429 54.125714 57.051429 51.273143v-179.785143c0-139.995429 0.585143-221.184 3.437714-244.297142 1.755429-13.165714 5.193143-25.892571 10.386286-38.034286 15.579429-35.108571 40.96-59.245714 105.472-111.689143l89.234286-72.045714c40.374857-34.596571 81.261714-69.12 121.636571-104.886857l-4.608 4.096c19.017143-20.187429 25.892571-35.181714 25.307429-53.613715 0.585143-33.426286-32.182857-63.341714-57.051429-63.341714H134.802286c-41.472 0-70.875429 26.477714-70.875429 63.926857 0 14.994286 4.022857 25.892571 12.141714 36.864z" p-id="2736"></path></svg></button> →
+  <button class="groupby" onclick="insert('groupby')">GROUP BY</button> →
+  <button class="having" onclick="insert('having')">HAVING</button> →
+  <button class="orderby" onclick="insert('orderby')">ORDER BY <svg style="width: 13px;vertical-align: middle;fill: currentColor;" viewBox="0 0 1024 1024"><path d="M426.666667 554.666667 426.666667 469.333333 768 469.333333 768 554.666667 426.666667 554.666667M426.666667 810.666667 426.666667 725.333333 597.333333 725.333333 597.333333 810.666667 426.666667 810.666667M426.666667 298.666667 426.666667 213.333333 938.666667 213.333333 938.666667 298.666667 426.666667 298.666667M256 725.333333 362.666667 725.333333 213.333333 874.666667 64 725.333333 170.666667 725.333333 170.666667 298.666667 64 298.666667 213.333333 149.333333 362.666667 298.666667 256 298.666667 256 725.333333Z" p-id="11333"></path></svg></button> →
+  <button class="limit" onclick="insert('limit')">LIMIT</button> →
+  </div>
+</div>
+<div id="ref">
+<p  style="display:none" id="where"><img src="img/where.jpg" width="150px" /></p>
+<p  style="display:none" id="view"><img src="img/view-sql.jpg" width="300px" /></p>
+</div>
+<p>
+<button onclick="insert('insert')" class="btn_kbd">INSERT</button>
+<button onclick="insert('selectinto')" class="btn_kbd">SELECT INSERT</button>
+<button onclick="insert('update')" class="btn_kbd">UPDATE</button>
+<button onclick="insert('delete')" class="btn_kbd">DELETE</button>
+</p>
+<p>
+<button onclick="insert('alias')" class="btn_kbd">别名 AS</button>
+<button onclick="insert('union')" class="btn_kbd">UNION</button>
+<button onclick="insert('select2')" class="btn_kbd">查询组合</button>
+</p>
+<h2>DDL</h2>
+<p>
+<button onclick="insert('showdatabases')" class="btn_kbd">SHOW DATABASES</button>
+<button onclick="insert('usedatabase')" class="btn_kbd">USE DATABASE</button>
+<button onclick="insert('createdatabase')" class="btn_kbd">CREATE DATABASE</button>
+<button onclick="insert('dropdatabase')" class="btn_kbd">DROP DATABASE</button>
+</p>
+<p>
+<button onclick="insert('showtables')" class="btn_kbd">SHOW TABLES</button>
+<button onclick="insert('explaintable')" class="btn_kbd">EXPLAIN TABLE</button>
+<button onclick="insert('createtable')" class="btn_kbd">CREATE TABLE</button>
+<button onclick="insert('createtableselect')" class="btn_kbd">CREATE TABLE SELECT</button>
+<button onclick="insert('droptable')" class="btn_kbd">DROP TABLE</button>
+<button onclick="insert('truncatetable')" class="btn_kbd">TRUNCATE TABLE</button>
+<button onclick="insert('renametable')" class="btn_kbd">RENAME TABLE</button>
+<button onclick="insert('altertable')" class="btn_kbd">ALTER TABLE</button>
+</p>
+<p>
+<button onclick="insert('view')" class="btn_kbd">VIEW</button>
+</p>
+<h2 style="font-weight: 100; font-size: 24px; text-align: center; padding: 10px 0; position: sticky; top: 0; background: #e8eaf6; margin: 0;z-index: 1;">
+<span class="my" style="background: #ffba00; border-radius: 2px;padding: 0 5px;color: #000;cursor:pointer;" onclick="focuslang('my')">Mysql</span>
+<span class="pg" style="background: #0087ba; border-radius: 2px;padding: 0 5px;color: #fff;cursor:pointer;" onclick="focuslang('pg')">PostgreSQL</span>
+<span class="ch" style="background: #fdcb00;border-radius: 2px;padding: 0 5px;color: #fb0000;cursor:pointer;" onclick="focuslang('ch')">Clickhouse</span>
+<span class="im" style="background: #2b658d;border-radius: 2px;padding: 0 5px;color: #fff;cursor:pointer;" onclick="focuslang('im')">Impala</span>
+<span class="ib" style="background: green;border-radius: 2px;padding: 0 5px;color: #fff;cursor:pointer;" onclick="focuslang('ib')">IBM Db2</span>
+<span class="ss" style="background: #d4dce2;border-radius: 2px;padding: 0 5px;color: #de3730;cursor:pointer;" onclick="focuslang('ss')">SQLServer</span>
+<span class="or" style="background: #de3730;border-radius: 2px;padding: 0 5px;color: #fff;cursor:pointer;" onclick="focuslang('or')">Oracle</span>
+<span class="xls" style="background: #4ca461;border-radius: 2px;padding: 0 5px;color: #fff;cursor:pointer;" onclick="focuslang('xls')">Excel</span>
+<span style="padding: 0 5px;cursor:pointer;" onclick="unfocuslang()">+</span>
+</h2>
+<p>
+<li>- <a href="https://dev.mysql.com/doc/refman/8.0/en/select.html" target="_blank">Mysql Doc</a></li>
+<li>- <a href="https://clickhouse.tech/docs/zh/sql-reference/syntax/" target="_blank">Clickhouse Doc</a></li>
+<li>- <span style="background:#de3730;color:#fff;padding: 0 4px;">达梦</span>语法参考<span style="background:#de3730;color:#fff;padding:0 4px;">Oracle</span></li>
+<li>- Excel 字符串必须用双引号</li>
+</p>
+<table>
+<tr id="basic"><th colspan=10>Basic</th></tr>
+<tr>
+    <td><svg style="width: 13px;vertical-align: middle;fill: #e91e63;" viewBox="0 0 1024 1024"><path d="M369.066667 650.24a42.666667 42.666667 0 0 1 7.893333 55.893333l-3.242667 4.266667-128 149.418667a42.666667 42.666667 0 0 1-53.76 9.173333l-4.266666-2.816-85.333334-64.042667a42.666667 42.666667 0 0 1 46.762667-71.210666l4.48 2.986666 53.333333 39.978667 101.973334-118.997333a42.666667 42.666667 0 0 1 60.16-4.608zM896 725.333333a42.666667 42.666667 0 0 1 4.992 85.034667L896 810.666667H469.333333a42.666667 42.666667 0 0 1-4.992-85.034667L469.333333 725.333333h426.666667z m-0.512-256a42.666667 42.666667 0 0 1 4.949333 85.034667l-4.949333 0.298667h-426.666667a42.666667 42.666667 0 0 1-4.992-85.034667l4.992-0.298667h426.666667zM369.066667 138.24a42.666667 42.666667 0 0 1 7.850666 55.893333l-3.242666 4.266667-128 149.418667a42.666667 42.666667 0 0 1-53.76 9.173333l-4.266667-2.816-85.333333-64.042667A42.666667 42.666667 0 0 1 149.162667 218.88l4.48 2.986667 53.333333 39.978666 101.973333-118.997333a42.666667 42.666667 0 0 1 60.16-4.608zM896 213.333333a42.666667 42.666667 0 0 1 4.949333 85.034667L896 298.666667H469.333333a42.666667 42.666667 0 0 1-4.992-85.034667L469.333333 213.333333h426.666667z" p-id="8719"></path></svg> 筛选字段</td>
+    <td class="my"><kw>SELECT</kw> fieldName <kw>AS</kw> aliasName <kw>FROM</kw> tb1 <kw>AS</kw> t1<br><kw>SELECT</kw> fieldName aliasName <kw>FROM</kw> tb1 t1</td>
+    <td class="pg"><kw>SELECT</kw> fieldName <kw>AS</kw> aliasName <kw>FROM</kw> tb1 <kw>AS</kw> t1<br><kw>SELECT</kw> fieldName aliasName <kw>FROM</kw> tb1 t1</td>
+    <td class="ch"><kw>SELECT</kw> fieldName <kw>AS</kw> aliasName <kw>FROM</kw> tb1 <kw>AS</kw> t1<br><kw>SELECT</kw> fieldName aliasName <kw>FROM</kw> tb1 t1</td>
+    <td class="im"><kw>SELECT</kw> fieldName <kw>AS</kw> aliasName <kw>FROM</kw> tb1 <kw>AS</kw> t1<br><kw>SELECT</kw> fieldName aliasName <kw>FROM</kw> tb1 t1</td>
+    <td class="ib"><kw>SELECT</kw> fieldName <kw>AS</kw> aliasName <kw>FROM</kw> tb1 <kw>AS</kw> t1<br><kw>SELECT</kw> fieldName aliasName <kw>FROM</kw> tb1 t1</td>
+    <td class="ss"><kw>SELECT</kw> fieldName <kw>AS</kw> aliasName <kw>FROM</kw> tb1 <kw>AS</kw> t1<br><kw>SELECT</kw> fieldName aliasName <kw>FROM</kw> tb1 t1</td>
+    <td class="or"><kw>SELECT</kw> fieldName <kw>AS</kw> aliasName <kw>FROM</kw> tb1 <kw>AS</kw> t1<br><kw>SELECT</kw> fieldName aliasName <kw>FROM</kw> tb1 t1</td>
+    <td class="xls">A1:C5<br><j>选中单元格列A行1到列C行5)</j></td>
+</tr>
+<tr>
+    <td><svg style="width: 14px;vertical-align: middle;fill: #e91e63;" viewBox="100 100 824 824"><path d="M861.9999998 562.0000001H311.99999961a50.0000001 50.0000001 0 0 1-49.99999922-50.0000001v-74.99999971H162.0000002a50.0000001 50.0000001 0 0 1-50.0000001-50.0000001V212.00000029a50.0000001 50.0000001 0 0 1 50.0000001-50.0000001h550.00000019a50.0000001 50.0000001 0 0 1 49.99999922 50.0000001v74.99999971h100.0000002a50.0000001 50.0000001 0 0 1 50.00000009 50.0000001v174.9999999a50.0000001 50.0000001 0 0 1-50.00000009 50.0000001z m-550.00000019-74.99999971a24.99999961 24.99999961 0 0 0 25.00000049 24.99999961h225v-174.9999999h-225a24.99999961 24.99999961 0 0 0-25.00000049 24.99999961v125.00000068z m100.00000019-275.0000001H186.9999998a24.99999961 24.99999961 0 0 0-24.99999961 24.99999961v124.99999981a24.99999961 24.99999961 0 0 0 24.99999961 25.00000048h75.00000059v-50.00000009a50.0000001 50.0000001 0 0 1 49.99999922-50.0000001h100.00000019V212.00000029z m300.00000059 24.99999961a24.99999961 24.99999961 0 0 0-25.00000049-24.99999961h-225v74.99999971h250.00000049V236.9999999z m149.99999941 124.99999981a24.99999961 24.99999961 0 0 0-24.99999961-24.99999961h-225v174.9999999h225a24.99999961 24.99999961 0 0 0 24.99999961-24.99999961v-125.00000068zM458.97499971 648.59999961L512 701.65000039l53.02500029-53.05000078 35.3750001 35.3750001L547.34999961 737l53.05000078 53.02500029-35.3750001 35.3750001L512 772.34999961l-53.02500029 53.05000078-35.3750001-35.3750001L476.65000039 737l-53.05000078-53.02500029 35.3750001-35.3750001z" p-id="1700"></path></svg> 去重</td>
+    <td class="my"><kw>SELECT DISTINCT</kw> * <kw>FROM</kw></td>
+    <td class="pg"><kw>SELECT DISTINCT</kw> * <kw>FROM</kw></td>
+    <td class="ch"><kw>SELECT DISTINCT</kw> * <kw>FROM</kw></td>
+    <td class="im"><kw>SELECT DISTINCT</kw> * <kw>FROM</kw></td>
+    <td class="ib"><kw>SELECT DISTINCT</kw> * <kw>FROM</kw></td>
+    <td class="ss"><kw>SELECT DISTINCT</kw> * <kw>FROM</kw></td>
+    <td class="or"><kw>SELECT DISTINCT</kw> * <kw>FROM</kw></td>
+    <td class="xls" rowspan=5>-</td>
+</tr>
+<tr>
+    <td><svg style="fill: #e91e63;width: 20px;vertical-align: middle;" viewBox="0 0 32 32"><path d="M 11.5 6 C 5.984375 6 1.5 10.484375 1.5 16 C 1.5 21.515625 5.984375 26 11.5 26 C 13.328125 26 15.023438 25.484375 16.5 24.625 C 17.976563 25.484375 19.675781 26 21.5 26 C 27.011719 26 31.5 21.511719 31.5 16 C 31.5 10.488281 27.011719 6 21.5 6 C 19.675781 6 17.976563 6.515625 16.5 7.375 C 15.023438 6.515625 13.328125 6 11.5 6 Z M 21.5 8 C 25.929688 8 29.5 11.570313 29.5 16 C 29.5 20.429688 25.929688 24 21.5 24 C 20.351563 24 19.265625 23.746094 18.28125 23.3125 C 20.25 21.484375 21.5 18.890625 21.5 16 C 21.5 13.109375 20.25 10.515625 18.28125 8.6875 C 19.265625 8.253906 20.351563 8 21.5 8 Z"></path></svg> Left Join</td>
+    <td class="my"><kw>LEFT JOIN<br>LEFT OUTER JOIN</kw></td>
+    <td class="pg"><kw>LEFT JOIN<br>LEFT OUTER JOIN</kw></td>
+    <td class="ch"><kw>LEFT JOIN<br>LEFT OUTER JOIN</kw></td>
+    <td class="im"><kw>LEFT JOIN<br>LEFT OUTER JOIN</kw></td>
+    <td class="ib"><kw>LEFT JOIN<br>LEFT OUTER JOIN</kw></td>
+    <td class="ss"><kw>LEFT JOIN<br>LEFT OUTER JOIN</kw></td>
+    <td class="or"><kw>LEFT JOIN<br>LEFT OUTER JOIN</kw></td>
+</tr>
+<tr>
+    <td><svg style="fill: #e91e63;width: 20px;vertical-align: middle;" viewBox="0 0 32 32"><path d="M 11 6 C 5.488281 6 1 10.488281 1 16 C 1 21.511719 5.488281 26 11 26 C 12.824219 26 14.523438 25.484375 16 24.625 C 17.476563 25.484375 19.171875 26 21 26 C 26.515625 26 31 21.515625 31 16 C 31 10.484375 26.515625 6 21 6 C 19.171875 6 17.476563 6.515625 16 7.375 C 14.523438 6.515625 12.824219 6 11 6 Z M 11 8 C 12.148438 8 13.234375 8.253906 14.21875 8.6875 C 12.25 10.515625 11 13.109375 11 16 C 11 18.890625 12.25 21.484375 14.21875 23.3125 C 13.234375 23.746094 12.148438 24 11 24 C 6.570313 24 3 20.429688 3 16 C 3 11.570313 6.570313 8 11 8 Z"></path></svg> Right Join</td>
+    <td class="my"><kw>RIGHT JOIN<br>RIGHT OUTER JOIN</kw></td>
+    <td class="pg"><kw>RIGHT JOIN<br>RIGHT OUTER JOIN</kw></td>
+    <td class="ch"><kw>RIGHT JOIN<br>RIGHT OUTER JOIN</kw></td>
+    <td class="im"><kw>RIGHT JOIN<br>RIGHT OUTER JOIN</kw></td>
+    <td class="ib"><kw>RIGHT JOIN<br>RIGHT OUTER JOIN</kw></td>
+    <td class="ss"><kw>RIGHT JOIN<br>RIGHT OUTER JOIN</kw></td>
+    <td class="or"><kw>RIGHT JOIN<br>RIGHT OUTER JOIN</kw></td>
+</tr>
+<tr>
+    <td><svg style="fill: #e91e63;width: 20px;vertical-align: middle;" viewBox="0 0 32 32"><path d="M 11 6 C 5.488281 6 1 10.488281 1 16 C 1 21.511719 5.488281 26 11 26 C 12.824219 26 14.523438 25.484375 16 24.625 C 17.476563 25.484375 19.175781 26 21 26 C 26.511719 26 31 21.511719 31 16 C 31 10.488281 26.511719 6 21 6 C 19.175781 6 17.476563 6.515625 16 7.375 C 14.523438 6.515625 12.824219 6 11 6 Z M 11 8 C 12.148438 8 13.234375 8.253906 14.21875 8.6875 C 12.25 10.515625 11 13.113281 11 16 C 11 18.886719 12.25 21.484375 14.21875 23.3125 C 13.234375 23.746094 12.148438 24 11 24 C 6.570313 24 3 20.429688 3 16 C 3 11.570313 6.570313 8 11 8 Z M 21 8 C 25.429688 8 29 11.570313 29 16 C 29 20.429688 25.429688 24 21 24 C 19.851563 24 18.765625 23.746094 17.78125 23.3125 C 19.75 21.484375 21 18.886719 21 16 C 21 13.113281 19.75 10.515625 17.78125 8.6875 C 18.765625 8.253906 19.851563 8 21 8 Z"></path></svg> Inner Join</td>
+    <td class="my"><kw>INNER JOIN<br>JOIN</kw></td>
+    <td class="pg"><kw>INNER JOIN<br>JOIN</kw></td>
+    <td class="ch"><kw>INNER JOIN<br>JOIN</kw></td>
+    <td class="im"><kw>INNER JOIN<br>JOIN</kw></td>
+    <td class="ib"><kw>INNER JOIN<br>JOIN</kw></td>
+    <td class="ss"><kw>INNER JOIN<br>JOIN</kw></td>
+    <td class="or"><kw>INNER JOIN<br>JOIN</kw></td>
+</tr>
+<tr>
+    <td><svg style="fill: #e91e63;width: 20px;vertical-align: middle;" viewBox="0 0 32 32"><path d="M 11 6 C 5.488281 6 1 10.488281 1 16 C 1 21.511719 5.488281 26 11 26 C 12.824219 26 14.523438 25.484375 16 24.625 C 17.476563 25.484375 19.175781 26 21 26 C 26.511719 26 31 21.511719 31 16 C 31 10.488281 26.511719 6 21 6 C 19.175781 6 17.476563 6.515625 16 7.375 C 14.523438 6.515625 12.824219 6 11 6 Z M 16 9.75 C 17.828125 11.214844 19 13.46875 19 16 C 19 18.53125 17.828125 20.785156 16 22.25 C 14.171875 20.785156 13 18.53125 13 16 C 13 13.46875 14.171875 11.214844 16 9.75 Z"></path></svg> FUll Join</td>
+    <td class="my">-</td>
+    <td class="pg"><kw>FULL JOIN<br>FULL OUTER JOIN</kw></td>
+    <td class="ch"><kw>FULL JOIN<br>FULL OUTER JOIN</kw></td>
+    <td class="im"><kw>FULL JOIN<br>FULL OUTER JOIN</kw></td>
+    <td class="ib"><kw>FULL JOIN<br>FULL OUTER JOIN</kw></td>
+    <td class="ss"><kw>FULL JOIN<br>FULL OUTER JOIN</kw></td>
+    <td class="or"><kw>FULL JOIN<br>FULL OUTER JOIN</kw></td>
+</tr>
+<tr>
+    <td><svg style="width: 12px;vertical-align: middle;fill: #e91e63" viewBox="0 0 1024 1024"><path d="M735.085714 796.233143c0-15.579429 12.726857-28.818286 28.891429-28.818286h230.4a29.257143 29.257143 0 0 1 28.818286 28.818286 28.891429 28.891429 0 0 1-28.745143 28.818286h-230.473143a29.257143 29.257143 0 0 1-28.818286-28.818286z m0-127.926857c0-15.506286 12.726857-28.745143 28.891429-28.745143h230.4a29.257143 29.257143 0 0 1 28.818286 28.745143 28.891429 28.891429 0 0 1-28.745143 28.818285h-230.473143a29.257143 29.257143 0 0 1-28.818286-28.818285z m28.891429-156.672h230.4a29.257143 29.257143 0 0 1 28.818286 28.818285 28.891429 28.891429 0 0 1-28.745143 28.818286h-230.473143a29.257143 29.257143 0 0 1-28.818286-28.818286 29.257143 29.257143 0 0 1 28.818286-28.818285zM901.632 0c50.176 0 122.148571 49.005714 121.051429 127.926857 1.097143 35.693714-13.897143 66.267429-42.642286 96.768-216.064 189.586286-300.178286 227.620571-306.468572 285.257143-5.266286 45.494857-1.828571 472.356571-2.925714 478.134857a39.497143 39.497143 0 0 1-5.778286 22.454857c-18.432 18.432-37.449143 12.141714-47.250285 4.022857-72.045714-58.733714-232.740571-189.513143-251.172572-228.132571-21.357714-41.472-13.238857-126.756571-13.238857-276.48 0-34.084571-253.513143-235.154286-308.297143-285.257143C31.744 210.285714 0 181.540571 0 128 0 49.590857 63.926857 0 134.802286 0h766.829714zM76.068571 164.790857c1.682286 2.340571 4.022857 5.12 6.875429 8.045714l8.630857 8.630858-3.437714-3.437715a9235.017143 9235.017143 0 0 0 147.529143 125.074286l14.921143 12.653714c134.290286 115.2 167.131429 147.456 167.131428 194.706286 0 27.648 0 51.273143-0.585143 88.137143-1.755429 114.102857 0 145.773714 8.045715 161.353143 3.437714 6.875429 47.835429 49.517714 108.324571 101.961143l17.261714 14.409142c32.914286 27.648 57.051429 54.125714 57.051429 51.273143v-179.785143c0-139.995429 0.585143-221.184 3.437714-244.297142 1.755429-13.165714 5.193143-25.892571 10.386286-38.034286 15.579429-35.108571 40.96-59.245714 105.472-111.689143l89.234286-72.045714c40.374857-34.596571 81.261714-69.12 121.636571-104.886857l-4.608 4.096c19.017143-20.187429 25.892571-35.181714 25.307429-53.613715 0.585143-33.426286-32.182857-63.341714-57.051429-63.341714H134.802286c-41.472 0-70.875429 26.477714-70.875429 63.926857 0 14.994286 4.022857 25.892571 12.141714 36.864z" p-id="2736"></path></svg> 过滤器</td>
+    <td class="my"><kw>WHERE</kw> condition</td>
+    <td class="pg"><kw>WHERE</kw> condition</td>
+    <td class="ch"><kw>WHERE</kw> condition</td>
+    <td class="im"><kw>WHERE</kw> condition</td>
+    <td class="ib"><kw>WHERE</kw> condition</td>
+    <td class="ss"><kw>WHERE</kw> condition</td>
+    <td class="or"><kw>WHERE</kw> condition</td>
+    <td class="xls">选择1个或多个column设置过滤条件</td>
+</tr>
+<tr>
+    <td>AND/OR</td>
+    <td class="my">AND/OR</td>
+    <td class="pg">AND/OR</td>
+    <td class="ch">AND/OR</td>
+    <td class="im">AND/OR</td>
+    <td class="ib">AND/OR</td>
+    <td class="ss">AND/OR</td>
+    <td class="or">AND/OR</td>
+    <td class="xls">=<fn>AND</fn>(condition1, [conditiona2], ...)<br>=<fn>AND</fn>(condition1, [conditiona2], ...)<br>=<fn>NOT</fn>(condition)<br><j>结果为TRUE或FALSE</j></td>
+</tr>
+<tr>
+    <td>=</td>
+    <td class="my">col = 'abc'</td>
+    <td class="pg">col = 'abc'</td>
+    <td class="ch">col = 'abc'<br><fn>equals</fn>(col, 'abc')</td>
+    <td class="im">col = 'abc'</td>
+    <td class="ib">col = 'abc'</td>
+    <td class="ss">col = 'abc'</td>
+    <td class="or">col = 'abc'</td>
+    <td class="xls">=H24=3</td>
+</tr>
+<tr>
+    <td>!=</td>
+    <td class="my">col != 'abc'<br>col &lt;&gt; 'abc'</td>
+    <td class="pg">col != 'abc'<br>col &lt;&gt; 'abc'</td>
+    <td class="ch">col != 'abc'<br>col &lt;&gt; 'abc'<br><fn>notEquals</fn>(col, 'abc')</td>
+    <td class="im">col != 'abc'<br>col &lt;&gt; 'abc'</td>
+    <td class="ib">col != 'abc'<br>col &lt;&gt; 'abc'</td>
+    <td class="ss">col != 'abc'<br>col &lt;&gt; 'abc'</td>
+    <td class="or">col != 'abc'<br>col &lt;&gt; 'abc'</td>
+    <td class="xls">=H24&lt;&gt;3</td>
+</tr>
+<tr>
+    <td>&lt;</td>
+    <td class="my">col &lt; 100</td>
+    <td class="pg">col &lt; 100</td>
+    <td class="ch">col &lt; 100<br><fn>less</fn>(col, 100)</td>
+    <td class="im">col &lt; 100</td>
+    <td class="ib">col &lt; 100</td>
+    <td class="ss">col &lt; 100</td>
+    <td class="or">col &lt; 100</td>
+    <td class="xls">=H24&lt;3</td>
+</tr>
+<tr>
+    <td>&gt;</td>
+    <td class="my">col &gt; 100</td>
+    <td class="pg">col &gt; 100</td>
+    <td class="ch">col &gt; 100<br><fn>greater</fn>(col, 100)</td>
+    <td class="im">col &gt; 100</td>
+    <td class="ib">col &gt; 100</td>
+    <td class="ss">col &gt; 100</td>
+    <td class="or">col &gt; 100</td>
+    <td class="xls">=H24&gt;3</td>
+</tr>
+<tr>
+    <td>&lt;=</td>
+    <td class="my">col &lt;= 100</td>
+    <td class="pg">col &lt;= 100</td>
+    <td class="ch">col &lt;= 100<br><fn>lessOrEquals</fn>(col, 100)</td>
+    <td class="im">col &lt;= 100</td>
+    <td class="ib">col &lt;= 100</td>
+    <td class="ss">col &lt;= 100</td>
+    <td class="or">col &lt;= 100</td>
+    <td class="xls">=H24&lt;=3</td>
+</tr>
+<tr>
+    <td>&gt;=</td>
+    <td class="my">col &gt;= 100</td>
+    <td class="pg">col &gt;= 100</td>
+    <td class="ch">col &gt;= 100<br><fn>greaterOrEquals</fn>(col, 100)</td>
+    <td class="im">col &gt;= 100</td>
+    <td class="ib">col &gt;= 100</td>
+    <td class="ss">col &gt;= 100</td>
+    <td class="or">col &gt;= 100</td>
+    <td class="xls">=H24&gt;=3</td>
+</tr>
+<tr>
+    <td>Contains</td>
+    <td class="my">col <kw>LIKE</kw> '%abc%'<br><note>like 可适用于数值日期, like 后可用单/双引号</note></td>
+    <td class="pg">col <kw>LIKE</kw> '%abc%'<br>col <kw>LIKE</kw> '_abc_' <j>中间为abc的长度为5的字符串</j><br><note>like 不适用于数值日期, like后只能用单引号</note></td>
+    <td class="ch">col <kw>LIKE</kw> '%abc%'<br><fn>like</fn>(col, '%abc%')<br><note>like 不适用于数值日期, like后只能用单引号, 函数区分大小写</note></td>
+    <td class="im">col <kw>LIKE</kw> '%abc%'<br><note>like 不适用于数值日期, like后可用单/双引号</note></td>
+    <td class="ib">col <kw>LIKE</kw> '%abc%'<br>col <kw>LIKE</kw> '_abc_' <j>中间为abc的长度为5的字符串</j><br><note>like 可适用于数值日期, like后只能用单引号</note></td>
+    <td class="ss">col <kw>LIKE</kw> '%abc%'<br>col <kw>LIKE</kw> '_abc_' <j>中间为abc的长度为5的字符串</j><br><note>like 可适用于数值日期, like后只能用单引号</note></td>
+    <td class="or">col <kw>LIKE</kw> '%abc%'<br>col <kw>LIKE</kw> '_abc_' <j>中间为abc的长度为5的字符串</j><br><note>like 可用于数值日期, like后只能用单引号</note></td>
+    <td class="xls">=<fn>COUNTIF</fn>(B10,"*abc*")>0</td>
+</tr>
+<tr>
+    <td>Does not contain</td>
+    <td class="my">col <kw>NOT LIKE</kw> '%abc%'</td>
+    <td class="pg">col <kw>NOT LIKE</kw> '%abc%'</td>
+    <td class="ch">col <kw>NOT LIKE</kw> '%abc%'<br><fn>notLike</fn>(col, '%abc%')</td>
+    <td class="im">col <kw>NOT LIKE</kw> '%abc%'</td>
+    <td class="ib">col <kw>NOT LIKE</kw> '%abc%'</td>
+    <td class="ss">col <kw>NOT LIKE</kw> '%abc%'</td>
+    <td class="or">col <kw>NOT LIKE</kw> '%abc%'</td>
+    <td class="xls">=<fn>COUNTIF</fn>(B10,"*abc*")=0</td>
+</tr>
+<tr>
+    <td>Begin with</td>
+    <td class="my">col <kw>LIKE</kw> 'abc%'</td>
+    <td class="pg">col <kw>LIKE</kw> 'abc%'</td>
+    <td class="ch">col <kw>LIKE</kw> 'abc%'<br><fn>like</fn>(col, 'abc%')</td>
+    <td class="im">col <kw>LIKE</kw> 'abc%'</td>
+    <td class="ib">col <kw>LIKE</kw> 'abc%'</td>
+    <td class="ss">col <kw>LIKE</kw> 'abc%'</td>
+    <td class="or">col <kw>LIKE</kw> 'abc%'</td>
+    <td class="xls">=<fn>COUNTIF</fn>(B10,"abc*")>0</td>
+</tr>
+<tr>
+    <td>Does not begin with</td>
+    <td class="my">col <kw>NOT LIKE</kw> 'abc%'</td>
+    <td class="pg">col <kw>NOT LIKE</kw> 'abc%'</td>
+    <td class="ch">col <kw>NOT LIKE</kw> 'abc%'<br><fn>notLike</fn>(col, 'abc%')</td>
+    <td class="im">col <kw>NOT LIKE</kw> 'abc%'</td>
+    <td class="ib">col <kw>NOT LIKE</kw> 'abc%'</td>
+    <td class="ss">col <kw>NOT LIKE</kw> 'abc%'</td>
+    <td class="or">col <kw>NOT LIKE</kw> 'abc%'</td>
+    <td class="xls">=<fn>COUNTIF</fn>(B10,"abc*")=0</td>
+</tr>
+<tr>
+    <td>End with</td>
+    <td class="my">col <kw>LIKE</kw> '%abc'</td>
+    <td class="pg">col <kw>LIKE</kw> '%abc'</td>
+    <td class="ch">col <kw>LIKE</kw> '%abc'<br><fn>like</fn>(col, '%abc')</td>
+    <td class="im">col <kw>LIKE</kw> '%abc'</td>
+    <td class="ib">col <kw>LIKE</kw> '%abc'</td>
+    <td class="ss">col <kw>LIKE</kw> '%abc'</td>
+    <td class="or">col <kw>LIKE</kw> '%abc'</td>
+    <td class="xls">=<fn>COUNTIF</fn>(B10,"*abc")>0</td>
+</tr>
+<tr>
+    <td>Does not end with</td>
+    <td class="my">col <kw>NOT LIKE</kw> '%abc'</td>
+    <td class="pg">col <kw>NOT LIKE</kw> '%abc'</td>
+    <td class="ch">col <kw>NOT LIKE</kw> '%abc'<br><fn>notLike</fn>(col, '%abc')</td>
+    <td class="im">col <kw>NOT LIKE</kw> '%abc'</td>
+    <td class="ib">col <kw>NOT LIKE</kw> '%abc'</td>
+    <td class="ss">col <kw>NOT LIKE</kw> '%abc'</td>
+    <td class="or">col <kw>NOT LIKE</kw> '%abc'</td>
+    <td class="xls">=<fn>COUNTIF</fn>(B10,"*abc")=0</td>
+</tr>
+<tr>
+    <td>is null</td>
+    <td class="my">col <kw>IS NULL</kw></td>
+    <td class="pg">col <kw>IS NULL</kw></td>
+    <td class="ch">col <kw>IS NULL</kw><br><fn>isNull</fn>(col)</td>
+    <td class="im">col <kw>IS NULL</kw></td>
+    <td class="ib">col <kw>IS NULL</kw></td>
+    <td class="ss">col <kw>IS NULL</kw></td>
+    <td class="or">col <kw>IS NULL</kw></td>
+    <td class="xls" rowspan="2">-</td>
+</tr>
+<tr>
+    <td>is not null</td>
+    <td class="my">col <kw>IS NOT NULL</kw></td>
+    <td class="pg">col <kw>IS NOT NULL</kw></td>
+    <td class="ch">col <kw>IS NOT NULL</kw><br><fn>isNotNull</fn>(col)</td>
+    <td class="im">col <kw>IS NOT NULL</kw></td>
+    <td class="ib">col <kw>IS NOT NULL</kw></td>
+    <td class="ss">col <kw>IS NOT NULL</kw></td>
+    <td class="or">col <kw>IS NOT NULL</kw></td>
+</tr>
+<tr>
+    <td>Is empty</td>
+    <td class="my">col = ''</td>
+    <td class="pg">col = ''</td>
+    <td class="ch">col = ''</td>
+    <td class="im">col = ''</td>
+    <td class="ib">col = ''</td>
+    <td class="ss">col = ''</td>
+    <td class="or">col = ''</td>
+    <td class="xls">=<fn>ISBLANK</fn>(B8)</td>
+</tr>
+<tr>
+    <td>Is not empty</td>
+    <td class="my">col != ''<br>col <> ''</td>
+    <td class="pg">col != ''<br>col <> ''</td>
+    <td class="ch">col != ''</td>
+    <td class="im">col != ''<br>col <> ''</td>
+    <td class="ib">col != ''<br>col <> ''</td>
+    <td class="ss">col != ''<br>col <> ''</td>
+    <td class="or">col != ''<br>col <> ''</td>
+    <td class="xls">=<fn>NOT</fn>(<fn>ISBLANK</fn>(B8))</td>
+</tr>
+<tr>
+    <td>Is between</td>
+    <td class="my">col <kw>BETWEEN</kw> 100 <kw>AND</kw> 200<br>date <kw>BETWEEN</kw> '2018-02-01' <kw>AND</kw> '2018-02-15' </td>
+    <td class="pg">col <kw>BETWEEN</kw> 100 <kw>AND</kw> 200<br>date <kw>BETWEEN</kw> '2018-02-01' <kw>AND</kw> '2018-02-15' </td>
+    <td class="ch">col <kw>BETWEEN</kw> 100 <kw>AND</kw> 200<br>date <kw>BETWEEN</kw> '2018-02-01' <kw>AND</kw> '2018-02-15' </td>
+    <td class="im">col <kw>BETWEEN</kw> 100 <kw>AND</kw> 200<br>date <kw>BETWEEN</kw> '2018-02-01' <kw>AND</kw> '2018-02-15' </td>
+    <td class="ib">col <kw>BETWEEN</kw> 100 <kw>AND</kw> 200<br>date <kw>BETWEEN</kw> '2018-02-01' <kw>AND</kw> '2018-02-15' </td>
+    <td class="ss">col <kw>BETWEEN</kw> 100 <kw>AND</kw> 200<br>date <kw>BETWEEN</kw> '2018-02-01' <kw>AND</kw> '2018-02-15' </td>
+    <td class="or">col <kw>BETWEEN</kw> 100 <kw>AND</kw> 200<br>date <kw>BETWEEN</kw> '2018-02-01' <kw>AND</kw> '2018-02-15' </td>
+    <td class="xls">=<fn>AND</fn>(B8>100,B8<200)<br>=<fn>AND</fn>(C6><fn>DATE</fn>(2021,8,8),C6<<fn>DATE</fn>(2021,9,10))</td>
+</tr>
+<tr>
+    <td>Is not between</td>
+    <td class="my">col <kw>NOT BETWEEN</kw> 100 <kw>AND</kw> 200<br>date <kw>NOT BETWEEN</kw> '2018-02-01' <kw>AND</kw> '2018-02-15' </td>
+    <td class="pg">col <kw>NOT BETWEEN</kw> 100 <kw>AND</kw> 200<br>date <kw>NOT BETWEEN</kw> '2018-02-01' <kw>AND</kw> '2018-02-15' </td>
+    <td class="ch">col <kw>NOT BETWEEN</kw> 100 <kw>AND</kw> 200<br>date <kw>NOT BETWEEN</kw> '2018-02-01' <kw>AND</kw> '2018-02-15' </td>
+    <td class="im">col <kw>NOT BETWEEN</kw> 100 <kw>AND</kw> 200<br>date <kw>NOT BETWEEN</kw> '2018-02-01' <kw>AND</kw> '2018-02-15' </td>
+    <td class="ib">col <kw>NOT BETWEEN</kw> 100 <kw>AND</kw> 200<br>date <kw>NOT BETWEEN</kw> '2018-02-01' <kw>AND</kw> '2018-02-15' </td>
+    <td class="ss">col <kw>NOT BETWEEN</kw> 100 <kw>AND</kw> 200<br>date <kw>NOT BETWEEN</kw> '2018-02-01' <kw>AND</kw> '2018-02-15' </td>
+    <td class="or">col <kw>NOT BETWEEN</kw> 100 <kw>AND</kw> 200<br>date <kw>NOT BETWEEN</kw> '2018-02-01' <kw>AND</kw> '2018-02-15' </td>
+    <td class="xls">=<fn>NOT</fn>(<fn>AND</fn>(B8>100,B8<200))<br>=<fn>NOT</fn>(<fn>AND</fn>(C6><fn>DATE</fn>(2021,8,8),C6<<fn>DATE</fn>(2021,9,10)))</td>
+</tr>
+<tr>
+    <td>Is in list</td>
+    <td class="my">col <kw>IN</kw> (a, b, c)<br>(col1, col2) <kw>IN</kw> ((a1, a2), (b1, b2), (c1, c2))</td>
+    <td class="pg">col <kw>IN</kw> (a, b, c)<br>(col1, col2) <kw>IN</kw> ((a1, a2), (b1, b2), (c1, c2))</td>
+    <td class="ch">col <kw>IN</kw> (a, b, c)<br><fn>in</fn>(col, (a, b, c))<br>(col1, col2) <kw>IN</kw> ((a1, a2), (b1, b2), (c1, c2))</td>
+    <td class="im">col <kw>IN</kw> (a, b, c)</td>
+    <td class="ib">col <kw>IN</kw> (a, b, c)</td>
+    <td class="ss">col <kw>IN</kw> (a, b, c)</td>
+    <td class="or">col <kw>IN</kw> (a, b, c)<br>(col1, col2) <kw>IN</kw> ((a1, a2), (b1, b2), (c1, c2))</td>
+    <td class="xls">=<fn>COUNTIF</fn>({"a","b",4},B8)>0</td>
+</tr>
+<tr>
+    <td>Is not in list</td>
+    <td class="my">col <kw>NOT IN</kw> (a, b, c)</td>
+    <td class="pg">col <kw>NOT IN</kw> (a, b, c)</td>
+    <td class="ch">col <kw>NOT IN</kw> (a, b, c)<br><fn>notIn</fn>(col, (a, b, c))</td>
+    <td class="im">col <kw>NOT IN</kw> (a, b, c)</td>
+    <td class="ib">col <kw>NOT IN</kw> (a, b, c)</td>
+    <td class="ss">col <kw>NOT IN</kw> (a, b, c)</td>
+    <td class="or">col <kw>NOT IN</kw> (a, b, c)</td>
+    <td class="xls">=<fn>COUNTIF</fn>({"a","b",4},B8)=0</td>
+</tr>
+<tr>
+    <td>GROUP BY<br>分组聚合</td>
+    <td class="my"><kw>SELECT</kw> <fn>COUNT</fn>(id) <kw>FROM</kw> tb1 <kw>GROUP BY</kw> mc</td>
+    <td class="pg"><kw>SELECT</kw> <fn>COUNT</fn>(id) <kw>FROM</kw> tb1 <kw>GROUP BY</kw> mc</td>
+    <td class="ch"><kw>SELECT</kw> <fn>COUNT</fn>(id) <kw>FROM</kw> tb1 <kw>GROUP BY</kw> mc</td>
+    <td class="im"><kw>SELECT</kw> <fn>COUNT</fn>(id) <kw>FROM</kw> tb1 <kw>GROUP BY</kw> mc</td>
+    <td class="ib"><kw>SELECT</kw> <fn>COUNT</fn>(id) <kw>FROM</kw> tb1 <kw>GROUP BY</kw> mc</td>
+    <td class="ss"><kw>SELECT</kw> <fn>COUNT</fn>(id) <kw>FROM</kw> tb1 <kw>GROUP BY</kw> mc</td>
+    <td class="or"><kw>SELECT</kw> <fn>COUNT</fn>(id) <kw>FROM</kw> tb1 <kw>GROUP BY</kw> mc</td>
+    <td class="xls" rowspan=2>-</td>
+</tr>
+<tr>
+    <td><svg style="width: 12px;vertical-align: middle;fill: #e91e63" viewBox="0 0 1024 1024"><path d="M735.085714 796.233143c0-15.579429 12.726857-28.818286 28.891429-28.818286h230.4a29.257143 29.257143 0 0 1 28.818286 28.818286 28.891429 28.891429 0 0 1-28.745143 28.818286h-230.473143a29.257143 29.257143 0 0 1-28.818286-28.818286z m0-127.926857c0-15.506286 12.726857-28.745143 28.891429-28.745143h230.4a29.257143 29.257143 0 0 1 28.818286 28.745143 28.891429 28.891429 0 0 1-28.745143 28.818285h-230.473143a29.257143 29.257143 0 0 1-28.818286-28.818285z m28.891429-156.672h230.4a29.257143 29.257143 0 0 1 28.818286 28.818285 28.891429 28.891429 0 0 1-28.745143 28.818286h-230.473143a29.257143 29.257143 0 0 1-28.818286-28.818286 29.257143 29.257143 0 0 1 28.818286-28.818285zM901.632 0c50.176 0 122.148571 49.005714 121.051429 127.926857 1.097143 35.693714-13.897143 66.267429-42.642286 96.768-216.064 189.586286-300.178286 227.620571-306.468572 285.257143-5.266286 45.494857-1.828571 472.356571-2.925714 478.134857a39.497143 39.497143 0 0 1-5.778286 22.454857c-18.432 18.432-37.449143 12.141714-47.250285 4.022857-72.045714-58.733714-232.740571-189.513143-251.172572-228.132571-21.357714-41.472-13.238857-126.756571-13.238857-276.48 0-34.084571-253.513143-235.154286-308.297143-285.257143C31.744 210.285714 0 181.540571 0 128 0 49.590857 63.926857 0 134.802286 0h766.829714zM76.068571 164.790857c1.682286 2.340571 4.022857 5.12 6.875429 8.045714l8.630857 8.630858-3.437714-3.437715a9235.017143 9235.017143 0 0 0 147.529143 125.074286l14.921143 12.653714c134.290286 115.2 167.131429 147.456 167.131428 194.706286 0 27.648 0 51.273143-0.585143 88.137143-1.755429 114.102857 0 145.773714 8.045715 161.353143 3.437714 6.875429 47.835429 49.517714 108.324571 101.961143l17.261714 14.409142c32.914286 27.648 57.051429 54.125714 57.051429 51.273143v-179.785143c0-139.995429 0.585143-221.184 3.437714-244.297142 1.755429-13.165714 5.193143-25.892571 10.386286-38.034286 15.579429-35.108571 40.96-59.245714 105.472-111.689143l89.234286-72.045714c40.374857-34.596571 81.261714-69.12 121.636571-104.886857l-4.608 4.096c19.017143-20.187429 25.892571-35.181714 25.307429-53.613715 0.585143-33.426286-32.182857-63.341714-57.051429-63.341714H134.802286c-41.472 0-70.875429 26.477714-70.875429 63.926857 0 14.994286 4.022857 25.892571 12.141714 36.864z" p-id="2736"></path></svg> HAVING<br>允许过滤由GROUP BY生成的聚合结果，类似WHERE，但WHERE在聚合前过滤，它在聚合后过滤</td>
+    <td class="my"><kw>HAVING</kw> <fn>COUNT</fn>(id) > 100</td>
+    <td class="pg"><kw>HAVING</kw> <fn>COUNT</fn>(id) > 100</td>
+    <td class="ch"><kw>HAVING</kw> <fn>COUNT</fn>(id) > 100</td>
+    <td class="im"><kw>HAVING</kw> <fn>COUNT</fn>(id) > 100</td>
+    <td class="ib"><kw>HAVING</kw> <fn>COUNT</fn>(id) > 100</td>
+    <td class="ss"><kw>HAVING</kw> <fn>COUNT</fn>(id) > 100</td>
+    <td class="or"><kw>HAVING</kw> <fn>COUNT</fn>(id) > 100</td>
+</tr>
+<tr>
+    <td><svg style="width: 13px;vertical-align: middle;fill: #e91e63;" viewBox="0 0 1024 1024"><path d="M426.666667 554.666667 426.666667 469.333333 768 469.333333 768 554.666667 426.666667 554.666667M426.666667 810.666667 426.666667 725.333333 597.333333 725.333333 597.333333 810.666667 426.666667 810.666667M426.666667 298.666667 426.666667 213.333333 938.666667 213.333333 938.666667 298.666667 426.666667 298.666667M256 725.333333 362.666667 725.333333 213.333333 874.666667 64 725.333333 170.666667 725.333333 170.666667 298.666667 64 298.666667 213.333333 149.333333 362.666667 298.666667 256 298.666667 256 725.333333Z" p-id="11333"></path></svg> 排序</td>
+    <td class="my"><kw>ORDER BY</kw> col <kw>ASC</kw>(默认)/<kw>DESC</kw></td>
+    <td class="pg"><kw>ORDER BY</kw> col <kw>ASC</kw>(默认)/<kw>DESC</kw></td>
+    <td class="ch"><kw>ORDER BY</kw> col <kw>ASC</kw>(默认)/<kw>DESC</kw></td>
+    <td class="im"><kw>ORDER BY</kw> col <kw>ASC</kw>(默认)/<kw>DESC</kw></td>
+    <td class="ib"><kw>ORDER BY</kw> col <kw>ASC</kw>(默认)/<kw>DESC</kw></td>
+    <td class="ss"><kw>ORDER BY</kw> col <kw>ASC</kw>(默认)/<kw>DESC</kw></td>
+    <td class="or"><kw>ORDER BY</kw> col <kw>ASC</kw>(默认)/<kw>DESC</kw></td>
+    <td class="xls">选择1个或多个column排序, 并选择升序还是降序</td>
+</tr>
+<tr>
+    <td><svg style="width: 14px;vertical-align: middle;fill: #e91e63;" viewBox="0 -122 512.001 512"><path d="m378.03125 268.988281-28.25-28.269531 105.816406-105.746094-105.882812-106.839844 28.382812-28.132812 133.902344 135.109375zm-215.8125-28.269531-105.816406-105.746094 105.886718-106.839844-28.386718-28.132812-133.902344 135.109375 133.96875 133.878906zm113.765625-105.757812c0 11.015624-8.964844 19.980468-19.984375 19.980468s-19.980469-8.964844-19.980469-19.980468c0-11.019532 8.960938-19.984376 19.980469-19.984376s19.984375 8.964844 19.984375 19.984376zm79.929687 0c0 11.015624-8.964843 19.980468-19.984374 19.980468-11.019532 0-19.980469-8.964844-19.980469-19.980468 0-11.019532 8.960937-19.984376 19.980469-19.984376 11.019531 0 19.984374 8.964844 19.984374 19.984376zm-159.859374 0c0 11.015624-8.964844 19.980468-19.984376 19.980468-11.019531 0-19.980468-8.964844-19.980468-19.980468 0-11.019532 8.960937-19.984376 19.980468-19.984376 11.019532 0 19.984376 8.964844 19.984376 19.984376zm0 0"/></svg> LIMIT</td>
+    <td class="my"><kw>LIMIT</kw> 10<br><kw>LIMIT</kw> 0, 10<br><kw>LIMIT</kw> 10 <kw>OFFSET</kw> 0</td>
+    <td class="pg"><kw>LIMIT</kw> 10<br><kw>LIMIT</kw> 10 <kw>OFFSET</kw> 0</td>
+    <td class="ch"><kw>LIMIT</kw> 10<br><kw>LIMIT</kw> 0, 10<br><kw>LIMIT</kw> 10 <kw>OFFSET</kw> 0</td>
+    <td class="im"><kw>LIMIT</kw> 10<br><kw>LIMIT</kw> 10 <kw>OFFSET</kw> 0</td>
+    <td class="ib"><kw>LIMIT</kw> 10<br><kw>LIMIT</kw> 0, 10<br><kw>LIMIT</kw> 10 <kw>OFFSET</kw> 0</td>
+    <td class="ss"><j>没有LIMIT</j><br><kw>SELECT TOP</kw> 10 col <kw>FROM</kw> tb1<br><kw>SELECT TOP</kw> @pageSize col <kw>FROM</kw> tb1 <kw>WHERE</kw> id (<kw>NOT IN SELECT top</kw> @offset id <kw>FROM</kw> tb1)</td>
+    <td class="or"><kw>FETCH FIRST</kw> 10 <kw>PERCENT ROWS ONLY</kw><br><kw>OFFSET</kw> 0 <kw>ROWS FETCH NEXT</kw> 10 <kw>ROWS ONLY</kw></td>
+    <td class="xls">-</td>
+</tr>
+<tr id="aggregation"><th colspan=10>Aggregate functions: 聚合函数的操作面向一系列的值，并返回一个单一的值</th></tr>
+<tr>
+    <td>SUM</td>
+    <td class="my"><fn>SUM</fn>(col)</td>
+    <td class="pg"><fn>SUM</fn>(col)</td>
+    <td class="ch"><fn>SUM</fn>(col)</td>
+    <td class="im"><fn>SUM</fn>(col)</td>
+    <td class="ib"><fn>SUM</fn>(col)</td>
+    <td class="ss"><fn>SUM</fn>(col)</td>
+    <td class="or"><fn>SUM</fn>(col)</td>
+    <td class="xls">=<fn>SUM</fn>(C1:C18)</td>
+</tr>
+<tr>
+    <td>COUNT 字段条目数</td>
+    <td class="my"><fn>COUNT</fn>(col)</td>
+    <td class="pg"><fn>COUNT</fn>(col)</td>
+    <td class="ch"><fn>COUNT</fn>(col)</td>
+    <td class="im"><fn>COUNT</fn>(col)</td>
+    <td class="ib"><fn>COUNT</fn>(col)</td>
+    <td class="ss"><fn>COUNT</fn>(col)</td>
+    <td class="or"><fn>COUNT</fn>(col)</td>
+    <td class="xls">=<fn>COUNT</fn>(A1:C9)<br><j>统计A1，C9非空单元格数</j><br>=<fn>COUNTIF</fn>(A1:C9, ">2")</td>
+</tr>
+<tr>
+    <td>COUNT DISTINCT字段条目数</td>
+    <td class="my"><fn>COUNT</fn>(<fn>DISTINCT</fn> col)</td>
+    <td class="pg"><fn>COUNT</fn>(<fn>DISTINCT</fn> col)</td>
+    <td class="ch"><fn>COUNT</fn>(<fn>DISTINCT</fn> col)</td>
+    <td class="im"><fn>COUNT</fn>(<fn>DISTINCT</fn> col)</td>
+    <td class="ib"><fn>COUNT</fn>(<fn>DISTINCT</fn> col)</td>
+    <td class="ss"><fn>COUNT</fn>(<fn>DISTINCT</fn> col)</td>
+    <td class="or"><fn>COUNT</fn>(<fn>DISTINCT</fn> col)</td>
+    <td class="xls">-</td>
+</tr>
+<tr>
+    <td>AVG/MAX/MIN</td>
+    <td class="my"><fn>AVG</fn>(col) <fn>MAX</fn>(col) <fn>MIN</fn>(col)</td>
+    <td class="pg"><fn>AVG</fn>(col) <fn>MAX</fn>(col) <fn>MIN</fn>(col)</td>
+    <td class="ch"><fn>AVG</fn>(col) <fn>MAX</fn>(col) <fn>MIN</fn>(col)</td>
+    <td class="im"><fn>AVG</fn>(col) <fn>MAX</fn>(col) <fn>MIN</fn>(col)</td>
+    <td class="ib"><fn>AVG</fn>(col) <fn>MAX</fn>(col) <fn>MIN</fn>(col)</td>
+    <td class="ss"><fn>AVG</fn>(col) <fn>MAX</fn>(col) <fn>MIN</fn>(col)</td>
+    <td class="or"><fn>AVG</fn>(col) <fn>MAX</fn>(col) <fn>MIN</fn>(col)</td>
+    <td class="xls">=<fn>AVERAGE</fn>(C1:C18) <br>=<fn>MAX</fn>(C1:C18) <br>=<fn>MIN</fn>(C1:C18)</td>
+</tr>
+<tr id="scalar"><th colspan=9>Scalar functions: Scalar 函数的操作面向某个单一的值，并返回基于输入值的一个单一的值</th></tr>
+<tr id="date"><th colspan=9>Date and Time Functions(Scalar functions)</th></tr>
+<tr>
+    <td>DATEDIFF<br>返回两个时间之间的天数</td>
+    <td class="my"><fn>DATEDIFF</fn>(date1, date2)</td>
+    <td class="pg">-</td>
+    <td class="ch"><fn>DATEDIFF</fn>('day', startdate, <fn>toDate</fn>('2021-09-08'))</td>
+    <td class="im"><fn>DATEDIFF</fn>(date1, date2)</td>
+    <td class="ib">-</td>
+    <td class="ss"><fn>DATEDIFF</fn></td>
+    <td class="or">-</td>
+    <td class="xls">=<fn>DATEDIF</fn>(J15,H15,"D")</td>
+</tr>
+<tr>
+    <td>DATE_ADD(date, INTERVAL expr type)<br>日期添加指定的时间间隔<br>DATE_SUB</td>
+    <td class="my"><fn>DATE_ADD</fn>(date, <fn>INTERVAL</fn> 2 DAY)<br><fn>DATE_SUB</fn>(date, <fn>INTERVAL</fn> 2 DAY)</td>
+    <td class="pg">-</td>
+    <td class="ch"><fn>addDays</fn>(col, 20)<br><fn>addMonths</fn>(col, 18)</td>
+    <td class="im"><fn>DATE_ADD</fn>(date, <fn>INTERVAL</fn> 2 DAY)<br><fn>DATE_SUB</fn>(date, <fn>INTERVAL</fn> 2 DAY)</td>
+    <td class="ib"><fn>CURRENT_DATE</fn> + 2 <kw>DAY</kw></td>
+    <td class="ss"><fn>DATEADD</fn></td>
+    <td class="or"><fn>SYSDATE</fn> + 1<br><fn>to_date</fn>('2021-09-06', 'yyyy-mm-dd')+1</td>
+    <td class="xls">=H15+20</td>
+</tr>
+<tr>
+    <td>NOW</td>
+    <td class="my"><fn>NOW</fn>()</td>
+    <td class="pg"><fn>NOW</fn>()</td>
+    <td class="ch"><fn>NOW</fn>()</td>
+    <td class="im"><fn>NOW</fn>()</td>
+    <td class="ib"><fn>CURRENT_DATE</fn></td>
+    <td class="ss"><fn>SYSDATETIME</fn>()</td>
+    <td class="or"><fn>SYSDATE</fn></td>
+    <td class="xls">=<fn>NOW</fn>() <j>日期时分</j><br>=<fn>TODAY()</fn> <j>日期</j></td>
+</tr>
+<tr>
+    <td>年</td>
+    <td class="my"><fn>date_format</fn>(col, '%Y')</td>
+    <td class="pg"><fn>to_char</fn>(col, 'yyyy')</td>
+    <td class="ch"><fn>formatDateTime</fn>(col, '%Y')</td>
+    <td class="im"><fn>YEAR</fn>(col)</td>
+    <td class="ib"><fn>TO_CHAR</fn>(col, 'YYYY')</td>
+    <td class="ss"><fn>DATEPART</fn>(yyyy, col)</td>
+    <td class="or"><fn>TO_CHAR</fn>(col, 'yyyy')</td>
+    <td class="xls">=<fn>YEAR</fn>(C1)</td>
+</tr>
+<tr>
+    <td>季度</td>
+    <td class="my"><fn>CONCAT</fn>(<fn>YEAR</fn>(col), '年第',<fn>CEIL</fn>(<fn>MONTH</fn>(col)/3), '季度')</td>
+    <td class="pg"><fn>to_char</fn>(col, 'yyyy年第q季度')</td>
+    <td class="ch"><fn>CONCAT</fn>(<fn>toString</fn>(<fn>toYear</fn>(col)), '年第',<fn>toString</fn>(<fn>CEIL</fn>(<fn>toMonth</fn>(col)/3)), '季度')</td>
+    <td class="im"><fn>CONCAT</fn>(<fn>CAST</fn>(<fn>YEAR</fn>(col) <kw>AS STRING</kw>), '年第',<fn>CAST</fn>(<fn>CEIL</fn>(<fn>MONTH</fn>(col)/3) <kw>AS STRING</kw>) ,'季度')</td>
+    <td class="ib"><fn>CONCAT</fn>(<fn>CONCAT</fn>(<fn>TO_CHAR</fn>(col, 'YYYY'), '年第'), <fn>CONCAT</fn>(<fn>TO_CHAR</fn>(col, 'Q'), '季度'))</td>
+    <td class="ss"><fn>CONCAT</fn>(<fn>DATEPART</fn>(yyyy,col), '年第', <fn>DATEPART</fn>(q,col), '季度')</td>
+    <td class="or"><fn>CONCAT</fn>(<fn>TO_CHAR</fn>(col,'yyyy'), '年第', <fn>TO_CHAR</fn>(col, 'Q'), '季度')</td>
+    <td class="xls">=<kw>IF</kw>(<fn>MONTH</fn>(H15)<4,"第一季度",<kw>IF</kw>(<fn>MONTH</fn>(H15)<7,"第二季度",<kw>IF</kw>(<fn>MONTH</fn>(H15)<10,"第三季度","第四季度")))</td>
+</tr>
+<tr>
+    <td>月</td>
+    <td class="my"><fn>date_format</fn>(col, '%Y-%m')</td>
+    <td class="pg"><fn>to_char</fn>(col, 'yyyy-mm')</td>
+    <td class="ch"><fn>formatDateTime</fn>(col, '%Y-%m')</td>
+    <td class="im"><fn>FROM_TIMESTAMP</fn>(col, 'yyyy-mm')</td>
+    <td class="ib"><fn>TO_CHAR</fn>(col, 'YYYY-MM')</td>
+    <td class="ss"><fn>CONCAT</fn>(<fn>DATEPART</fn>(yyyy,col),'-',<fn>DATEPART</fn>(mm,col))</td>
+    <td class="or"><fn>TO_CHAR</fn>(col, 'yyyy-mm')</td>
+    <td class="xls">=<fn>CONCATENATE</fn>(<fn>YEAR</fn>(C1),"-",<fn>MONTH</fn>(C1))</td>
+</tr>
+<tr>
+    <td>周</td>
+    <td class="my"><fn>date_format</fn>(col, '%Y年第%v周')</td>
+    <td class="pg"><fn>to_char</fn>(col, 'yyyy年第ww周')</td>
+    <td class="ch"><fn>formatDateTime</fn>(col, '%Y年第%V周')</td>
+    <td class="im"><fn>CONCAT</fn>(<fn>CAST</fn>(<fn>YEAR</fn>(col) <fn>AS STRING</fn>), '年第', <fn>CAST</fn>(<fn>WEEKOFYEAR</fn>(col) <fn>AS STRING</fn>), '周')</td>
+    <td class="ib"><fn>CONCAT</fn>(<fn>CONCAT</fn>(<fn>TO_CHAR</fn>(col, 'YYYY'), '年第'), <fn>CONCAT</fn>(<fn>TO_CHAR</fn>(col, 'WW'), '周'))</td>
+    <td class="ss"><fn>CONCAT</fn>(<fn>DATEPART</fn>(yyyy,col), '年第', <fn>DATEPART</fn>(ww,col), '周')</td>
+    <td class="or"><fn>CONCAT</fn>(<fn>TO_CHAR</fn>(col,'yyyy'), '年第', <fn>TO_CHAR</fn>(col, 'WW'), '周')</td>
+    <td class="xls">=<fn>CONCATENATE</fn>(<fn>YEAR</fn>(C1),"年第",<fn>WEEKNUM</fn>(C1,2),"周")</td>
+</tr>
+<tr>
+    <td>星期</td>
+    <td class="my"><kw>case</kw> <br><kw>when</kw> <fn>date_format</fn>(col, '%w') = '0' <kw>then</kw> '星期日'<br><kw>when</kw> <fn>date_format</fn>(col, '%w') = '1' <kw>then</kw> '星期一' <br><kw>when</kw> <fn>date_format</fn>(col, '%w') = '2' <kw>then</kw> '星期二' <br><kw>when</kw> <fn>date_format</fn>(col, '%w') = '3' <kw>then</kw> '星期三' <br><kw>when</kw> <fn>date_format</fn>(col, '%w') = '4' <kw>then</kw> '星期四' <br><kw>when</kw> <fn>date_format</fn>(col, '%w') = '5' <kw>then</kw> '星期五' <br><kw>else</kw> '星期六' <br><kw>end</kw></td>
+    <td class="pg"><kw>case</kw> <br><kw>when</kw> <fn>to_char</fn>(col, 'ID') = '7' <kw>then</kw> '星期日'<br><kw>when</kw> <fn>to_char</fn>(col, 'ID') = '1' <kw>then</kw> '星期一' <br><kw>when</kw> <fn>to_char</fn>(col, 'ID') = '2' <kw>then</kw> '星期二' <br><kw>when</kw> <fn>to_char</fn>(col, 'ID') = '3' <kw>then</kw> '星期三' <br><kw>when</kw> <fn>to_char</fn>(col, 'ID') = '4' <kw>then</kw> '星期四' <br><kw>when</kw> <fn>to_char</fn>(col, 'ID') = '5' <kw>then</kw> '星期五' <br><kw>else</kw> '星期六' <br><kw>end</kw></td>
+    <td class="ch"><kw>case</kw> <br><kw>when</kw> <fn>formatDateTime</fn>(col, '%u') = '0' <kw>then</kw> '星期日'<br><kw>when</kw> <fn>formatDateTime</fn>(col, '%u') = '1' <kw>then</kw> '星期一' <br><kw>when</kw> <fn>formatDateTime</fn>(col, '%u') = '2' <kw>then</kw> '星期二' <br><kw>when</kw> <fn>formatDateTime</fn>(col, '%u') = '3' <kw>then</kw> '星期三' <br><kw>when</kw> <fn>formatDateTime</fn>(col, '%u') = '4' <kw>then</kw> '星期四' <br><kw>when</kw> <fn>formatDateTime</fn>(col, '%u') = '5' <kw>then</kw> '星期五' <br><kw>else</kw> '星期六' <br><kw>end</kw></td>
+    <td class="im"><kw>case</kw> <br><kw>when</kw> <fn>DAYOFWEEK</fn>(col) = 7 <kw>then</kw> '星期日'<br><kw>when</kw> <fn>DAYOFWEEK</fn>(col) = 1 <kw>then</kw> '星期一' <br><kw>when</kw> <fn>DAYOFWEEK</fn>(col) = 2 <kw>then</kw> '星期二' <br><kw>when</kw> <fn>DAYOFWEEK</fn>(col) = 3 <kw>then</kw> '星期三' <br><kw>when</kw> <fn>DAYOFWEEK</fn>(col) = 4 <kw>then</kw> '星期四' <br><kw>when</kw> <fn>DAYOFWEEK</fn>(col) = 5 <kw>then</kw> '星期五' <br><kw>else</kw> '星期六' <br><kw>end</kw></td>
+    <td class="ib"><kw>case</kw> <br><kw>when</kw> <fn>DAYOFWEEK</fn>(col) = 1 <kw>then</kw> '星期日'<br><kw>when</kw> <fn>DAYOFWEEK</fn>(col) = 2 <kw>then</kw> '星期一' <br><kw>when</kw> <fn>DAYOFWEEK</fn>(col) = 3 <kw>then</kw> '星期二' <br><kw>when</kw> <fn>DAYOFWEEK</fn>(col) = 4 <kw>then</kw> '星期三' <br><kw>when</kw> <fn>DAYOFWEEK</fn>(col) = 5 <kw>then</kw> '星期四' <br><kw>when</kw> <fn>DAYOFWEEK</fn>(col) = 6 <kw>then</kw> '星期五' <br><kw>else</kw> '星期六' <br><kw>end</kw></td>
+    <td class="ss"><kw>case</kw> <br><kw>when</kw> <fn>DATEPART</fn>(w,col) = 1 <kw>then</kw> '星期日'<br><kw>when</kw> <fn>DATEPART</fn>(w,col) = 2 <kw>then</kw> '星期一' <br><kw>when</kw> <fn>DATEPART</fn>(w,col) = 3 <kw>then</kw> '星期二' <br><kw>when</kw> <fn>DATEPART</fn>(w,col) = 4 <kw>then</kw> '星期三' <br><kw>when</kw> <fn>DATEPART</fn>(w,col) = 5 <kw>then</kw> '星期四' <br><kw>when</kw> <fn>DATEPART</fn>(w,col) = 6 <kw>then</kw> '星期五' <br><kw>else</kw> '星期六' <br><kw>end</kw></td>
+    <td class="or"><kw>case</kw> <br><kw>when</kw> <fn>TO_CHAR</fn>(col, 'D') = 1 <kw>then</kw> '星期日'<br><kw>when</kw> <fn>TO_CHAR</fn>(col, 'D') = 2 <kw>then</kw> '星期一' <br><kw>when</kw> <fn>TO_CHAR</fn>(col, 'D') = 3 <kw>then</kw> '星期二' <br><kw>when</kw> <fn>TO_CHAR</fn>(col, 'D') = 4 <kw>then</kw> '星期三' <br><kw>when</kw> <fn>TO_CHAR</fn>(col, 'D') = 5 <kw>then</kw> '星期四' <br><kw>when</kw> <fn>TO_CHAR</fn>(col, 'D') = 6 <kw>then</kw> '星期五' <br><kw>else</kw> '星期六' <br><kw>end</kw></td>
+    <td class="xls">=<kw>IF</kw>(<fn>WEEKDAY</fn>(H15,2)=1,"星期一",<kw>IF</kw>(<fn>WEEKDAY</fn>(H15,2)=2,"星期二",<kw>IF</kw>(<fn>WEEKDAY</fn>(H15,2)=3,"星期三",<kw>IF</kw>(<fn>WEEKDAY</fn>(H15,2)=4,"星期四",<kw>IF</kw>(<fn>WEEKDAY</fn>(H15,2)=5,"星期五",<kw>IF</kw>(<fn>WEEKDAY</fn>(H15,2)=6,"星期六","星期天")))</td>
+</tr>
+<tr>
+    <td>获得当前日期上周的最后一秒</td>
+    <td class="my">?</td>
+    <td class="pg">?</td>
+    <td class="ch"><fn>addSeconds</fn>(<fn>toMonday</fn>(col), -1))</td>
+    <td class="im">?</td>
+    <td class="ib">?</td>
+    <td class="ss">?</td>
+    <td class="or">?</td>
+    <td class="xls">?</td>
+</tr>
+<tr>
+    <td>获得当前日期上月的最后一秒</td>
+    <td class="my">?</td>
+    <td class="pg">?</td>
+    <td class="ch"><fn>addSeconds</fn>(<fn>toStartOfMonth</fn>(col), -1))</td>
+    <td class="im">?</td>
+    <td class="ib">?</td>
+    <td class="ss">?</td>
+    <td class="or">?</td>
+    <td class="xls">?</td>
+</tr>
+<tr>
+    <td>获得当前日期上一季度的最后一秒</td>
+    <td class="my">?</td>
+    <td class="pg">?</td>
+    <td class="ch"><fn>addSeconds</fn>(<fn>toStartOfQuarter</fn>(col), -1))</td>
+    <td class="im">?</td>
+    <td class="ib">?</td>
+    <td class="ss">?</td>
+    <td class="or">?</td>
+    <td class="xls">?</td>
+</tr>
+<tr>
+    <td>获得当前日期去年的最后一秒</td>
+    <td class="my">?</td>
+    <td class="pg">?</td>
+    <td class="ch"><fn>addSeconds</fn>(<fn>toStartOfYear</fn>(col), -1))</td>
+    <td class="im">?</td>
+    <td class="ib">?</td>
+    <td class="ss">?</td>
+    <td class="or">?</td>
+    <td class="xls">?</td>
+</tr>
+<tr id="string"><th colspan=10>String Functions(Scalar functions)</th></tr>
+<tr>
+    <td>CONCAT</td>
+    <td class="my"><fn>CONCAT</fn>(col, col2, ..coln))</td>
+    <td class="pg"><fn>CONCAT</fn>(col, col2, ..coln))</td>
+    <td class="ch"><fn>CONCAT</fn>(col, col2, ..coln))</td>
+    <td class="im"><fn>CONCAT</fn>(col, col2, ..coln))</td>
+    <td class="ib"><fn>CONCAT</fn>(col, col2, ..coln))</td>
+    <td class="ss"><fn>CONCAT</fn>(col, col2, ..coln))</td>
+    <td class="or"><fn>CONCAT</fn>(col, col2, ..coln))</td>
+    <td class="xls">=<fn>CONCATENATE</fn>(C1,"-",D1)</td>
+</tr>
+<tr>
+    <td>INSTR<br>查找一个字符串在另一个字符串中首次出现的位置</td>
+    <td class="my"><fn>INSTR</fn>(str, substr)</td>
+    <td class="pg"><fn>INSTR</fn>(str, substr)</td>
+    <td class="ch"><fn>POSITION</fn>(str, substr)</td>
+    <td class="im"><fn>INSTR</fn>(str, substr)</td>
+    <td class="ib"><fn>INSTR</fn>(str, substr)</td>
+    <td class="ss"><fn>INSTR</fn>(str, substr)</td>
+    <td class="or"><fn>INSTR</fn>(str, substr)</td>
+    <td class="xls">=<fn>FIND</fn>("substr", C1)</td>
+</tr>
+<tr>
+    <td>LOWER 小写<br>UPPER 大写</td>
+    <td class="my"><fn>LOWER</fn>(col)<br><fn>UPPER</fn>(col)</td>
+    <td class="pg"><fn>LOWER</fn>(col)<br><fn>UPPER</fn>(col)</td>
+    <td class="ch"><fn>LOWER</fn>(col)<br><fn>UPPER</fn>(col)</td>
+    <td class="im"><fn>LOWER</fn>(col)<br><fn>UPPER</fn>(col)</td>
+    <td class="ib"><fn>LOWER</fn>(col)<br><fn>UPPER</fn>(col)</td>
+    <td class="ss"><fn>LOWER</fn>(col)<br><fn>UPPER</fn>(col)</td>
+    <td class="or"><fn>LOWER</fn>(col)<br><fn>UPPER</fn>(col)</td>
+    <td class="xls">=<fn>LOWER</fn>(C1)<br>=<fn>UPPER</fn>(C1)</td>
+</tr>
+<tr>
+    <td>SUBSTR<br><j>The MID and SUBSTR functions equals the SUBSTRING function</j></td>
+    <td class="my"><fn>SUBSTRING</fn>(col, offset, length)<br><j>offset从1开始而非0</j></td>
+    <td class="pg"><fn>SUBSTR</fn>(col, offset, length)</td>
+    <td class="ch"><fn>SUBSTR</fn>(col, offset, length)</td>
+    <td class="im"><fn>SUBSTR</fn>(col, offset, length)</td>
+    <td class="ib"><fn>SUBSTR</fn>(col, offset, length)</td>
+    <td class="ss"><fn>SUBSTRING</fn>(col, offset, length)</td>
+    <td class="or"><fn>SUBSTR</fn>(col, offset, length)</td>
+    <td class="xls">=<fn>MID</fn>(C1, offset, length)</td>
+</tr>
+<tr>
+    <td>REPLACE</td>
+    <td class="my"><fn>REPLACE</fn>(col, target, replacement)</td>
+    <td class="pg"><fn>REPLACE</fn>(col, target, replacement)</td>
+    <td class="ch"><fn>replaceAll</fn>(col, target, replacement)<br><fn>replaceOne</fn>(col, target, replacement)</td>
+    <td class="im"><fn>REPLACE</fn>(col, target, replacement)</td>
+    <td class="ib"><fn>REPLACE</fn>(col, target, replacement)</td>
+    <td class="ss"><fn>REPLACE</fn>(col, target, replacement)</td>
+    <td class="or"><fn>REPLACE</fn>(col, target, replacement)</td>
+    <td class="xls">=<fn>REPLACE</fn>(C1,2,3,"replacement")<br><j>从第2个字符开始的3个字符替换成replacement</j></td>
+</tr>
+<tr>
+    <td>TRIM 去两边空格</td>
+    <td class="my"><fn>TRIM</fn>(col)</td>
+    <td class="pg"><fn>TRIM</fn>(col)</td>
+    <td class="ch"><fn>TRIM</fn>(col)</td>
+    <td class="im"><fn>TRIM</fn>(col)</td>
+    <td class="ib"><fn>TRIM</fn>(col)</td>
+    <td class="ss"><fn>TRIM</fn>(col)</td>
+    <td class="or"><fn>TRIM</fn>(col)</td>
+    <td class="xls">=<fn>TRIM</fn>(C1)</td>
+</tr>
+<tr>
+    <td>LENGTH</td>
+    <td class="my"><fn>LENGTH</fn>(col)</td>
+    <td class="pg"><fn>LENGTH</fn>(col)</td>
+    <td class="ch"><fn>LENGTH</fn>(col)</td>
+    <td class="im"><fn>LENGTH</fn>(col)</td>
+    <td class="ib"><fn>LENGTH</fn>(col)</td>
+    <td class="ss"><fn>LEN</fn>(col)</td>
+    <td class="or"><fn>LENGTH</fn>(col)</td>
+    <td class="xls">=<fn>LEN</fn>(C1)</td>
+</tr>
+<tr id="mathematical"><th colspan=10>Mathematical Functions(Scalar functions)</th></tr>
+<tr>
+    <td>ABS绝对值</td>
+    <td class="my"><fn>ABS</fn>(col)</td>
+    <td class="pg"><fn>ABS</fn>(col)</td>
+    <td class="ch"><fn>ABS</fn>(col)</td>
+    <td class="im"><fn>ABS</fn>(col)</td>
+    <td class="ib"><fn>ABS</fn>(col)</td>
+    <td class="ss"><fn>ABS</fn>(col)</td>
+    <td class="or"><fn>ABS</fn>(col)</td>
+    <td class="xls">=<fn>ABS</fn>(C1)</td>
+</tr>
+<tr>
+    <td>CEIL 天花板<br>ROUND 四舍五入<br>FLOOR 地板</td>
+    <td class="my"><fn>CEIL</fn>(col)<br><fn>ROUND</fn>(col)<br><fn>FLOOR</fn>(col)</td>
+    <td class="pg"><fn>CEIL</fn>(col)<br><fn>ROUND</fn>(col)<br><fn>FLOOR</fn>(col)</td>
+    <td class="ch"><fn>CEIL</fn>(col)<br><fn>ROUND</fn>(col)<br><fn>FLOOR</fn>(col)</td>
+    <td class="im"><fn>CEIL</fn>(col)<br><fn>ROUND</fn>(col)<br><fn>FLOOR</fn>(col)</td>
+    <td class="ib"><fn>CEIL</fn>(col)<br><fn>ROUND</fn>(col)<br><fn>FLOOR</fn>(col)</td>
+    <td class="ss"><fn>CEIL</fn>(col)<br><fn>ROUND</fn>(col)<br><fn>FLOOR</fn>(col)</td>
+    <td class="or"><fn>CEIL</fn>(col)<br><fn>ROUND</fn>(col)<br><fn>FLOOR</fn>(col)</td>
+    <td class="xls">=<fn>CEILING</fn>(C1, 1)<br>=<fn>ROUND</fn>(C1, 0)<br>=<fn>FLOOR</fn>(C1, 1)</td>
+</tr>
+<tr id="conditional"><th colspan=10>Conditional Functions(Scalar functions)</th></tr>
+<tr>
+    <td>CASE</td>
+    <td class="my"><kw>CASE WHEN</kw> a <kw>THEN</kw> b [<kw>WHEN</kw> c <kw>THEN</kw> d]... [<kw>ELSE</kw> e] <kw>END</kw></td>
+    <td class="pg"><kw>CASE WHEN</kw> a <kw>THEN</kw> b [<kw>WHEN</kw> c <kw>THEN</kw> d]... [<kw>ELSE</kw> e] <kw>END</kw></td>
+    <td class="ch"><kw>CASE WHEN</kw> a <kw>THEN</kw> b [<kw>WHEN</kw> c <kw>THEN</kw> d]... [<kw>ELSE</kw> e] <kw>END</kw></td>
+    <td class="im"><kw>CASE WHEN</kw> a <kw>THEN</kw> b [<kw>WHEN</kw> c <kw>THEN</kw> d]... [<kw>ELSE</kw> e] <kw>END</kw></td>
+    <td class="ib"><kw>CASE WHEN</kw> a <kw>THEN</kw> b [<kw>WHEN</kw> c <kw>THEN</kw> d]... [<kw>ELSE</kw> e] <kw>END</kw></td>
+    <td class="ss"><kw>CASE WHEN</kw> a <kw>THEN</kw> b [<kw>WHEN</kw> c <kw>THEN</kw> d]... [<kw>ELSE</kw> e] <kw>END</kw></td>
+    <td class="or"><kw>CASE WHEN</kw> a <kw>THEN</kw> b [<kw>WHEN</kw> c <kw>THEN</kw> d]... [<kw>ELSE</kw> e] <kw>END</kw></td>
+    <td class="xls">用<kw>IF</kw>实现，查看上面季度和星期的表达式</td>
+</tr>
+<tr>
+    <td>IF</td>
+    <td class="my"><kw>IF</kw>(表达式, ifTrue, ifFalseOrNull)</td>
+    <td class="pg"><kw>IF</kw>(表达式, ifTrue, ifFalseOrNull)</td>
+    <td class="ch"><kw>IF</kw>(表达式, ifTrue, ifFalseOrNull)</td>
+    <td class="im"><kw>IF</kw>(表达式, ifTrue, ifFalseOrNull)</td>
+    <td class="ib">-</td>
+    <td class="ss"><kw>IIF</kw>(表达式, ifTrue, ifFalseOrNull)</td>
+    <td class="or">-</td>
+    <td class="xls">=<kw>IF</kw>(C1>37.5, "发热", "NO")</td>
+</tr>
+<tr>
+    <td>COALESCE<br>依次参考各参数表达式，遇到非null值即停止并返</td>
+    <td class="my"><fn>COALESCE</fn>(exp1, exp2,..expn)</td>
+    <td class="pg"><fn>COALESCE</fn>(exp1, exp2,..expn)</td>
+    <td class="ch"><fn>COALESCE</fn>(exp1, exp2,..expn)</td>
+    <td class="im"><fn>COALESCE</fn>(exp1, exp2,..expn)</td>
+    <td class="ib"><fn>COALESCE</fn>(exp1, exp2,..expn)</td>
+    <td class="ss"><fn>COALESCE</fn>(exp1, exp2,..expn)</td>
+    <td class="or"><fn>COALESCE</fn>(exp1, exp2,..expn)</td>
+    <td class="xls">不支持<br>=<kw>IF</kw>(<fn>ISBLANK</fn>(A1),<kw>IF</kw>(<fn>ISBLANK</fn>(B1),C1,B1),A1)</td>
+</tr>
+<tr id="string"><th colspan=10>SQL Database</th></tr>
+<tr>
+    <td>DATABASE List</td>
+    <td class="my"><kw>SHOW DATABASES</kw></td>
+    <td class="pg"><kw>SELECT</kw> datname <kw>FROM</kw> pg_database</td>
+    <td class="ch"><kw>SHOW DATABASES</kw></td>
+    <td class="im"><kw>SHOW DATABASES</kw></td>
+    <td class="ib">?</td>
+    <td class="ss">?</td>
+    <td class="or">?</td>
+    <td class="xls" rowspan=5>-</td>
+</tr>
+<tr>
+    <td>Query TABLE List</td>
+    <td class="my"><kw>SHOW TABLES FROM</kw> db1</td>
+    <td class="pg"><kw>SELECT</kw> table_name <kw>FROM</kw> information_schema.tables <kw>WHERE</kw> table_schema = 'public'</td>
+    <td class="ch"><kw>SHOW TABLES FROM</kw> db1</td>
+    <td class="im"><kw>SHOW TABLES FROM</kw> db1</td>
+    <td class="ib">?</td>
+    <td class="ss">?</td>
+    <td class="or">?</td>
+</tr>
+<tr>
+    <td>Query Field List</td>
+    <td class="my"><kw>DESCRIBE</kw> tb1</td>
+    <td class="pg"><kw>SELECT</kw> column_name <kw>FROM</kw> information_schema.columns <kw>WHERE</kw> table_name = 'tb1'</td>
+    <td class="ch"><kw>DESCRIBE</kw> tb1<br><kw>DESCRIBE TABLE</kw> tb1</td>
+    <td class="im"><kw>DESCRIBE</kw> tb1</td>
+    <td class="ib">?</td>
+    <td class="ss">?</td>
+    <td class="or"><kw>DESCRIBE</kw> tb1</td>
+</tr>
+
+</table>
+<script>
+var myTextarea = document.getElementById('editor');
+var CodeMirrorEditor = CodeMirror.fromTextArea(myTextarea, {
+    mode: 'text/x-sql',
+    styleActiveLine: true,
+    hintOptions: {
+        completeSingle: false, // 不要设置成true 否则会与showHint() 死循环
+        completeOnSingleClick: true
+    },
+    lineNumbers:true,
+    lineWrapping: true,
+    theme:"default",
+    extraKeys: { 'Tab': 'autocomplete' }
+});
+CodeMirrorEditor.on('keydown', function(j, k) {
+    if (k.keyCode > 64 && k.keyCode < 91) {
+        CodeMirrorEditor.showHint();
+    }
+});
+function insert(_type) {
+    var val = CodeMirrorEditor.getValue()
+    if (val) val += '\n'
+    document.querySelectorAll("#ref p").forEach(function(item){item.style.display = "none"})
+    switch (_type) {
+        case 'empty':
+            CodeMirrorEditor.setValue('')
+            break;
+        case 'select':
+            CodeMirrorEditor.setValue(val + "# 唯一化, 收集清单\nSELECT DISTINCT email FROM contact_msg \nSELECT COUNT(DISTINCT email) FROM contact_msg \n# DBMS自己就能够搞定，DBMS有许多功能函数\nSELECT qty * item_price AS expanded_price FROM .... # 计算字段\nSELECT CONCAT(name,'[',country,']') AS vend FROM vendors # 拼接字段\nSELECT MID(City,1,3) AS SmallCity FROM Persons # 获取City字段的的前三个字符\nselect col3 from (select col1, col3 from tb where …)\n")
+            break;
+        case 'update':
+            CodeMirrorEditor.setValue(val + 'UPDATE `hss_login_method` SET `num`=`num`+1 [WHERE ...]; # 数值累加 \nUPDATE ps_category SET description=CONCAT(\'Lorem \'，name，\' sit amet\') # 字符串累加 \nUPDATE client SET email=LCASE(email) # LCASE/UCASE 大小写转换 \nUPDATE `wp_mk_watch` SET file1=REPLACE(REPLACE(REPLACE(file1, \'8022d267f589457d3d6aa7d6d3fdc0a7.jpg,\', \'\'),\',8022d267f589457d3d6aa7d6d3fdc0a7.jpg\',\'\'),\'8022d267f589457d3d6aa7d6d3fdc0a7.jpg\',\'\')  WHERE ... # 从一个字段30e6397d4216837bf6073d286bf81437.jpg,fc64e4eebf909cb3afc65813b89d32f2.jpg,6d49c82e3196677af1b2ea59e94deb39.jpg,8022d267f589457d3d6aa7d6d3fdc0a7.jpg 里删除一个图片地址 \nUPDATE wp_users SET user_pass = MD5(\'新密码\') WHERE user_login =\'帐号名\'; # 修改Wordpress 用户密码')
+            break;
+        case 'insert':
+            CodeMirrorEditor.setValue(val + 'INSERT INTO tb_name \nVALUES (val1, val2, ....);\nINSERT INTO tb_name (title, create_date) \nVALUES (\'The Title\', NOW());')
+            break;
+        case 'selectinto':
+            CodeMirrorEditor.setValue(val + 'SELECT * \nINTO Persons_backup [IN 外部数据库] \nFROM Persons [where...];')
+            break;
+        case 'delete':
+            CodeMirrorEditor.setValue(val + 'DELETE FROM tb_name \n[WHERE...];')
+            break;
+        case 'where':
+            document.querySelector("#where").style.display="block"
+            CodeMirrorEditor.setValue(val + "SELECT * from users \nWHERE gender='male' \nAND house IN ('shenzhen','shanghai','beijing','guangzhou') \nAND NOT age < 25 \nAND (height >= 180 OR face = 'handsome');\n# MYSQL 正则匹配\nWHERE city REGEXP '^[Ss][A-z]*[Zz][A-z]*'")
+            break;
+        case 'groupby':
+            CodeMirrorEditor.setValue(val + 'SELECT Customer,SUM(OrderPrice) FROM Orders \nGROUP BY Customer;')
+            break;
+        case 'having':
+            CodeMirrorEditor.setValue(val + '# 从所有订单中查找2013年订单数多于1个的全部用户 \nSELECT customer_id, COUNT(*) AS ordercount \nFROM orders \nWHERE year=2013 \nGROUP BY customer_id \nHAVING ordercount>=2;')
+            break;
+        case 'orderby':
+            CodeMirrorEditor.setValue(val + 'SELECT * FROM orders ORDER BY total_price DESC, order_item ASC;')
+            break;
+        case 'limit':
+            CodeMirrorEditor.setValue(val + '# 这两种结果是一样的 \nSELECT * FROM `catalog_product_entity` LIMIT 0, 5;\nSELECT * FROM `catalog_product_entity` LIMIT 5;')
+            break;
+        case 'alias':
+            CodeMirrorEditor.setValue(val + 'SELECT w.*,c.email AS email,r.first_name AS first_name,r.last_name AS last_name,c.id AS client_id \nFROM watchform AS w \nLEFT JOIN (reparationform AS r,clientform AS c) \nON (r.client_id=c.id AND w.reg_numb=r.reg_numb);')
+            break;
+        case 'from':
+            CodeMirrorEditor.setValue(val + 'SELECT w.*,c.email AS email,r.first_name AS first_name,r.last_name AS last_name,c.id AS client_id \nFROM watchform AS w \n     LEFT JOIN reparationform AS r ON w.reg_numb = r.reg_numb\n     LEFT JOIN clientform AS c ON c.id = r.client_id')
+            break;
+        case 'union':
+            CodeMirrorEditor.setValue(val + '# 语数前五名的学生第一批入少先队名单\n(SELECT name FROM result_table ORDER BY math_score DESC LIMIT 5)\nUNION\n(SELECT name FROM result_table ORDER BY chinese_score DESC LIMIT 5);\n\nselect col1, ‘新收’ as status\nfrom tb1\nunion all\nselect col1, ‘受理’\nfrom tb2')
+            break;
+        case 'select2':
+            CodeMirrorEditor.setValue(val + 'SELECT customer_name,(SELECT count(*) FROM orders WHERE orders.customer_id = customers.customer_id) AS orders FROM customers; # 子查询作为字段 \nSELECT ... FROM (SELECT ...FROM ...) WHERE ... # 子查询作为数据集，这是视图VIEW的原型 \nSELECT telephone FROM userinfo WHERE name IN (SELECT name FROM employee WHERE dept=\'design\' AND gendar=\'female\'); # 子查询作为过滤条件')
+            break;
+        case 'showdatabases':
+            CodeMirrorEditor.setValue(val + 'SHOW DATABASES;')
+            break;
+        case 'usedatabase':
+            CodeMirrorEditor.setValue(val + 'USE db_name;')
+            break;
+        case 'createdatabase':
+            CodeMirrorEditor.setValue(val + 'CREATE DATABASE db_name DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;')
+            break;
+        case 'dropdatabase':
+            CodeMirrorEditor.setValue(val + 'DROP DATABASE db_name;')
+            break;
+        case 'showtables':
+            CodeMirrorEditor.setValue(val + 'SHOW TABLES;')
+            break;
+        case 'explaintable':
+            CodeMirrorEditor.setValue(val + 'EXPLAIN tb_name; \nDESCRIBE tb_name;')
+            break;
+        case 'createtable':
+            CodeMirrorEditor.setValue(val + 'CREATE TABLE `tb_name`( \n `id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT \'主键\', # 约束之NOT NULL \n `code` VARCHAR(255) NOT NULL, \n `is_active` TINYINT(1) UNSIGNED NOT NULL DEFAULT 1 COMMENT \'User Is Active\' # 约束之DEFAULTL \n PRIMARY KEY (`id`) # 约束之主键, 主键有自动的UNIQUE约束 \n UNIQUE INDEX `UNI_CODE` (`code`), # 约束之UNIQUE, 大小写不敏感\n CONSTRAINT `FK_ID` FOREIGN KEY (`id`) REFERENCES `other_tb` (`id`) ON DELETE CASCADE ON UPDATE CASCADE # 外键\n) ENGINE=INNODB CHARSET=utf8 COLLATE=utf8_general_ci;')
+            break;
+        case 'createtableselect':
+            CodeMirrorEditor.setValue(val + 'CREATE TABLE products_backup(SELECT * FROM products);')
+            break;
+        case 'droptable':
+            CodeMirrorEditor.setValue(val + 'DROP TABLE `tb_name`; \nDROP TABLE IF EXISTS `tb_name`;')
+            break;
+        case 'truncatetable':
+            CodeMirrorEditor.setValue(val + 'TRUNCATE tb_name;')
+            break;
+        case 'renametable':
+            CodeMirrorEditor.setValue(val + 'RENAME TABLE tb_name TO new_tb_name;')
+            break;
+        case 'altertable':
+            CodeMirrorEditor.setValue(val + '# 修改column \nALTER TABLE tb_name \n CHANGE size size TINYINT(1) NOT NULL COMMENT "类型，1表示S，2表示M，3表示L  4表示XL, 5表示XXL" \n CHANGE username user_name VARCHAR(30); \n# 插入column \nALTER TABLE tb_name \n ADD `email` VARCHAR(100) AFTER `username`\n ADD PRIMARY KEY (`id`) \n ADD UNIQUE INDEX `UNI_CODE` (`code`); \n# 删除Column \nALTER TABLE tb_name \n DROP `email` \n DROP PRIMARY KEY, \n DROP INDEX `UNI_CODE`;')
+            break;
+        case 'view':
+            document.querySelector("#view").style.display="block"
+            CodeMirrorEditor.setValue(val + '# 创建视图 \nCREATE VIEW view_cyo_product AS \nSELECT c.id_product as pid，p.name as title，p.description_short as description，i.id_image as jpg，m.id_image as png， pd.price as price ，c.id_category as category \nFROM ps_category_product  as c \nJOIN (ps_product_lang as p，ps_image as i，ps_image as m，ps_product as pd，ps_stock_available as st) \nON (p.id_product=c.id_product and c.id_product=i.id_product and c.id_product = m.id_product and c.id_product=pd.id_product and st.id_product = c.id_product) \nWHERE c.id_category>10 and i.position=1 and m.position = 2 and p.id_lang=1 and pd.active =1 and st.quantity>0 \n# 使用视图 \nSELECT png FROM view_cyo_product WHERE `pid` = 8; \n# 删除视图 \nDROP VIEW view_cyo_product')
+            break;
+    }
+}
+//Usage
+function focuslang(_lang) {
+    document.querySelectorAll('.my, .pg, .ch, .im, .ib, .ss, .or, .xls').forEach(function(item) {
+      item.style.display = 'none'
+    })
+    document.querySelectorAll('.'+_lang).forEach(function(item) {
+      item.style.display = ''
+    })
+    document.querySelectorAll('th').forEach(function(item){
+      item.setAttribute('colspan',2)
+    })
+}
+function unfocuslang() {
+    document.querySelectorAll('.my, .pg, .ch, .im, .ib, .ss, .or, .xls').forEach(function(item) {
+      item.style.display = ''
+    })
+}
+</script>
+<p id="copy"><center>SINCE 2020 &copy; <a href="https://markbuild.com/">markbuild</a></center></p>
+</body>
+</html>
