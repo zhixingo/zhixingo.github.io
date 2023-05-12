@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-touch-fullscreen" content="yes">
+<meta name="format-detection" content="telephone=no, address=no">
+<title>RSA</title>
+<meta http-equiv="description" content="How to use openssl/ssh-keygen?">
+<link rel="icon" href="favicon.ico" type="image/x-icon" />
+<link rel="apple-touch-icon" href="favicon-128.png" type="image/png" />
+<link rel="stylesheet" type="text/css" href="common.css" media="screen">
+<script type="text/javascript" src="jsencrypt.js"></script>
+</head>
+<body>
+<h1>openssl/ssh-keygen</h1>
+<div>
+    <h3>openssl</h3>
+    <p>(Note: Not work on Git Bash Windows: it will hangs and doesn't respond)</p>
+    <pre class="code">
+<span class="comment">Generate RSA private key: M_E.key</span>
+$<span class="cmd"> openssl genrsa -des3 -out M_E.key 2048</span>
+Generating RSA private key, 2048 bit long modulus
+..........+++
+..........................+++
+e is 65537 (0x10001)
+Enter pass phrase for M_E.key: <span class="comment">Set pass phrase for private key</span>
+Verifying - Enter pass phrase for M_E.key:
+
+<span class="comment">Generate RSA public key: M_E.pub</span>
+$<span class="cmd"> openssl rsa -in M_E.key -pubout > M_E.pub</span>
+Enter pass phrase for M_E.key: <span class="comment">Input pass phrase</span>
+writing RSA key
+
+<span class="comment">Use public key(M_E.pub) to encrypt</span>
+$<span class="cmd"> echo 'Hello World!'|openssl rsautl -encrypt -pubin -inkey M_E.pub > cipher.txt</span>
+<span class="comment">Use Private Key(M_E.key) to decrypt</span>
+$<span class="cmd"> cat cipher.txt | openssl rsautl -decrypt -inkey M_E.key</span>
+Enter pass phrase for M_E.key: <span class="comment">input pass phrase</span>
+Hello World!
+    </pre>
+    <h3>ssh-keygen</h3>
+    <pre class="code">
+<span class="comment">Generate RSA private key and public key</span>
+$<span class="cmd"> ssh-keygen -t rsa</span>
+Generating public/private rsa key pair.
+Enter file in which to save the key (/c/Users/Admin/.ssh/id_rsa): ./M_E_KEY 
+Enter passphrase (empty for no passphrase): <span class="comment">Set pass phrase</span>
+Enter same passphrase again:
+Your identification has been saved in ./M_E_KEY.
+Your public key has been saved in ./M_E_KEY.pub.
+The key fingerprint is: ...
+The key's randomart image is: ...
+
+<span class="comment">Convert ssh public key to PEM format(that 'openssl rsautl' can read it)</span>
+$<span class="cmd"> ssh-keygen -f M_E_KEY.pub -e -m PKCS8 > M_E_KEY.pem</span>
+
+$<span class="cmd"> echo 'Hello World!' > plain.txt</span>
+<span class="comment">Use public key(M_E_KEY.pem) to encrypt</span>
+$<span class="cmd"> openssl rsautl -encrypt -pubin -inkey M_E_KEY.pem -ssl -in plain.txt -out cipher.txt</span>   
+<span class="comment">Another way</span>
+$<span class="cmd"> echo 'Hello World!' | openssl rsautl -encrypt -pubin -inkey M_E_KEY.pem > cipher.txt</span>
+
+$<span class="cmd"> cat cipher.txt</span>
+|▒pL▒▒▒8▒▒T+▒*▒Bu▒2▒▒]j...
+
+<span class="comment">Use private key(M_E_KEY) to decrypt</span>
+$<span class="cmd"> cat cipher.txt | openssl rsautl -decrypt -inkey M_E_KEY</span>
+Hello World!
+<span class="comment">Another way</span>
+$<span class="cmd"> openssl rsautl -decrypt -inkey M_E_KEY -in cipher.txt</span>
+Hello World!
+<span class="comment">Save result to decryptedMessage.txt</span>
+$<span class="cmd"> openssl rsautl -decrypt -inkey M_E_KEY -in cipher.txt -out decryptedMessage.txt</span>
+<span class="comment">Another way</span>
+$<span class="cmd"> openssl rsautl -decrypt -inkey M_E_KEY -in cipher.txt > decryptedMessage.txt</span>
+</pre>
+SSH LOGIN By RSA KEY
+<pre class="code">
+<span class="comment">Send public key(id_rsa.pub) to /home/user/.ssh/authorized_keys of the host(authorized_keys file will automatic create if it not exist)</span>
+$<span class="cmd"> ssh-copy-id user@host</span>
+<span class="comment">Send specified publick key to the host</span>
+$<span class="cmd"> ssh-copy-id -i ./M_E_KEY.pub  user@host</span>
+
+<span class="comment">Logined to user@host</span>
+$ <span class="cmd">sudo vim /etc/ssh/sshd_config</span>
+<span class="comment">Modify：</span>
+PubkeyAuthentication  yes                      <span class="comment"># Enable PublicKey authentication</span>
+AuthorizedKeysFile       .ssh/authorized_keys  <span class="comment"># Public key path</span>
+PasswordAuthentication  no
+
+<span class="comment">ssh Login</span>
+$ <span class="cmd">ssh -i ~/.ssh/id_rsa user@host</span>
+<span class="comment">or</span>
+$ <span class="cmd">ssh user@host</span><span class="comment"> (default: -i ~/.ssh/id_rsa)</span>
+    </pre>
+</div>
+<h2>Online RSA Encryption, Decryption</h2>
+<h3>Private Key</h3>
+<textarea id="privkey" rows="15" cols="65">-----BEGIN RSA PRIVATE KEY-----
+MIICXQIBAAKBgQDlOJu6TyygqxfWT7eLtGDwajtNFOb9I5XRb6khyfD1Yt3YiCgQ
+WMNW649887VGJiGr/L5i2osbl8C9+WJTeucF+S76xFxdU6jE0NQ+Z+zEdhUTooNR
+aY5nZiu5PgDB0ED/ZKBUSLKL7eibMxZtMlUDHjm4gwQco1KRMDSmXSMkDwIDAQAB
+AoGAfY9LpnuWK5Bs50UVep5c93SJdUi82u7yMx4iHFMc/Z2hfenfYEzu+57fI4fv
+xTQ//5DbzRR/XKb8ulNv6+CHyPF31xk7YOBfkGI8qjLoq06V+FyBfDSwL8KbLyeH
+m7KUZnLNQbk8yGLzB3iYKkRHlmUanQGaNMIJziWOkN+N9dECQQD0ONYRNZeuM8zd
+8XJTSdcIX4a3gy3GGCJxOzv16XHxD03GW6UNLmfPwenKu+cdrQeaqEixrCejXdAF
+z/7+BSMpAkEA8EaSOeP5Xr3ZrbiKzi6TGMwHMvC7HdJxaBJbVRfApFrE0/mPwmP5
+rN7QwjrMY+0+AbXcm8mRQyQ1+IGEembsdwJBAN6az8Rv7QnD/YBvi52POIlRSSIM
+V7SwWvSK4WSMnGb1ZBbhgdg57DXaspcwHsFV7hByQ5BvMtIduHcT14ECfcECQATe
+aTgjFnqE/lQ22Rk0eGaYO80cc643BXVGafNfd9fcvwBMnk0iGX0XRsOozVt5Azil
+psLBYuApa66NcVHJpCECQQDTjI2AQhFc1yRnCU/YgDnSpJVm1nASoRUnU8Jfm3Oz
+uku7JUXcVpt08DFSceCEX9unCuMcT72rAQlLpdZir876
+-----END RSA PRIVATE KEY-----</textarea>
+<h3>Public Key</h3>
+<textarea id="pubkey" rows="15" cols="65">-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDlOJu6TyygqxfWT7eLtGDwajtN
+FOb9I5XRb6khyfD1Yt3YiCgQWMNW649887VGJiGr/L5i2osbl8C9+WJTeucF+S76
+xFxdU6jE0NQ+Z+zEdhUTooNRaY5nZiu5PgDB0ED/ZKBUSLKL7eibMxZtMlUDHjm4
+gwQco1KRMDSmXSMkDwIDAQAB
+-----END PUBLIC KEY-----</textarea>
+<h3>Text to encrypt</h3>
+<textarea id="input" name="input" type="text" rows=4 cols=70>Hello world!</textarea><br/>
+<h3>Encrypted Data</h3>
+<pre id="encrypt_data" class="code">
+</pre>
+<button onclick="encrypt()">Test</button>
+<script>
+function encrypt() {
+    var encrypt = new JSEncrypt();
+    encrypt.setPublicKey(document.querySelector('#pubkey').value)
+    var encrypted = encrypt.encrypt(document.querySelector('#input').value)
+    document.querySelector('#encrypt_data').innerText = encrypted;
+
+    var decrypt = new JSEncrypt()
+    decrypt.setPrivateKey(document.querySelector('#privkey').value)
+    var uncrypted = decrypt.decrypt(encrypted);
+
+    if (uncrypted == document.querySelector('#input').value) {
+        alert('It works!!!');
+    } else {
+        alert('Something went wrong....');
+    }
+}
+</script>
+<p id="copy"><center>SINCE 2019 &copy; <a href="https://markbuild.com/">markbuild</a></center></p>
+</body>
+</html>

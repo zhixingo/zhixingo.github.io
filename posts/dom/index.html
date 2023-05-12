@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>DOM</title>
+<link rel="icon" href="favicon-128.webp" />
+<link rel="apple-touch-icon" href="favicon-128.webp" />
+<link rel="stylesheet" type="text/css" href="common.css" media="screen">
+<style>
+td{position: relative;vertical-align:top}
+td:before,
+td:after {
+  font-size: 12px;
+  font-family: system-ui;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: 0px 2px;
+  height: 12px;
+  line-height: 1;
+  z-index: 0;
+  padding: 2px 4px;
+}
+td.php:before {
+  content: 'php';
+  background: #8892bf;
+  color: #232635;
+  font-style: italic;
+}
+td.js:before {
+  content: 'js';
+  background:#fdc212;
+  color: #000;
+}
+td.jq{background: url('img/jq.png') no-repeat right bottom;background-size: 16px;padding-right: 18px;vertical-align: top;}
+td.ng{background: url('img/ng.png') no-repeat right bottom;background-size: 16px;padding-right: 18px;vertical-align: top;}
+</style>
+</head>
+<body>
+<div style="margin:10px" id="top">
+<h1>DOM: Document Object Model</h1>
+<table>
+<tr id="bom"><th colspan="3"><note>B</note>OM</th></tr>
+<tr><td>Navigator Object</td><td class="js">navigator.platform<j> // "Win32"等</j><br>navigator.userAgent</td><td class="jq" rowspan="7"><note>jquery1.9开始去掉了$.browser</note></td></tr>
+<tr><td>Screen Object</td><td class="js">screen</td></tr>
+<tr><td>History Object</td><td class="js">history.<fn>go</fn>(-2)<br>history.<fn>back</fn>()</td></tr>
+<tr><td>Location Object</td><td class="js">location</td></tr>
+<tr><td>Document Object</td><td class="js">document或window.document</td></tr>
+<tr><td>Iframe</td><td class="js">window.top.location.replace('/page')<br>document.<fn>querySelector</fn>('iframe').contentDocument.<fn>querySelector</fn>('#selectTag').value</td></tr>
+<tr><td>window.devicePixelRatio</td><td class="js">物理像素/css像素, 可用来判断用户是否是使用100%缩放级别</td></tr>
+<tr><td colspan="3"><center><img src="img/dom01.gif" style="width: 300px;"><br>当HTML文档载入到浏览器, 浏览器会为文档中的所有Element创建一个隐藏的内部路线图(roadmap),为了让js与这些Element Object进行通信, 得知道连接到目标Object的<b>路径</b>, 才可以调用目标object其中的一个方法或设置目标Object其中的一个Attribute Value. 这个roadmap就是DOM</center></td></tr>
+<tr id="node"><th colspan="3">DOM <note>N</note>ode</th></tr>
+<tr><td colspan="3"><center><img src="img/dom02.gif" style="width: 297.5px"></center></td></tr>
+<tr><td>nodeType</td>
+<td colspan="2">
+_element_node.nodeType <j>// return 1</j><br>
+_element_node.<fn>getAttributeNode</fn>('class').nodeType <j> //return 2, attribute nodes </j><note>已弃用</note><br>
+_text_node.nodeType <j>// return 3, Element Node 或 Attr Node 中实际的文字</j><br>
+_element_node.childNodes[1].nodeType <j>// return 8, comment Node &lt;!-- 注释 --&gt;</j><br>
+document.nodeType <j>// return 9</j><br>
+document.doctype.nodeType <j> // return 10, &lt;!DOCTYPE html&gt;</j><br>
+</td>
+</tr>
+<tr><td>Access 元素节点</td>
+<td class="js"><kw>var</kw> x=document.<fn>getElementById</fn>("bom");<br><kw>var</kw> y=x.<fn>getElementsByTagName</fn>("p");<br>document.<fn>getElementsByName</fn>("myinput");<br>form1.myinput;<br><br>
+document.<fn>querySelector</fn>("#bom") === document.<fn>getElementById</fn>("bom") <j>// true</j><br>document.<fn>querySelectorAll</fn>("p") == document.<fn>getElementsByTagName</fn>("p")<j> // false 前者__proto__是NodeList后者是HTMLCollection</j><br>document.<fn>querySelectorAll</fn>("p")[0] === document.<fn>getElementsByTagName</fn>("p")[0] <j> // true</j><br>document.<fn>querySelector</fn>("p") === document.<fn>getElementsByTagName</fn>("p")[0] <j> // true</j><br>document.<fn>querySelector</fn>("li.active span") <j> // 匹配指定选择器的第一个元素</j><br>
+参数支持<a href="http://www.runoob.com/cssref/css-selectors.html" target="blank" rel="noopener">CSS Selectors</a><br>
+_event.target <j>// 事件目标节点</j>
+    </td>
+    <td class="jq">$("#elem[attribute=value] li:eq(3), .tb tr:even, p:first")<j>// filter <a href="http://www.w3school.com.cn/jquery/jquery_ref_selectors.asp" target="_blank">More</a></j><br>.<fn>get</fn>() <j> // 获得DOM元素</j></td></tr>
+<tr><td>祖先节点/元素节点</td><td class="js">_node.parentElement<br>_node.parentNode<br>_node.closest(selectors) <j>// 匹配特定选择器且离当前元素最近的祖先元素（也可以是当前元素本身）</j></td><td class="jq">_el.<fn>parent</fn>() <j>// 返回el亲生父元素</j><br>_el.<fn>parents</fn>() <j>// 返回el的所有祖先元素</j><br>_el.<fn>parentsUntil</fn>(pel) <j>// 返回介于el和pel元素之间的所有祖先元素</j></td></tr>
+<tr><td>后代节点/元素节点</td>
+<td class="js">_el.children[0] <j> // 子元素节点</j><br>_el.childNodes[0] <j>// 子节点,包括text node, comment node</j>
+_el.firstElementChild <j>// 第一个子元素节点</j><br>_el.firstChild <j>// 第一个子节点</j><br>
+_el.lastElementChild<br>_el.lastChild<br>
+document.all <j> // 返回document的子孙所有元素节点</j>
+</td>
+<td class="jq"></td></tr>
+</tr>
+<tr><td>节点包含关系</td>
+<td class="js">
+_pnode.contains(_event.target) // <j>判断节点是否是_pnode的子孙后代</j>
+</td>
+<td class="jq"></td></tr>
+<tr><td>同胞节点/元素节点</td>
+<td class="js">
+_node.previousSibling<br>
+_node.nextSibling<br>
+_el.previousElementSibling<br>
+_el.nextElementSibling<br>
+</td><td class="jq">_el.<fn>siblings</fn>()<br>_el.<fn>next</fn>()<br>_el.<fn>nextAll</fn>()<br>_el.<fn>nextUntil</fn>()<br>_el.<fn>prev</fn>()<br>_el.<fn>prevAll</fn>()<br>_el.<fn>prevUntil</fn>()</td></tr>
+<tr><td>元素相对index位置</td><td class="js">?</td><td class="jq">.<fn>index</fn>()</td></tr>
+<tr><td>Get Attribute<br><a href="img/windows_obj.jpg" target="_blank">在Firebug中查看DOM所有属性</a><br>Firefox选中元素右键显示DOM属性<br>Chrome properties</td><td class="js">_el.<fn>getAttribute</fn>("src")<br>_el.value<br>_el.innerHTML<br>_el.innerText</td><td class="jq">$("#elem").<fn>attr</fn>("href")<br>$("#myinput").<fn>val</fn>()<br>$("#elem").<fn>text</fn>()<br>$("#elem").<fn>html</fn>()</td></tr>
+<tr><td>Set Attribute</td><td class="js"><note>element.attribute=new value</note><br>document.<fn>getElementById</fn>("image").src="landscape.jpg";<br>_el.className="mk_msg";<br>_el.id="mk_msg";<br>_el.style.backgroundColor="red" <j>// 所有-的属性改成驼峰式，否则在js里就是减号</j><br>_el.innerHTML="new HTML"<br>_el.innerText="text"<br>form1.myInput.value='7104';</td><td class="jq">.<fn>attr</fn>(attribute,value) .<fn>removeAttr</fn>()<br>.<fn>addClass</fn>() .<fn>hasClass</fn>() .<fn>removeClass</fn>() .<fn>toggleClass</fn>()<br>$("el").<fn>css</fn>("color","red");<br>val?$("#elem").<fn>html</fn>(val):$("#elem").<fn>html</fn>("");<j> // 踩过的坑</j><br>val?$("#elem").<fn>text</fn>(val):$("#elem").<fn>text</fn>("");<br>val?$("#elem").<fn>val</fn>(val):$("#elem").<fn>val</fn>("")</td></tr>
+<tr><td>Remove attribute</td><td class="js">.<fn>removeAttribute</fn>("class")</td><td class="jq">.<fn>removeAttr</fn>()<br>.<fn>removeClass</fn>()</td></tr>
+<tr><td>元素是否存在/元素长度</td><td class="js"><kw>if</kw>(!document.<fn>getElementById</fn>("mk_msg")){<br>document.<fn>getElementsByTagName</fn>("p").length;</td><td class="jq">if($("#aaa").length==0)<br>或 .<fn>size</fn>()</td></tr>
+<tr><td>遍历</td><td class="js">?</td><td class="jq">x=$("li").<fn>toArray</fn>()<br><kw>for</kw> (i=0;i&lt;x.length;i++){<br>&nbsp;&nbsp;<fn>alert</fn>(x[i].innerHTML)<br><br>$(selector).<fn>each</fn>(<kw>function</kw>(index,element)) <j>// element可以用$(this)替代</j></td></tr>
+<tr><td>Create node</td><td class="js">var new_elem = document.<fn>createElement</fn>("div");<br>document.<fn>createTextNode</fn>("文本节点")<br>_node.<fn>normalize</fn>() <j>// 合并同级相联text node</j></td><td class="jq">?</td></tr>
+<tr><td>Insert element</td><td class="js">_el.<fn>appendChild</fn>(new_elem); <j>// 末尾追加新子元素new_elem</j><br><note>注意不是添加字符串</note><br>
+cvsNode = _el.<fn>appendChild</fn>(document.<fn>createElement</fn>('canvas'))<br>cvsNode.<fn>setAttribute</fn>('id', 'canvas' + i)
+<br><kw>let</kw> tr = document.<fn>createElement</fn>('tr');<br>tr.innerHTML+='&lt;td&gt;&lt;input&gt;&lt;/td&gt;'<br>_el.<fn>appendChild</fn>(tr)<br><br>var child_p1 = document.<fn>getElementById</fn>("p1");<br>_el.<fn>insertBefore</fn>(new_elem,child_p1); <j>// 插入在el的某子元素#p1之前</j></td><td class="jq">.<fn>after</fn>()<br>.<fn>append</fn>()<br>.<fn>appendTo</fn>()<br>.<fn>before</fn>()<br><fn>insertAfter</fn>()<br><fn>insertBefore</fn>()<br>.<fn>wrap</fn>() <j>// 每个匹配元素外分别加个wrap</j><br>.<fn>wrapAll</fn>() <j>// 在每个匹配元素外共同加一个wrap</j><br>.<fn>wrapInner</fn>() <j>// 每个匹配元素里的内容分别wrap</j><br>.<fn>unwrap</fn>() <j>// 删除所有匹配元素的父元素</j></td></tr>
+<tr><td>Move node</td><td class="js">_node1.insertAdjacentElement(_position, _node2) <j> // _position array: ["afterbegin", "afterend", "beforebegin", "beforeend"]</j><br>nodeParent.insertBefore(nodeChildA, nodeChildB) <j> 将子节点 nodeChildA  移到 nodeChildB 结点前</j></td><td class="jq"></td></tr>
+<tr><td>Remove node</td><td class="js">document.body.<fn>removeChild</fn>(document.getElementById("mk_mirror"));<br>_node.<fn>remove</fn>()</td><td class="jq">.<fn>remove</fn>()<br>.<fn>empty</fn>()</td></tr>
+<tr><td>Replace element</td><td class="js">_el.<fn>replaceChild</fn>(new_elem,child_p1); <j>// 用new_elem替换子元素</j></td><td class="jq">.<fn>replaceAll</fn>() 约等同于.<fn>replaceWith</fn>() <j> // 元素替换被选元素</j></td></tr>
+<tr><td>Chaining链式操作</td><td class="js">document.<fn>getElementById</fn>("left_col").<fn>getElementsByTagName</fn>("li")</td><td class="jq">$('#el').<fn>addClass</fn>('dummy')<br>&nbsp;&nbsp;.<fn>css</fn>('color', 'red')<br>&nbsp;&nbsp;.<fn>fadeIn</fn>('slow');<br><br>$("#btn").<fn>click</fn>(<kw>function</kw>(e) {<br>&nbsp;&nbsp;}).<fn>mouseover</fn>(<kw>function</kw>(e) {<br>&nbsp;&nbsp;}).<fn>mouseout</fn>(<kw>function</kw>(e) {<br>&nbsp;&nbsp;});<br><br><note>.end() 结束当前链条中的最近的筛选操作，并将匹配元素还原为之前的状态</note><br>$('#ele').<fn>find</fn>('.foo1').<fn>css</fn>('color', 'red')<br>&nbsp;&nbsp;.<fn>end</fn>().<fn>find</fn>('.foo2').<fn>css</fn>('color', 'green');<br><j>源码: end: function() { return this.prevObject...</j></td></tr>
+<tr id="event"><th colspan="3">DOM <note>E</note>vent</th></tr>
+<tr><td>onload<br><j>资源加载完成</j></td>
+    <td class="js">window.onload=<kw>function</kw>(){<br>...<br>}<br><br>&lt;body onload="<fn>myfun</fn>()"&gt;<br><br>&lt;img src="x.gif" onload="<fn>loadImage</fn>()"&gt;<br><br><kw>var</kw> img = <kw>new</kw> <b>Image</b>();<br>img.src = "x.gif";<br>img.onload = <kw>function</kw>(){} <j>// 异步</j><br><br><kw>var</kw> reader = <kw>new</kw> <b>FileReader</b>();<br>reader.<fn>readAsArrayBuffer</fn>(file);<br>reader.onload = <kw>function</kw>() {<j> // 异步<a href="binary-viewer.html" target="_blank">Demo</a></j><br>&nbsp;&nbsp;buffer = reader.result;<br>}</td>
+    <td class="jq">$(document).<fn>ready</fn>(<kw>function</kw>(){ <j>//document元素onready事件触发</j><br>...<br>});<br><br>$(<kw>function</kw>(){<br>...<br>});<br><br>$("#preview img").<fn>load</fn>(<kw>function</kw>(){});</td>
+</tr>
+<tr><td>onunload<br><j>用户退出页面</j></td><td class="js">?</td><td class="jq">?</td></tr>
+<tr><td>onerror</td>
+    <td class="js">reader.onerror = <kw>function</kw>() {<br>...<br>}<br><br>window.onerror = <kw>function</kw>(msg, url,line, col, error) {<br>&nbsp;&nbsp;console.<fn>log</fn>(arguments)<br>}<br>console.<fn>log</fn>(undefinedA); //makeError<br><br>window.onerror = window.close // For that Native feel.<br><br>&lt;img src="img1.jpg" onerror="this.src='img/default.jpg'"&gt;</td>
+    <td class="jq">$("img").error(<kw>function</kw>(){<br>...<br>});</td></tr>
+<tr><td>Ajax Response</td><td class="js">xhr.onreadystatechange = <kw>function</kw> () {<br>&nbsp;&nbsp;result=xhr.responseText;<br>&nbsp;&nbsp;<kw>if</kw> (xhr.readyState !== 4) {<br>&nbsp;&nbsp;&nbsp;&nbsp;<kw>return false</kw>;<br>&nbsp;&nbsp;}&nbsp;&nbsp;<kw>if</kw> (xhr.status !== 200) {<br>&nbsp;&nbsp;&nbsp;&nbsp;<kw>return false</kw>;<br>&nbsp;&nbsp;}<br>}</td><td class="jq">$("img").error(<kw>function</kw>(){<br>...<br>});</td></tr>
+<tr><td>常规事件</td><td class="js">onchange<j> // 当输入字段被改变时</j><br>onfocus/onblur <j>// 元素获得/失去焦点时,点击input或用Tab跳到此input中/从input中输完值，点击其它元素</j><br>onresize <j>// 窗口或框架被重新调整大小</j></td><td class="jq">?</td></tr>
+<tr><td>mouse事件</td><td class="js">onclick <j> // 元素被鼠标点击了一下时</j><br>ondblclick <j>// 元素被鼠标双击时触发</j><br>onmouseover<j> // 当鼠标移进到元素范围</j><br>onmouseout<j> // 当鼠标移出元素范围</j><br>onmousedown/onmouseup<j> // 当鼠标在元素上按下/松开时</j></td><td class="jq"><fn>jQuery</fn>(".c").<fn>click</fn>(<kw>function</kw>(){console.<fn>log</fn>('3click')}).<fn>mousedown</fn>(<kw>function</kw>(){console.<fn>log</fn>('1mousedown');}).<fn>mouseup</fn>(<kw>function</kw>(){console.<fn>log</fn>('2mouseup')});<br><j>1mousedown<br>2mouseup<br>3click</j></td></tr>
+<tr><td>key事件</td><td class="js">onkeypress <j>// 点了一个键盘中某个按键, 点击一个键，然后判断这个键的e.keyCode(IE)或e.which(非IE),并作出行为</j><br>onkeydown<j> // 按下键盘中的某个按键, 用于保持此键不动(比如方向健)来控制滑动，直至松开才停止滑动</j><br>onkeyup <j>// 松开键盘中的某个按键</j></td><td class="jq">?</td></tr>
+<tr><td>touchscreen事件</td><td class="js">ontouchstart <j>// 手指放在元素上时, 相当于鼠标的over+down</j><br>ontouchmove <j>// 手指在元素上滑动上,相当于鼠标的down+move</j><br>ontouchend <j>// 手指从元素上移开,相当于鼠标的up+out</j></td><td class="jq">?</td></tr>
+<tr><td>设置事件</td><td class="js">&lt;div onclick="<fn>myfun</fn>(event)"&gt;</td><td class="jq">?</td></tr>
+<tr><td>绑定事件</td><td class="js"><kw>function</kw> <fn>addEvent</fn>(_elem, _type, _callback) {<br>&nbsp;&nbsp;<kw>if</kw> (_elem.addEventListener) {//W3C<br>&nbsp;&nbsp;&nbsp;&nbsp;_elem.<fn>addEventListener</fn>(_type, _callback, false);<br>&nbsp;&nbsp;} <kw>else if</kw> (_elem.attachEvent) {//ie<br>&nbsp;&nbsp;&nbsp;&nbsp;_elem.<fn>attachEvent</fn>( "on"+_type, <kw>function</kw>() { <fn>_callback</fn>(window.event);});<br>&nbsp;&nbsp;}<br>}<br><j>//Usage</j><br><fn>addEvent</fn>(document,'keydown',myHandler);<br>
+<j>// 多结点绑定</j><br>document.<fn>querySelectorAll</fn>('.tab_wrap .tab').<kw>forEach</kw>(<kw>function</kw>(item) {<br>&nbsp;&nbsp;item.<fn>addEventListener</fn>('click', <kw>function</kw>(el) {<br>&nbsp; &nbsp; el.target.className = 'tab active';
+</td><td class="jq">$("#el").<fn>click</fn>(<kw>function</kw>(){});</td></tr>
+<tr><td>解绑事件</td><td class="js"><j>// 解绑页面所有的click 事件</j><br>document.<fn>querySelectorAll</fn>('*').forEach(item => {<br>&nbsp; let listeners = <fn>getEventListeners</fn>(item)<br>&nbsp; if (listeners.click) {<br>&nbsp; &nbsp; item.<fn>removeEventListener</fn>('click',listeners.click[0].listener, false)<br><note>&nbsp; &nbsp; // 解绑第二个参数必须是他的listener</note><br>&nbsp; }<br>})</td><td class="jq">$("#el").<fn>click</fn>(<kw>function</kw>(){ alert(1); });<br>$("#el").<fn>unbind</fn>('click').<fn>click</fn>(<kw>function</kw>(){ alert(2); });<j> // 解绑覆盖</j><br><br>$("#el").<fn>unbind</fn>();<j> // 解绑所有</j></td></tr>
+<tr><td>Access 事件对象</td><td class="js">e = e || window.event;<j> // window.event for old ie browser</j> </td><td class="jq">e</td></tr>
+<tr><td>事件源元素</td><td class="js">element = e.target || e.srcElement; <j>// e.srcElement for old ie browser</j> </td><td class="jq">$(this)</td></tr>
+<tr><td>事件属性</td><td class="js">e.altKey/e.ctrlKey/e.shiftKey <j>// boolean alt/ctrl/shift键是否按下</j><br>e.keyCode</br><br>e.button <j>// 哪个鼠标键被按下，左中右</j><br>e.clientX/e.clientY <j>// 相对于屏幕的鼠标坐标</j><br>e.screenX/e.screenY<j>// 相对于html/iframe的鼠标坐标</j><br>e.touches[0].clientY <j> // 触屏用来获得第一个手指的clientY</j><br><kw>if</kw>(e.touches.length == 1) <j>// 如果这个元素的范围内只有一个手指的话</j></td><td class="jq">-</td></tr>
+<tr><td>阻止事件冒泡<br><j>如果一个button上面有3层（div、ul、li）都定义了onclick属性, 则当button的click事件产生时，将会调用4个函数或语句,这个就是冒泡</j></td><td class="js"><kw>if</kw> (<kw>typeof</kw> e.stopPropagation === "function") {<br>&nbsp;&nbsp;e.<fn>stopPropagation</fn>();<br>}<br>e.cancelBubble = <kw>true</kw>;</td><td class="jq">$("el").<fn>click</fn>(<kw>function</kw> (e) {<br>&nbsp;&nbsp;e.<fn>stopPropagation</fn>();<br>});</td></tr>
+<tr><td>取消默认事件</td><td class="js"><kw>if</kw> (<kw>typeof</kw> e.preventDefault === "function") {<br>&nbsp;&nbsp;e.<fn>preventDefault</fn>();<br>}<br>e.returnValue = <kw>false</kw>;</td><td class="jq">$("el").<fn>click</fn>(<kw>function</kw> (e) {<br>&nbsp;&nbsp;e.<fn>preventDefault</fn>();<br>});<br><br><kw>return false</kw>; <note>阻止默认和冒泡事件</note></td></tr>
+<tr><td>触发事件</td><td class="js">_el.<fn>focus</fn>()<br>_el.<fn>blur</fn>()</td><td class="jq">$("#el").<fn>click</fn>()<br>$("#el").<fn>trigger</fn>("click")</td></tr>
+<tr id="storage"><th colspan="3"><note>S</note>torage</th></tr>
+<tr><td>Get cookie</td><td class="js">document.cookie</td><td class="php">$_COOKIE</td></tr>
+<tr><td>Set cookie<br><note>因服务器时间未同步导致cookie到前端立即过期, chrome会继续请求给服务端，firefox会抛弃，所以chrome有容错</note></td><td class="js">document.cookie = "username=leon; expires=15/02/2013 00:00:00; path=/;domain=www.example.com; secure";</td><td class="php"><fn>setcookie</fn>('name','value',time()+3600,'/','markbuild.com',true,true); <j>// 第一个true代表secure第二个true代表httponly</j><br><br><note>默认配置</note><br><fn>ini_set</fn>("session.cookie_secure", 1);<br><fn>ini_set</fn>("session.cookie_httponly", 1);<br><br><note>php.ini</note><br>session.cookie_secure = 1<br>session.cookie_httponly = 1</td></tr>
+<tr><td>Cookie with Secure Flag</td><td colspan=2><note>HTTP环境下，浏览器不允许保存服务器响应的带有secure flag的cookies</note><br><note>HTTP环境下，浏览器不允许将HTTPS环境下保存在本地带有secure flag的cookies请求到服务器</note></td></tr>
+<tr><td>Cookie with Httponly Flag</td><td colspan=2><note>JavaScript 不允许 access httponly类型的cookies，仅浏览器会将其获取保存在本地，在下次访问该服务器时在请求中带上</note><br>document.cookie只打印不包含httponly flag的cookie</td></tr>
+<tr><td>Local Storage</td><td colspan=2 class="js"><a href="https://stackoverflow.com/questions/2989284/what-is-the-max-size-of-localstorage-values">单条value没有长度限制，但是每个源使用总量有限制:10MB per origin in Chrome</a><br>localStorage.<fn>setItem</fn>('myCat', 'Tom');<br>localStorage.<fn>getItem</fn>('myCat');<br>localStorage.<fn>removeItem</fn>('myCat');<br>localStorage.<fn>clear</fn>();<j> // 清除当前origin下所有</j></td></tr>
+<tr><td>session Storage</td><td colspan=2 class="js">为given origin维持一个独立的存储区域，不会像cookie每次都要请求到服务端, 与LocalStorage的区别是: 该存储区域在页面会话期间可用(包括refresh和ctrl+shift+t恢复),关闭Tab后释放<br>sessionStorage.<fn>setItem</fn>("autoplaynotice", "1")<br>sessionStorage.<fn>getItem</fn>('autoplaynotice')<br>sessionStorage.<fn>removeItem</fn>('key');<br>sessionStorage.<fn>clear</fn>();</td>
+<tr><td>IndexedDB</td><td colspan=2>不同于LocalStorage和SessionStorage的key-value结构，支持index索引的复杂数据</td></tr>
+<tr><td>Web SQL</td><td colspan=2><a href="https://dev.w3.org/html5/webdatabase/">w3c上提醒已被废弃</a></td></tr>
+<tr id="response_header"><th colspan="3"><note>R</note>esponse Header</th></tr>
+<tr><td><b>X-Frame-Options</b><br><note>SAMEORIGIN</note> <j>// 只允许同源嵌入iframe</j><br><note>DENY</note> <j>// 禁止被嵌入</j><br><note>ALLOW-FROM uri</note> <j>// 允许被某uri嵌入</j><br><j>protect against 'ClickJacking' attacks</j></td><td class="ng">add_header X-Frame-Options SAMEORIGIN;</td><td class="php"><fn>header</fn>("X-Frame-Options: SAMEORIGIN");</td></tr>
+<tr><td><b id="cors">Access-Control-Allow-Origin</b>:CORS<br><note>域名后不要加 /</note><br>兼容性：要求IE10+</td><td class="ng">add_header Access-Control-Allow-Origin *;<br>add_header Access-Control-Allow-Origin https://x.com;</td><td class="php"><fn>header</fn>("Access-Control-Allow-Origin:*");<j>//所有域都可以</j><br><fn>header</fn>("Access-Control-Allow-Origin:https://www.myfoscam.com");<j>// 仅www.myfoscam.com下可跨域访问</j></td></tr>
+<tr><td><b>Strict-Transport-Security</b><a href="https://zh.wikipedia.org/wiki/HTTP严格传输安全" target="_blank">(HSTS)</a><br>它告诉浏览器只能通过HTTPS访问当前资源<br>max-age告诉浏览器收到这个请求后多少秒内访问这个域名下的请求都使用HTTPS, 即请求前自动将HTTP转成HTTPS，以避免输入HTTP时被中间人劫持,替换响应包的重定向https内容<br>includeSubDomains要求子域名也使用<br>对于设置后的HTTP请求浏览器会直接启用<note>307</note>重定向</td><td class="ng">add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload";</td><td>-</td></tr>
+<tr><td><b>Content-Security-Policy</b>:<a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/CSP" target="_blank">CSP</a><br>减少和报告XSS 攻击</td><td class="ng">add_header Content-Security-Policy "default-src * data: blob:; script-src *.facebook.com *.fbcdn.net *.facebook.net *.google-analytics.com *.virtualearth.net *.google.com 127.0.0.1:* *.spotilocal.com:* 'unsafe-inline' 'unsafe-eval' blob: data: 'self'; style-src data: blob: 'unsafe-inline' *; connect-src *.facebook.com facebook.com *.fbcdn.net *.facebook.net *.spotilocal.com:* wss://*.facebook.com:* https://fb.scanandcleanlocal.com:* attachment.fbsbx.com ws://localhost:* blob: *.cdninstagram.com 'self'";</td><td class="html">&lt;meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src *; child-src 'none';"&gt;</td></tr>
+<tr><td><b><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy" target="_blank">Referrer-Policy</a></b></td><td class="ng">add_header Referrer-Policy no-referrer-when-downgrade;(default)</td><td>-</td></tr>
+<tr><td><b>X-XSS-Protection</b></td><td class="ng">add_header X-XSS-Protection "1; mode=block";</td><td class="php"><fn>header</fn>("X-XSS-Protection: 1; mode=block");</td></tr>
+<tr><td><b>X-Content-Type-Options</b><br><note>如果提供JSONP服务，就不要加nosniff,否则出现Cross-Origin Read Blocking (CORB) blocked cross-origin response错误</note></td><td class="ng">add_header X-Content-Type-Options nosniff;</td><td class="php"><fn>header</fn>("X-Content-Type-Options: nosniff");</td></tr>
+<tr><td>cache-control<br><note>Public</note>指示响应可被任何缓存区缓存<br><note>max-age</note>相对过期时间，单位秒<br><note>no-cache</note>不被缓存<br><note>no-store</note>临时文件夹中不能暂存该资源</td><td class="ng">add_header Cache-Control max-age=0, no-cache, no-store;<br><j>ngx_http_headers_module模块中有具体介绍</j></td><td class="html">&lt;meta http-equiv="Cache-Control" content="no-cache, must-revalidate"/&gt;</td></tr>
+<tr><td>pragma</td><td class="ng">add_header Pragma no-cache;</td><td class="html">&lt;meta http-equiv="pragma" content="no-cache"/&gt;</td></tr>
+<tr><td><b>expires</b><br><note>优先级比Cache-Control低, 同时设置Expires和Cache-Control则后者生效</note></td><td class="ng">expires 10d;</td><td class="html">&lt;meta http-equiv="expires" content="0"/&gt;</td></tr>
+<tr id="request_header"><th colspan="3"><note>R</note>equest Header</th></tr>
+<tr><td>Do not track</td><td colspan=3>当用户<note>设置浏览器开启"Do not track"</note> 请求时，浏览器在Request Header中会添加<note>dns:1</note> 字段，这个头信息向网站的服务器表明用户不希望被追踪，这样，遵守该规则的网站就不会追踪用户的个人信息来用于更精准的在线广告。Do not track功能类似于Robots Exclusion标准，完全依赖于服务端的荣誉和礼仪，也就是说广告商可以忽略这个机制。</td></tr>
+</table>
+<script type="text/javascript">
+var d_shift= false;
+var myHandler = function(event){
+    if(d_shift) {
+        switch(event.keyCode){
+            case 65://a
+                window.location.href='#array';
+                break; 
+            case 66://b
+                window.location.href='#bom';
+                break;
+            case 69://e
+                window.location.href='#event';
+                break;
+            case 70://f
+                window.location.href='#function';
+                break;
+            case 75://k
+                window.location.href='#diskio';
+                break;
+            case 76://l
+                window.location.href='#cli';
+                break;
+            case 78://n
+                window.location.href='#node';
+                break;
+            case 79://o
+                window.location.href='#object';
+                break;
+            case 80://p
+                window.location.href='#operators';
+                break;
+            case 82://r
+                window.location.href='#response_header';
+                break;
+            case 83://s
+                window.location.href='#storage';
+                break;
+            case 84: //t
+                window.location.href='#time';
+                break;
+            case 86://v
+                window.location.href='#value';
+                break;
+            case 90://z
+                window.location.href='#regexp';
+                break;
+        }
+    }
+    if(event.keyCode == 16) {
+        d_shift = true;
+    } else {
+        d_shift = false;
+    }
+}
+function addEvent( obj, type, fn ) {
+    if (obj.addEventListener) {//W3C
+        obj.addEventListener( type, fn, false );
+    } else if (obj.attachEvent) {//ie
+        obj.attachEvent( "on"+type, function() { fn( window.event ); });
+    }
+}
+//Usage
+addEvent(document,'keydown',myHandler);
+</script>
+<ul>
+<b>Chrome</b>
+<li>F12 > Ctrl+shift+p > Capture screenshot|Disable javasript</li>
+<li>F12 > Ctrl+shift+m: mobile</li>
+<li><a href="https://stackoverflow.com/questions/3102819/disable-same-origin-policy-in-chrome" target="_blank">Disable same origin policy in Chrome</a>
+<ol>- (Win) Kill all chrome instances before running command start</ol>
+<ol>- (Win) start chrome.exe --disable-web-security --user-data-dir="e://chrome" 或设置快捷方式Target "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --disable-web-security --user-data-dir="e://chrome"</ol>
+<ol>- (Mac) open -n /Applications/Google\ Chrome.app/ --args --disable-web-security --user-data-dir=/Users/markli/chromedatadir</ol>
+<li>[伪装] 有些网站禁止未登陆用户访问，但会对搜索引擎开绿灯</li>
+<ol>- (临时，对当前标签页有用)F12 - Network conditions -  User Agent - Googlebot</ol>
+<ol>- (全局) start chrome.exe --user-agent="Mozilla/5.0 (compatible; Googlebot/2.1)" 或设置快捷方式Target "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --user-agent="Mozilla/5.0 (compatible; Googlebot/2.1)"</ol>
+<li>(隐私)保存的密码管理: chrome://settings/passwords</li>
+<li>(隐私)清除浏览历史: chrome://settings/clearBrowserData</li>
+<li>(隐私)DNS缓存: chrome://net-internals/#dns</li>
+</ul>
+<ul>
+<b>Firefox</b>
+<li>(设置)加载插件: Extensions > setting icon > Debug Add-ons > Load Temporary Add-on > manifest.json</li>
+<li>(设置)禁止加载图片: about:config 搜索 permissions.default.image， 1 允许所有图片；2 阻止所有图片；3 阻止第三方服务器图片</li>
+<li>(设置)允许弹窗, 否则Flash打开新窗口被拦截: about:preferences#privacy(隐私和安全) > 权限 > 拦截弹出式窗口</li>
+<li>(设置)http connection timeout(默认90秒): about:config 搜索 network.http.connection-timeout</li>
+<li>(隐私)开启DNT: about:preferences#privacy > Tracking Protection > Do Not Track = Always</li>
+<li>(隐私)保存的密码管理: about:preferences#privacy > 登录信息与密码</li>
+<li>(隐私)清除浏览历史: about:preferences#privacy > Cookies和网站数据 | 历史记录</li>
+<li>(隐私)DoH: about:config中搜索trr, 将network.trr.bootstrapAddress值设置为1.1.1.1, 将network.trr.mode的值设置为3, 将network.trr.uri设置为https://1.1.1.1/dns-query  about:networking#dns 检查dns查询记录, trr是否为true</li>
+<li>(隐私)DNS缓存: about:networking#dns</li>
+<li><a href="http://ftp.mozilla.org/pub/firefox/releases/" target="_blank">历史版本下载</a></li>
+<li><a href="https://support.mozilla.org/zh-CN/kb/%E9%87%8D%E7%BD%AE%E9%A6%96%E9%80%89%E9%A1%B9" target="_blank">重置 Firefox 首选项来排除故障和解决问题</a></li>
+</ul>
+<ul><b>浏览器</b>
+<li>自动下载文件的方式:</li>
+<ol>- location="/x.bin"</ol>
+<ol>- iframe.src="/x.bin" x-iframe-option不能是deny</ol>
+<li>浏览器后退按钮是不会请求服务器的</li>
+<li>由于浏览器的安全机制, 我们获取input file的路径时会被fakepath代替,隐藏了真实物理路径  $("input[type='file']").val() -> "C:\\fakepath\\test.png"</li>
+<li>HTTP请求的Accept-Charset字段应该被废除，所有主要浏览器都已经不发送该字段了</li>
+<li><a href="http://gs.statcounter.com/" target="_blank">Browser Market Share Worldwide</a></li>
+<li><a href="http://websocket.org/echo.html" target="_blank">websocket echo</a></li>
+</ul>
+<p class="copy">SINCE 2018 &copy; <a href="https://markbuild.com/">markbuild</a></p>
+<p>&nbsp;</p>
+<div class="catelog">
+<li><note>B</note>OM</li>
+<li>DOM <note>N</note>ode</li>
+<li>DOM <note>E</note>vent</li>
+<li><note>R</note>esponse Header</li>
+<li><note>S</note>torage</li>
+<li>(Shift + <note>?</note>)</li>
+</body>
+</html>
