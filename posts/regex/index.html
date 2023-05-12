@@ -8,9 +8,9 @@
 <meta name="apple-touch-fullscreen" content="yes">
 <meta name="format-detection" content="telephone=no, address=no">
 <title>Regular Expression</title>
-<link rel="icon" href="favicon-128.webp">
-<link rel="apple-touch-icon" href="favicon-128.webp">
-<link rel="stylesheet" type="text/css" href="css/common.css" media="screen">
+<link rel="icon" href="https://zhixingo.github.io/posts/regex/favicon-128.webp">
+<link rel="apple-touch-icon" href="https://zhixingo.github.io/posts/regex/favicon-128.webp">
+<link rel="stylesheet" type="text/css" href="https://zhixingo.github.io/posts/regex/css/common.css" media="screen">
 </head>
 <body>
 <h1><span style="color:var(--blue)">Reg</span>ular <span style="color:var(--green)">Ex</span>pression</h1>
@@ -19,36 +19,36 @@
 <table>
 	<tr><th width="100px">字符</th><th>说明</th></tr>
 	<tr><td><p>\</p></td><td><p>将下一字符标记为特殊字符、文本、反向引用或八进制转义符。例如，“n”匹配字符“n”。“\n”匹配换行符。序列“\\”匹配“\”，“\(”匹配“(”。</p></td></tr>
-	<tr><td><p>^</p></td><td><p><img src="img/anchors.jpg" /> 匹配输入字符串开始的位置，在<img src="img/characterclass.jpg" />中表示排除。如果设置了 <b>RegExp</b> 对象的 <b>Multiline</b>(多行) 属性，^ 还会与“\n”或“\r”之后的位置匹配。</p></td></tr>
-	<tr><td><p>$</p></td><td><p><img src="img/anchors.jpg" /> 匹配输入字符串结尾的位置。如果设置了 <b>RegExp</b> 对象的 <b>Multiline</b>(多行)属性，$ 还会与“\n”或“\r”之前的位置匹配。</p></td></tr>
-	<tr><td><p>+</p></td><td><p><img src="img/quantifier.jpg"/> <strong>量词[1~n次]</strong>一次或多次匹配前面的字符或子表达式。</p></td></tr>
-	<tr><td><p>*</p></td><td><p><img src="img/quantifier.jpg"/> <strong>量词[0~n次]</strong>零次或多次匹配前面的字符或子表达式。</p></td></tr>
-	<tr><td><p>?</p></td><td><p><img src="img/quantifier.jpg"/> <strong>量词[0/1次]</strong>零次或一次匹配前面的字符或子表达式。例如，“do(es)?”匹配“do”或“does”中。 等效于 {0,1}。</p></td></tr>
-	<tr><td><p>{<i>n</i>}</p></td><td><p><img src="img/quantifier.jpg"/> 量词匹配正好 <i>n</i> 次。</p></td></tr>
-	<tr><td><p>{<i>n</i>,}</p></td><td><p><img src="img/quantifier.jpg"/> 量词匹配至少 <i>n</i> 次。</p></td></tr>
-	<tr><td><p>{<i>n</i>,<i>m</i>}</p></td><td><p><img src="img/quantifier.jpg"/> 量词匹配至少 <i>n</i> 次，至多 <i>m</i> 次。例如，“o{1,3}”匹配“fooooood”中的头三个 o。注意：您不能将空格插入逗号和数字之间（如o{1 , 3})。</p></td></tr>		
-	<tr><td><p>(<i>pattern</i>)</p></td><td><p><img src="img/capturinggroup.jpg" />(Capturing group) 匹配 pattern 并捕获该匹配</p></td></tr>
-	<tr><td><p>(?:<i>pattern</i>)</p></td><td><p><img src="img/capturinggroup.jpg" />(Non-capturing group) 匹配 pattern 但不捕获该匹配</p></td></tr>
-	<tr><td><p>xxx(?=<i>pattern</i>)</p></td><td><p><img src="img/lookaround.jpg" />(Lookaround)执行正向预测先行搜索的子表达式，它是一个非捕获匹配，零宽度匹配。例如，'Windows (?=95|98|NT|2000)' 匹配“Windows 2000”中的“Windows”，但不匹配“Windows 3.1”中的“Windows”。<br/>^(?=[a-z])[a-z0-9]+$能匹配a12,而^(?=[a-z])[0-9]+$不能匹配a12， 因为“(?=[a-z])”只匹配，并不将匹配到的内容保存到最后结果，“(?=[a-z])”匹配成功的位置是位置0，所以“[a-z0-9]+”也是从位置0开始尝试匹配，“[a-z0-9]+”首先尝试匹配“a”</p></td></tr>
-	<tr><td><p>(?&lt;=<i>pattern</i>)xxx</p></td><td><img src="img/lookaround.jpg" />(Lookaround)前置</td></tr>
-	<tr><td><p>xxx(?!<i>pattern</i>)</p></td><td><p><img src="img/lookaround.jpg" />(Lookaround)执行反向预测先行搜索的子表达式，它是一个非捕获匹配，零宽度匹配。例如，'Windows (?!95|98|NT|2000)' 匹配“Windows 3.1”中的 “Windows”，但不匹配“Windows 2000”中的“Windows”。</p></td></tr>
-	<tr><td><p>(?&lt;!<i>pattern</i>)xxx</p></td><td><img src="img/lookaround.jpg" />(Lookaround)前置</td></tr>
-	<tr><td><p><i>net</i>|<i>com</i></p></td><td><p><img src="img/alternation.jpg" /> <strong>[或]</strong> 例如^markli\.(com|net)$ 匹配“markli.com”或“markli.net”。要匹配 |，请使用 \| </p></td></tr>
-	<tr><td><p>[<i>xyz</i>]</p></td><td><p><img src="img/characterclass.jpg" /> <strong>[字符集]</strong>匹配包含的任一字符。</p></td></tr>
-	<tr><td><p>[^<i>xyz</i>]</p></td><td><p><img src="img/characterclass.jpg" /> 反向字符集。匹配未包含的任何字符。</p></td></tr>
-	<tr><td><p>[<i>a-z</i>]</p></td><td><p><img src="img/characterclass.jpg" /> <strong>[字符范围]</strong>匹配指定范围内的任何字符。（-字符如果在字符范围前，则表示 他本身，无需转义，如果在两个字符中间，则表示两个字符的区间）例如，“[a-z]”匹配a到z范围内的任何小写字母。还有[a-zA-Z0-9]，⚠️ <note>注意 [A-z] 不等于[A-Za-z] 而是 [A-Z\[\\\]^_`a-z]，<a href="keycode.html" target="_blank">charCode 65-122</a></note></p></td></tr>
-	<tr><td><p>[^<i>a-z</i>]</p></td><td><p><img src="img/characterclass.jpg" /> 反向范围字符。匹配不在指定的范围内的任何字符</p></td></tr>
-	<tr><td><p>\b</p></td><td><p><img src="img/anchors.jpg" /> 匹配一个字边界(border)，即字与<b>空格</b>间的位置。例如，“er\b”匹配“never”中的“er”，但不匹配“verb”中的“er”。再如“\byo”匹配“I love you”第三个字you的yo</p></td></tr>
-	<tr><td><p>\B</p></td><td><p><img src="img/anchors.jpg" /> 非字边界匹配。“er\B”匹配“verb”中的“er”，但不匹配“never”中的“er”。 </p></td></tr>
-	<tr><td><p>\d</p></td><td><p><img src="img/character.jpg" /> <strong>[数字]</strong>数字字符匹配。等效于 [0-9]。 </p></td></tr>
-	<tr><td><p>\D</p></td><td><p><img src="img/character.jpg" /> <strong>[非数字]</strong>非数字字符匹配。等效于 [^0-9]。</p></td></tr>
-	<tr><td><p>.</p></td><td><p><img src="img/character.jpg" /> 匹配除换行“\n”之外的任何单个字符。</p></td></tr>
-	<tr><td><p>\n</p></td><td><p><img src="img/character.jpg" /> 换行符(newline)匹配。</p></td></tr>
-	<tr><td><p>\r</p></td><td><p><img src="img/character.jpg" /> 匹配一个回车符(return)。</p></td></tr>
-	<tr><td><p>\s</p></td><td><p><img src="img/character.jpg" /> 匹配任何空白字符，包括空格（space)、制表符、换页符等.与[&nbsp;\f\n\r\t\v]等效。</p></td></tr>
-	<tr><td><p>\S</p></td><td><p><img src="img/character.jpg" /> 匹配任何非空白字符。与 [^&nbsp;\f\n\r\t\v] 等效。</p></td></tr>
-	<tr><td><p>\w</p></td><td><p><img src="img/character.jpg" /> <strong>[字母数字下划线]</strong>匹配any word character，包括下划线。与“[A-Za-z0-9_]”等效。</p></td></tr>
-	<tr><td><p>\W</p></td><td><p><img src="img/character.jpg" /> 与任何非word character匹配。与“[^A-Za-z0-9_]”等效</p></td></tr>
+	<tr><td><p>^</p></td><td><p><img src="https://zhixingo.github.io/posts/regex/img/anchors.jpg" /> 匹配输入字符串开始的位置，在<img src="https://zhixingo.github.io/posts/regex/img/characterclass.jpg" />中表示排除。如果设置了 <b>RegExp</b> 对象的 <b>Multiline</b>(多行) 属性，^ 还会与“\n”或“\r”之后的位置匹配。</p></td></tr>
+	<tr><td><p>$</p></td><td><p><img src="https://zhixingo.github.io/posts/regex/img/anchors.jpg" /> 匹配输入字符串结尾的位置。如果设置了 <b>RegExp</b> 对象的 <b>Multiline</b>(多行)属性，$ 还会与“\n”或“\r”之前的位置匹配。</p></td></tr>
+	<tr><td><p>+</p></td><td><p><img src="https://zhixingo.github.io/posts/regex/img/quantifier.jpg"/> <strong>量词[1~n次]</strong>一次或多次匹配前面的字符或子表达式。</p></td></tr>
+	<tr><td><p>*</p></td><td><p><img src="https://zhixingo.github.io/posts/regex/img/quantifier.jpg"/> <strong>量词[0~n次]</strong>零次或多次匹配前面的字符或子表达式。</p></td></tr>
+	<tr><td><p>?</p></td><td><p><img src="https://zhixingo.github.io/posts/regex/img/quantifier.jpg"/> <strong>量词[0/1次]</strong>零次或一次匹配前面的字符或子表达式。例如，“do(es)?”匹配“do”或“does”中。 等效于 {0,1}。</p></td></tr>
+	<tr><td><p>{<i>n</i>}</p></td><td><p><img src="https://zhixingo.github.io/posts/regex/img/quantifier.jpg"/> 量词匹配正好 <i>n</i> 次。</p></td></tr>
+	<tr><td><p>{<i>n</i>,}</p></td><td><p><img src="https://zhixingo.github.io/posts/regex/img/quantifier.jpg"/> 量词匹配至少 <i>n</i> 次。</p></td></tr>
+	<tr><td><p>{<i>n</i>,<i>m</i>}</p></td><td><p><img src="https://zhixingo.github.io/posts/regex/img/quantifier.jpg"/> 量词匹配至少 <i>n</i> 次，至多 <i>m</i> 次。例如，“o{1,3}”匹配“fooooood”中的头三个 o。注意：您不能将空格插入逗号和数字之间（如o{1 , 3})。</p></td></tr>		
+	<tr><td><p>(<i>pattern</i>)</p></td><td><p><img src="https://zhixingo.github.io/posts/regex/img/capturinggroup.jpg" />(Capturing group) 匹配 pattern 并捕获该匹配</p></td></tr>
+	<tr><td><p>(?:<i>pattern</i>)</p></td><td><p><img src="https://zhixingo.github.io/posts/regex/img/capturinggroup.jpg" />(Non-capturing group) 匹配 pattern 但不捕获该匹配</p></td></tr>
+	<tr><td><p>xxx(?=<i>pattern</i>)</p></td><td><p><img src="https://zhixingo.github.io/posts/regex/img/lookaround.jpg" />(Lookaround)执行正向预测先行搜索的子表达式，它是一个非捕获匹配，零宽度匹配。例如，'Windows (?=95|98|NT|2000)' 匹配“Windows 2000”中的“Windows”，但不匹配“Windows 3.1”中的“Windows”。<br/>^(?=[a-z])[a-z0-9]+$能匹配a12,而^(?=[a-z])[0-9]+$不能匹配a12， 因为“(?=[a-z])”只匹配，并不将匹配到的内容保存到最后结果，“(?=[a-z])”匹配成功的位置是位置0，所以“[a-z0-9]+”也是从位置0开始尝试匹配，“[a-z0-9]+”首先尝试匹配“a”</p></td></tr>
+	<tr><td><p>(?&lt;=<i>pattern</i>)xxx</p></td><td><img src="https://zhixingo.github.io/posts/regex/img/lookaround.jpg" />(Lookaround)前置</td></tr>
+	<tr><td><p>xxx(?!<i>pattern</i>)</p></td><td><p><img src="https://zhixingo.github.io/posts/regex/img/lookaround.jpg" />(Lookaround)执行反向预测先行搜索的子表达式，它是一个非捕获匹配，零宽度匹配。例如，'Windows (?!95|98|NT|2000)' 匹配“Windows 3.1”中的 “Windows”，但不匹配“Windows 2000”中的“Windows”。</p></td></tr>
+	<tr><td><p>(?&lt;!<i>pattern</i>)xxx</p></td><td><img src="https://zhixingo.github.io/posts/regex/img/lookaround.jpg" />(Lookaround)前置</td></tr>
+	<tr><td><p><i>net</i>|<i>com</i></p></td><td><p><img src="https://zhixingo.github.io/posts/regex/img/alternation.jpg" /> <strong>[或]</strong> 例如^markli\.(com|net)$ 匹配“markli.com”或“markli.net”。要匹配 |，请使用 \| </p></td></tr>
+	<tr><td><p>[<i>xyz</i>]</p></td><td><p><img src="https://zhixingo.github.io/posts/regex/img/characterclass.jpg" /> <strong>[字符集]</strong>匹配包含的任一字符。</p></td></tr>
+	<tr><td><p>[^<i>xyz</i>]</p></td><td><p><img src="https://zhixingo.github.io/posts/regex/img/characterclass.jpg" /> 反向字符集。匹配未包含的任何字符。</p></td></tr>
+	<tr><td><p>[<i>a-z</i>]</p></td><td><p><img src="https://zhixingo.github.io/posts/regex/img/characterclass.jpg" /> <strong>[字符范围]</strong>匹配指定范围内的任何字符。（-字符如果在字符范围前，则表示 他本身，无需转义，如果在两个字符中间，则表示两个字符的区间）例如，“[a-z]”匹配a到z范围内的任何小写字母。还有[a-zA-Z0-9]，⚠️ <note>注意 [A-z] 不等于[A-Za-z] 而是 [A-Z\[\\\]^_`a-z]，<a href="keycode.html" target="_blank">charCode 65-122</a></note></p></td></tr>
+	<tr><td><p>[^<i>a-z</i>]</p></td><td><p><img src="https://zhixingo.github.io/posts/regex/img/characterclass.jpg" /> 反向范围字符。匹配不在指定的范围内的任何字符</p></td></tr>
+	<tr><td><p>\b</p></td><td><p><img src="https://zhixingo.github.io/posts/regex/img/anchors.jpg" /> 匹配一个字边界(border)，即字与<b>空格</b>间的位置。例如，“er\b”匹配“never”中的“er”，但不匹配“verb”中的“er”。再如“\byo”匹配“I love you”第三个字you的yo</p></td></tr>
+	<tr><td><p>\B</p></td><td><p><img src="https://zhixingo.github.io/posts/regex/img/anchors.jpg" /> 非字边界匹配。“er\B”匹配“verb”中的“er”，但不匹配“never”中的“er”。 </p></td></tr>
+	<tr><td><p>\d</p></td><td><p><img src="https://zhixingo.github.io/posts/regex/img/character.jpg" /> <strong>[数字]</strong>数字字符匹配。等效于 [0-9]。 </p></td></tr>
+	<tr><td><p>\D</p></td><td><p><img src="https://zhixingo.github.io/posts/regex/img/character.jpg" /> <strong>[非数字]</strong>非数字字符匹配。等效于 [^0-9]。</p></td></tr>
+	<tr><td><p>.</p></td><td><p><img src="https://zhixingo.github.io/posts/regex/img/character.jpg" /> 匹配除换行“\n”之外的任何单个字符。</p></td></tr>
+	<tr><td><p>\n</p></td><td><p><img src="https://zhixingo.github.io/posts/regex/img/character.jpg" /> 换行符(newline)匹配。</p></td></tr>
+	<tr><td><p>\r</p></td><td><p><img src="https://zhixingo.github.io/posts/regex/img/character.jpg" /> 匹配一个回车符(return)。</p></td></tr>
+	<tr><td><p>\s</p></td><td><p><img src="https://zhixingo.github.io/posts/regex/img/character.jpg" /> 匹配任何空白字符，包括空格（space)、制表符、换页符等.与[&nbsp;\f\n\r\t\v]等效。</p></td></tr>
+	<tr><td><p>\S</p></td><td><p><img src="https://zhixingo.github.io/posts/regex/img/character.jpg" /> 匹配任何非空白字符。与 [^&nbsp;\f\n\r\t\v] 等效。</p></td></tr>
+	<tr><td><p>\w</p></td><td><p><img src="https://zhixingo.github.io/posts/regex/img/character.jpg" /> <strong>[字母数字下划线]</strong>匹配any word character，包括下划线。与“[A-Za-z0-9_]”等效。</p></td></tr>
+	<tr><td><p>\W</p></td><td><p><img src="https://zhixingo.github.io/posts/regex/img/character.jpg" /> 与任何非word character匹配。与“[^A-Za-z0-9_]”等效</p></td></tr>
 	<tr><td><p>\x<i>n</i></p></td><td><p>此处的 <i>n</i> 是一个十六进制转义码。例如，“\x41”匹配“A”。“\x041”与“\x04”&amp;“1”等效。允许在正则表达式中使用 ASCII 代码。</p></td></tr>
 </table>
 <p><b>正则表达式的引擎</b></p>
@@ -61,13 +61,13 @@
 <tr><td>DFA/NFA混合</td><td>Gun awk、gun grep/egrep</td></tr>
 </table>
 <span style="font-size:20px;color:#000;">&spades;</span> <strong>DFA引擎</strong>不需要回溯(Backtracking)，所以匹配快速，也不支持捕获组（所以也就不支持后向引用和$number这种引用方式)<br/>
-<img src="img/look-back-upon.jpg" /><br/>
+<img src="https://zhixingo.github.io/posts/regex/img/look-back-upon.jpg" /><br/>
 <span style="font-size:20px;color:#000;">&clubs;</span> <strong>POSIX NFA</strong>主要指符合<a href="http://zh.wikipedia.org/wiki/POSIX" target="_blank">POSIX</a>标准的NFA引擎，它的特点主要是提供<b>longest-leftmost匹配</b>，也就是在找到最左侧最长匹配之前，它将继续回溯。<br/>非贪婪模式（或者说忽略优先量词，<em>匹配优先量词和忽略优先量词</em>实际上也就是我们说的正则表达式中的<em>贪婪模式和非贪婪模式</em>）对于POSIX NFA同DFA一样,是没有意义的。<br/>
 <span style="font-size:20px;color:red;">&diams;</span> <strong>传统NFA引擎</strong> - 大多数语言和工具使用的，它有一些DFA不支持的特性：<br/>
 1.捕获组、后向引用和$number引用方式<br/>
-2.Lookaround: <img src="img/lookaround.jpg"> (?=…)、(?!…)、(?&lt;=…)、(?&lt;!…)<br/>
-3.忽略优先量词: <img src="img/quantifier.jpg"> ??、*?、+?、{m,n}?、{m,}?  默认的是匹配优先量词,与匹配优先量词相反,忽略优先量词的意思是尽可能少的匹配<br/>
-4.占有优先量词: <img src="img/quantifier.jpg"> ?+、*+、++、{m,n}+、{m,}+，匹配优先最终不成功还可回溯为忽略，但占有优先一旦匹配就封住退路，不准回溯，目前仅Java和PCRE支持(php有pcre)<br/>
+2.Lookaround: <img src="https://zhixingo.github.io/posts/regex/img/lookaround.jpg"> (?=…)、(?!…)、(?&lt;=…)、(?&lt;!…)<br/>
+3.忽略优先量词: <img src="https://zhixingo.github.io/posts/regex/img/quantifier.jpg"> ??、*?、+?、{m,n}?、{m,}?  默认的是匹配优先量词,与匹配优先量词相反,忽略优先量词的意思是尽可能少的匹配<br/>
+4.占有优先量词: <img src="https://zhixingo.github.io/posts/regex/img/quantifier.jpg"> ?+、*+、++、{m,n}+、{m,}+，匹配优先最终不成功还可回溯为忽略，但占有优先一旦匹配就封住退路，不准回溯，目前仅Java和PCRE支持(php有pcre)<br/>
 5.固化分组 Atomic Grouping(?&gt;…)<br/>
 <br/>
 <strong>NFA引擎</strong>是<em>“猴急”的，它会很急切的进行表功</em>，报告它找到的第一个匹配 <br/>
@@ -107,7 +107,7 @@ echo preg_replace('/(\.\d\d[1-9]?+)\d+/','$1',$number);
 字符串:&lt;div&gt;xxxxx…xxxx&lt;/div&gt;&lt;div&gt;test&lt;/div&gt;(...处是10W个字符)<br/>
 表达式:&lt;div&gt;.+?&lt;/div&gt;<br/>
 当遇到忽略优先量词+?，中间每个字符处都记录一个备选状态，对于10W个字符，会占用相当大的内存<br/>回溯次数多，PHP的堆栈溢出，好在有回溯次数限制(pcre.backtrack_limit)，不然或许又成为一个溢出漏洞了<br/>
-<img src="img/backtracking_limit.jpg" />
+<img src="https://zhixingo.github.io/posts/regex/img/backtracking_limit.jpg" />
 <p><b>正则表达式性能设计</b></p>
 <strong>1.先大后细</strong><br/>
 举手机号的例子，先界定\d{11}；再细化为1[358]\d{9}，逐步细化,一点一点地消除误匹配（做减法）<br/>
@@ -122,8 +122,8 @@ c[a-f]t 与c(a|b|c|d|e|f)t (有6次回溯)<br/>
 <p><b>常用例子</b></p>
 <table>
 	<tr><th>正则表达式</th><th>匹配内容</th><th><a href="https://regexper.com/#%2F%5E%28%3F%3A25%5B0-5%5D%7C2%5B0-4%5D%5Cd%7C1%5Cd%5Cd%7C%5B1-9%5D%5Cd%7C%5Cd%29%28%3F%3A%5C.%28%3F%3A25%5B0-5%5D%7C2%5B0-4%5D%5Cd%7C1%5Cd%5Cd%7C%5B1-9%5D%5Cd%7C%5Cd%29%29%7B3%7D%24%2F" target="_blank">regexper</a></th></tr>
-	<tr><td><p>/^(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)){3}$/</td><td><b>Validate IP address</b></td><td><img src="img/validate_ip_address.png"/></td></tr>
-    <tr><td><p>/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/</p></td><td><a href="https://www.w3.org/TR/html5/forms.html#valid-e-mail-address" target="_blank">Validate Email address(W3C HTML5 spec)</a></td><td><a href="img/regex_issue.jpg" target="_blank">Alexa email regex issue</a></td></tr>
+	<tr><td><p>/^(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)(?:\.(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)){3}$/</td><td><b>Validate IP address</b></td><td><img src="https://zhixingo.github.io/posts/regex/img/validate_ip_address.png"/></td></tr>
+    <tr><td><p>/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/</p></td><td><a href="https://www.w3.org/TR/html5/forms.html#valid-e-mail-address" target="_blank">Validate Email address(W3C HTML5 spec)</a></td><td><a href="https://zhixingo.github.io/posts/regex/img/regex_issue.jpg" target="_blank">Alexa email regex issue</a></td></tr>
 	<tr><td><p>/(\w+):\/\/([^/:]+)(:\d*)?([^# ]*)/</p></td><td><b>Validate URL</b><br>反向匹配URL，/(\w+)可匹配HTTP 然后:\/\/匹配:// 然后是[^/:]+，即非/:的字符匹配中间域名然后是(:\d*)?非贪心匹配端口号,然后匹配不包括 # 或空格字符的任何字符序列</td><td></td></tr>
 	<tr><td><p>/^\d{6,8}$/</p></td><td>只能输入6~8位的数字</td><td></td></tr>
 	<tr><td><p>/^[0-9-]+$/</p></td><td>只能输入数字和-</td><td></td></tr>
